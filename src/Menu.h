@@ -1,10 +1,9 @@
 #pragma once
-
-#include <Ente.h>
+#include "Ente.h"
 
 class Jogo;
 
-class Menu
+class Menu: public Ente
 {
 private:
     Jogo* pJog;
