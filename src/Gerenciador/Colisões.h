@@ -3,7 +3,7 @@
 #include <vector>
 #include <list>
 #include <set>
-using namespace std;
+//using namespace std;
 class Entidade;
 class Inimigo;
 class Obstaculo;
