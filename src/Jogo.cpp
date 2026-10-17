@@ -1,14 +1,14 @@
 #include "Jogo.h"
-
+#include "organiza.h"
 Jogo::Jogo()
 {
-    Jogo::executar();
+    executar();
 }
 
 Jogo::~Jogo()
 {}
 
-#include <iostream>
+
 void Jogo::executar()
 {
     std::cout << "Oi" << std::endl;
