@@ -7,7 +7,6 @@ class Menu: public Ente
 {
 private:
     Jogo* pJog;
-    ;
 
 public:
     Menu();
