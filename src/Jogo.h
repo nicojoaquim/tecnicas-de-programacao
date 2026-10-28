@@ -6,7 +6,7 @@
 class Jogo
 {
 private:
-    Gerenciador_Grafico GG;
+    GerenciadorGrafico GG;
     Jogador primeiro;
 
 public:

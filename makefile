@@ -38,7 +38,7 @@ $(objects): $(obj_dir)/%.o: $(src_dir)/%.cpp
 
 clean:
 	rm -rf $(obj_dir)
-#	rm -f $(binario)
+	rm -f $(binario)
 
 run:
 	@$(binario)

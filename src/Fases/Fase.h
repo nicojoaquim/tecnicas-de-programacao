@@ -1,16 +1,17 @@
-#include"Ente.h"
-#include"../Listas/Lista_Entidade.h"
-#include"Colisoes.h"
+#include "../Ente.h"
+#include "../Listas/lista_entidade.h"
+#include "../Gerenciador/Colisoes.h"
+
 class Fase:public Ente{
-    protected:
+protected:
     Lista_Entidade lista_ents;
-    Gerenciador_Colisoes GC;
-    public:
+    GerenciadorColisoes GC;
+public:
     Fase();
     ~Fase();
     virtual void execuar();
     virtual void executar();
-    protected:
+protected:
     void criarInimigFaceis();//mudar nome depois
     void criarInimigMedio();//mudar nome depois
     void criarChefe();//mudar nome depois

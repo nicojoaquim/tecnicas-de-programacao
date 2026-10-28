@@ -1,4 +1,5 @@
-#include"Jogador.h"
+#include "Jogador.h"
+
 Jogador::Jogador():Personagem(),pontos(0)
 {
 }
@@ -7,9 +8,11 @@ Jogador::~Jogador()
 {
 }
 bool Jogador::colidir(Inimigo* pIn){
-    if(pIn == NULL)
+    if (pIn == NULL) {
         cerr << "Inimigo nulo" << endl;
         return false;
+    }
+    else ;
 }
 void Jogador::executar(){
 

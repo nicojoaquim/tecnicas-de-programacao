@@ -1,8 +1,11 @@
-#include"Personagem.h"
-class Inimigo;
+#include "Personagem.h"
+
 using std::cerr;
 using std:: endl;
 using sf::Keyboard;
+
+class Inimigo;
+
 class Jogador:public Personagem
 {
 protected:

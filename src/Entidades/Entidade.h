@@ -1,4 +1,5 @@
-#include "Ente.h"
+#include "../Ente.h"
+
 class Entidade:public Ente
 {
 private:

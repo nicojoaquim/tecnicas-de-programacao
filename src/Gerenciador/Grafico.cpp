@@ -1,5 +1,5 @@
 #include "Grafico.h"
-#include "Ente.h"
+#include "../Ente.h"
 
 GerenciadorGrafico::GerenciadorGrafico():janela(VideoMode(900,600),"Jogo"){
    janela.clear(Color::Black);
