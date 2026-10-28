@@ -1,12 +1,8 @@
 #pragma once
 
-// #include "Gerenciador/Gráfico.h"
-#include "Gerenciador/Janela.h"
-// #include "Gerenciador/Tempo.h"
+#include "Gerenciador/Grafico.h"
+#include "Entidades/Personagem/Jogador.h"
 
-// #include "Personagem/Jogador.h"
-#include "Gerenciador\Grafico.h"
-#include"Entidades/Personagem/Jogador.h"
 class Jogo
 {
 private:
@@ -17,5 +13,5 @@ public:
     Jogo();
     ~Jogo();
     void executar();
-    
+    // void tick();
 };
