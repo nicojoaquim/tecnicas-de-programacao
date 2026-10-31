@@ -1,20 +1,26 @@
 #pragma once
 
-// #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-// #include <SFML/Graphics.hpp> // inclui sf::RenderWindow
-using sf::Window;
+#include <SFML/Graphics.hpp> // inclui sf::RenderWindow
+#include <SFML/System.hpp> // inclui sf::String
+
+using sf::String;
+using sf::RenderWindow;
 using sf::VideoMode;
 using sf::Event;
-#include <iostream>
 
+// Usado por GerenciadorGrafico
 class Janela
 {
 private:
-    Window janela;
+    RenderWindow janela; // sf::RenderWindow
+    String nome; // sf::String
 
 public:
-    Janela();
+    Janela(const char* nome_janela = "Jogo");
     ~Janela();
+
+    const bool aberta() const;
+    // const sf::Event evento();
 };
 

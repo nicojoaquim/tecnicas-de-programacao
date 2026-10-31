@@ -1,14 +1,18 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
-using sf:: RectangleShape;
 #include "organiza.h"
-class Gerenciador_Grafico;
+
+using sf::Sprite;
+
+class GerenciadorGrafico;
+
 class Ente
 {
 protected:
     int id;
-    static Gerenciador_Grafico* pGG;
-    RectangleShape * pFig;
+    static GerenciadorGrafico* pGG;
+    Sprite * pFig;
 
 public:
     Ente();
@@ -16,9 +20,10 @@ public:
     virtual void executar() = 0;
     void inicializaPosicao(float x, float y);
     virtual void desenhar();
-    static void setGG(Gerenciador_Grafico* pG);
-    void setFig(RectangleShape * Fig);
-    RectangleShape* getFig();
+    static void setGG(GerenciadorGrafico* pG);
+    void setFig(Sprite * Fig);
+    Sprite* getFig();
     void setId(int idO);
     int getId();
 };
+

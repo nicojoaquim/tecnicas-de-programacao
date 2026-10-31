@@ -1,35 +1,37 @@
-#include"Colisoes.h"
+#include "Colisoes.h"
+
 using namespace std;
-Gerenciador_Colisoes::Gerenciador_Colisoes():LIs(),LOs(),LPs(),pJog1(NULL){
+
+GerenciadorColisoes::GerenciadorColisoes():LIs(),LOs(),LPs(),pJog1(NULL){
     LIs.clear();
     LOs.clear();
     LPs.clear();
 }
-Gerenciador_Colisoes::~Gerenciador_Colisoes(){
+GerenciadorColisoes::~GerenciadorColisoes(){
     pJog1 = NULL;
 }
-void Gerenciador_Colisoes::incluirInimigo(Inimigo* pi){
+void GerenciadorColisoes::incluirInimigo(Inimigo* pi){
     if(pi != NULL)
         LIs.push_back(pi);
 }
-void Gerenciador_Colisoes::incluirObstaculo(Obstaculo* po){
+void GerenciadorColisoes::incluirObstaculo(Obstaculo* po){
     if(po != NULL)
         LOs.push_back(po);
 }
-void Gerenciador_Colisoes::incluirProjetil(Projetil* pj){
+void GerenciadorColisoes::incluirProjetil(Projetil* pj){
     if(pj != NULL)
         LPs.insert(pj);
 }
-const bool Gerenciador_Colisoes::verificarColisao(Entidade* p1, Entidade* p2){
+const bool GerenciadorColisoes::verificarColisao(Entidade* p1, Entidade* p2){
     return false;
 }
-void Gerenciador_Colisoes::tratarColisaoJogsInimigo(){
+void GerenciadorColisoes::tratarColisaoJogsInimigo(){
 
 }
-void Gerenciador_Colisoes::tratarColisaoJogsObstaculo(){
+void GerenciadorColisoes::tratarColisaoJogsObstaculo(){
 
 }
-void Gerenciador_Colisoes::tratarColisaoJogsProjetil(){
+void GerenciadorColisoes::tratarColisaoJogsProjetil(){
 
 }
 void executar(){

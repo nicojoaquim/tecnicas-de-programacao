@@ -1,8 +1,9 @@
-#include "Ente.h"
+#include "../Ente.h"
+
 class Entidade:public Ente
 {
 private:
-    protected:
+protected:
     int x;
     int y;
     ostream &  buffer;
@@ -11,7 +12,7 @@ public:
     virtual ~Entidade();
     virtual void executar() = 0;
     virtual void salvar() = 0;
-    protected:
+protected:
     void salvardataBuffer();
 };
 

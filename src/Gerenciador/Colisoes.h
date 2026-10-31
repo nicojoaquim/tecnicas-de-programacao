@@ -3,15 +3,18 @@
 #include <vector>
 #include <list>
 #include <set>
+
 class Entidade;
 class Inimigo;
 class Obstaculo;
 class Projetil;
 class Jogador;
+
 using std::vector;
 using std::set;
 using std::list;
-class Gerenciador_Colisoes
+
+class GerenciadorColisoes
 {
 private:
     vector<Inimigo*> LIs;
@@ -20,12 +23,13 @@ private:
     Jogador* pJog1;
 
 public:
-    Gerenciador_Colisoes();
-    ~Gerenciador_Colisoes();
+    GerenciadorColisoes();
+    ~GerenciadorColisoes();
     void incluirInimigo(Inimigo* pi);
     void incluirObstaculo(Obstaculo* po);
     void incluirProjetil(Projetil* pj);
-    private:
+
+private:
     const bool verificarColisao(Entidade* p1, Entidade* p2);
     void tratarColisaoJogsInimigo();
     void tratarColisaoJogsObstaculo();
