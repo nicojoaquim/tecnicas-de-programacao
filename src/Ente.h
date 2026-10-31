@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "organiza.h"
 
-using sf:: RectangleShape;
+using sf::Sprite;
 
 class GerenciadorGrafico;
 
@@ -12,7 +12,7 @@ class Ente
 protected:
     int id;
     static GerenciadorGrafico* pGG;
-    RectangleShape * pFig;
+    Sprite * pFig;
 
 public:
     Ente();
@@ -21,8 +21,9 @@ public:
     void inicializaPosicao(float x, float y);
     virtual void desenhar();
     static void setGG(GerenciadorGrafico* pG);
-    void setFig(RectangleShape * Fig);
-    RectangleShape* getFig();
+    void setFig(Sprite * Fig);
+    Sprite* getFig();
     void setId(int idO);
     int getId();
 };
+

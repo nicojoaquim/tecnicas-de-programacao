@@ -14,7 +14,7 @@ Ente::~Ente()
 }
 void Ente::inicializaPosicao(float x, float y)
 {
-     if(pFig != NULL)
+    if(pFig != NULL)
         pFig->setPosition({x,y});
 }
 void Ente::desenhar()
@@ -25,10 +25,11 @@ void Ente::setGG(GerenciadorGrafico* pG)
 {
     pGG = pG;
 }
-void Ente::setFig(RectangleShape * Fig){
+void Ente::setFig(Sprite * Fig)
+{
     pFig = Fig;
 }
-RectangleShape * Ente::getFig()
+Sprite * Ente::getFig()
 {
     return pFig;
 }

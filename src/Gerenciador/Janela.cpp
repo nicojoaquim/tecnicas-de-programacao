@@ -1,27 +1,16 @@
 #include "Janela.h"
+// #include "../organiza.h"
 
-#include "../organiza.h"
+using sf::VideoMode;
 
-Janela::Janela():janela(),nome_janela("Jogo")
+Janela::Janela(const char* nome_janela):
+    janela(),
+    nome(nome_janela)
 {
+    // Pega as dimensões da tela
     VideoMode mode = VideoMode::getDesktopMode();
 
-    cout << mode.width << " por " << mode.height << endl;
-    cout << "tem " << mode.bitsPerPixel << " bits por pixel" << endl;
-
     janela.create(mode, nome_janela); // sf::Style::Default
-    // No Jogo
-    // while (janela.isOpen())
-    // {
-    //     // check all the window's events that were triggered since the last iteration of the loop
-    //     Event evento;
-    //     while (janela.pollEvent(evento))
-    //     {
-    //         // "close requested" event: we close the window
-    //         if (evento.type == Event::Closed)
-    //             janela.close();
-    //     }
-    // }
 }
 
 Janela::~Janela()
@@ -33,3 +22,4 @@ const bool Janela::aberta() const
 {
     return janela.isOpen();
 }
+

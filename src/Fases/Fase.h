@@ -4,8 +4,8 @@
 
 class Fase:public Ente{
 protected:
-    Lista_Entidade lista_ents;
     GerenciadorColisoes GC;
+    Lista_Entidade lista_ents;
 public:
     Fase();
     ~Fase();

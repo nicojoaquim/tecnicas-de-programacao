@@ -21,20 +21,29 @@ objects := $(patsubst $(src_dir)/%.cpp,$(obj_dir)/%.o,$(sources))
 compiler := g++ -Wall
 
 .PHONY: all
+.PHONY: build
 .PHONY: rebuild
 .PHONY: clean
 .PHONY: run
 
-all: $(binario)
+all: $(binario) run
+
+build: $(binario)
 
 rebuild: clean $(binario)
 
 $(binario): $(objects)
 	$(compiler) -o $(binario) $(objects) $(libraries)
 
-$(objects): $(obj_dir)/%.o: $(src_dir)/%.cpp
+#$(objects): $(obj_dir)/%.o: $(src_dir)/%.cpp
+#	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
+#	$(compiler) -o $@ -c $< $(headers)
+
+depends := $(patsubst %.o,%.d,$(objects))
+-include $(depends)
+$(objects): $(obj_dir)/%.o: $(src_dir)/%.cpp makefile
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	$(compiler) -o $@ -c $< $(headers)
+	$(compiler) -o $@ -c $< -MMD -MP $(headers)
 
 clean:
 	rm -rf $(obj_dir)

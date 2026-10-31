@@ -1,5 +1,9 @@
 #include "Jogador.h"
 
+#include <SFML/Window/Keyboard.hpp>
+using sf::Keyboard;
+using sf::Vector2f;
+
 Jogador::Jogador():Personagem(),pontos(0)
 {
 }
@@ -12,7 +16,7 @@ bool Jogador::colidir(Inimigo* pIn){
         cerr << "Inimigo nulo" << endl;
         return false;
     }
-    else ;
+    else return false;
 }
 void Jogador::executar(){
 
@@ -20,11 +24,21 @@ void Jogador::executar(){
 void Jogador::salvar(){
 
 }
+
 void Jogador::mover(){
-    if(Keyboard::isKeyPressed(Keyboard::Up))
-        pFig->move(0,-2);
-    if(Keyboard::isKeyPressed(Keyboard::Left))
-        pFig->move(-2,0);
-    if(Keyboard::isKeyPressed(Keyboard::Right))
-        pFig->move(2,0);
+    Vector2f movimento = {0, 0}; // Vector2<float>
+
+    if (Keyboard::isKeyPressed(Keyboard::Up))
+        movimento.y -= 1;
+    if (Keyboard::isKeyPressed(Keyboard::Down))
+        movimento.y += 1;
+    if (Keyboard::isKeyPressed(Keyboard::Left))
+        movimento.x -= 1;
+    if (Keyboard::isKeyPressed(Keyboard::Right))
+        movimento.x += 1;
+
+    if (movimento.x != 0 && movimento.y != 0)
+        movimento *= (float) 0.7071067811865475244; // 1/sqrt(2)
+
+    pFig->move(movimento);
 }

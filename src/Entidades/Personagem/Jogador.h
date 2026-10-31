@@ -1,8 +1,7 @@
 #include "Personagem.h"
 
 using std::cerr;
-using std:: endl;
-using sf::Keyboard;
+using std::endl;
 
 class Inimigo;
 
