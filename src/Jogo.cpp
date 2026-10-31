@@ -36,7 +36,7 @@ Jogo::Jogo():
     text.setString(L"Olá texo embaixo"); // L"" necessário para á
     text.setCharacterSize(100);
 
-    text2.setPosition((sf::Vector2f){0, 100});
+    text2.setPosition(sf::Vector2f(0.f, 100.f));
 
     executar();
 }
