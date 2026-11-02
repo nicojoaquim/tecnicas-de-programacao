@@ -1,8 +1,8 @@
-#include"Personagem.h"
+#pragma once
+#include "Personagem.h"
+
 class Inimigo;
-using std::cerr;
-using std:: endl;
-using sf::Keyboard;
+
 class Jogador:public Personagem
 {
 protected:

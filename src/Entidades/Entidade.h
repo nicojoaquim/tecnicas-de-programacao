@@ -1,18 +1,19 @@
-#include "Ente.h"
+#pragma once
+#include "../Ente.h"
+
 class Entidade:public Ente
 {
-private:
-    protected:
+protected:
     int x;
     int y;
-    ostream &  buffer;
+    std::ostream &  buffer;
 public:
     Entidade();
     virtual ~Entidade();
     virtual void executar() = 0;
     virtual void salvar() = 0;
-    protected:
-    void salvardataBuffer();
+protected:
+    void salvarDataBuffer();
 };
 
 

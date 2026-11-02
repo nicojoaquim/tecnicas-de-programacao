@@ -1,21 +1,31 @@
 #pragma once
 
-// #include "Gerenciador/Gráfico.h"
-#include "Gerenciador/Janela.h"
-// #include "Gerenciador/Tempo.h"
+#include "Gerenciador/Grafico.h"
+#include "Entidades/Personagem/Jogador.h"
+#include "Entidades/Personagem/InimigoMedio.h"
+#include "Gerenciador/Colisoes.h"//temporario
+#include "Menu.h"
 
-// #include "Personagem/Jogador.h"
-#include "Gerenciador\Grafico.h"
-#include"Entidades/Personagem/Jogador.h"
 class Jogo
 {
 private:
-    Gerenciador_Grafico GG;
+    GerenciadorGrafico GG;
+    GerenciadorColisoes GC;//temporario
     Jogador primeiro;
+    Menu menu;
+    InimigoMedio teste;
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::Sprite sprite2;
+    sf::Font font;
+    sf::Text text;
+    sf::Text text2;
 
 public:
     Jogo();
     ~Jogo();
-    void executar();
-    
+    void executar(); // Loop de execução: preparar, desenar, repetir
+    void telaInicial(sf::Event* evento);
+    void preparar(); // Mudanças no jogo que ocorrem a cada frame
+    void desenhar(); // Desenho do novo frame
 };
