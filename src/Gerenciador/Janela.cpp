@@ -23,3 +23,6 @@ const bool Janela::aberta() const
     return janela.isOpen();
 }
 
+bool Janela::evento(sf::Event& eve) {
+    return janela.pollEvent(eve);
+}

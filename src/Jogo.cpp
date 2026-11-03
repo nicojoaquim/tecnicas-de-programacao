@@ -2,17 +2,23 @@
 
 // Uso para debug/erros
 #include "organiza.h"
-
+using std::cout;
+using std::endl;
+using std::cerr;
 Jogo::Jogo():
     GG(),
+    GC(),
+    menu(),
     primeiro(),
+    teste(),
     texture(),
     sprite(),
+    sprite2(),
     font(),
     text(),
     text2(L"ç texto acima",font,100)
 {
-    primeiro.setGG(&GG);
+    Ente::setGG(&GG);
 
     if (!texture.loadFromFile(GATO)) {
         cerr << "Error loading texture: " << GATO << endl;
@@ -22,9 +28,10 @@ Jogo::Jogo():
     texture.setSmooth(true);
 
     sprite.setTexture(texture);
+    sprite2.setTexture(texture);
 
-    primeiro.setFig(&sprite);
-    primeiro.inicializaPosicao(0,0);
+    primeiro.desenhar(&sprite,0,0);
+    teste.desenhar(&sprite2,105,105);
 
     if (!font.loadFromFile(FONTE)) {
         cerr << "Error loading font: " << FONTE << endl;
@@ -46,8 +53,9 @@ Jogo::~Jogo()
 
 void Jogo::preparar()
 {
-    GG.executar(); // Eventos
+    //GG.executar(); // Eventos
     primeiro.mover();
+    primeiro.colidir(static_cast<Inimigo*>(&teste));//a colição
 }
 
 void Jogo::desenhar()
@@ -55,16 +63,41 @@ void Jogo::desenhar()
     GG.limpar(); // Início
 
     GG.temporario_desenharTexto(text);
-    GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&primeiro))));
+    GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&primeiro))));// jogador
+    GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
     GG.temporario_desenharTexto(text2);
 
     GG.renderizar(); // Final
 }
 
+void Jogo::telaInicial(sf::Event* evento)
+{
+    int ativo = 1;
+    while (GG.aberto() && ativo) {
+        GG.limpar();
+        while (GG.eventoM(*evento)) {
+            if (evento->type == sf::Event::Closed)
+                GG.fechar();
+
+            menu.tratarEvento(*evento,ativo,&GG);
+        }
+        menu.desenha(&GG);
+        GG.renderizar();
+    }
+}
+
 void Jogo::executar()
 {
-    while(GG.aberto())
-    {
+    sf::Event evento;
+    telaInicial(&evento);
+    while (GG.aberto()) {
+        while (GG.eventoM(evento)) {
+            if (evento.type == sf::Event::Closed)
+                GG.fechar();
+
+            //menu.tratarEvento(evento);
+        }
+
         preparar();
         desenhar();
     }

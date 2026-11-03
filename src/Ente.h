@@ -3,8 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include "organiza.h"
 
-using sf::Sprite;
-
 class GerenciadorGrafico;
 
 class Ente
@@ -12,17 +10,18 @@ class Ente
 protected:
     int id;
     static GerenciadorGrafico* pGG;
-    Sprite * pFig;
+    sf::Sprite * pFig;
 
 public:
     Ente();
     virtual ~Ente();
     virtual void executar() = 0;
     void inicializaPosicao(float x, float y);
-    virtual void desenhar();
+    void desenhar(sf::Sprite* Fig,float x, float y);
+    void centralizar(sf::Sprite* Fig);
     static void setGG(GerenciadorGrafico* pG);
-    void setFig(Sprite * Fig);
-    Sprite* getFig();
+    void setFig(sf::Sprite * Fig);
+    sf::Sprite* getFig();
     void setId(int idO);
     int getId();
 };

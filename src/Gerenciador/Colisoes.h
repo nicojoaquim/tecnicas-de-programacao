@@ -10,16 +10,12 @@ class Obstaculo;
 class Projetil;
 class Jogador;
 
-using std::vector;
-using std::set;
-using std::list;
-
 class GerenciadorColisoes
 {
 private:
-    vector<Inimigo*> LIs;
-    list<Obstaculo*> LOs;
-    set<Projetil*> LPs;
+    std::vector<Inimigo*> LIs;
+    std::list<Obstaculo*> LOs;
+    std::set<Projetil*> LPs;
     Jogador* pJog1;
 
 public:

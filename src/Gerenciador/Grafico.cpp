@@ -15,8 +15,12 @@ GerenciadorGrafico::~GerenciadorGrafico(){
 
 }
 void GerenciadorGrafico::desenharEnte(Ente *pE){
-    pE->desenhar();
+    //pE->desenhar();
     janela.draw(*pE->getFig());
+}
+
+void GerenciadorGrafico::desenhaTexto(const sf::Text& texto){
+    janela.draw(texto);
 }
 
 const bool GerenciadorGrafico::aberto() const {
@@ -24,12 +28,15 @@ const bool GerenciadorGrafico::aberto() const {
         return true;
     return false;
 }
+
 void GerenciadorGrafico::renderizar(){
     janela.display();
 }
+
 void GerenciadorGrafico::limpar(){
     janela.clear();
 }
+
 void GerenciadorGrafico::executar()
 {
     // adaptado do tutorial do SFML 2.6
@@ -42,3 +49,13 @@ void GerenciadorGrafico::executar()
     }
 }
 
+bool GerenciadorGrafico::eventoM(sf::Event& evento) {
+    return janela.pollEvent(evento);
+}
+
+void GerenciadorGrafico::fechar() {
+    janela.close();
+}
+sf::RenderWindow& GerenciadorGrafico::getJanela(){
+    return janela;
+}
