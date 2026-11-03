@@ -1,7 +1,6 @@
-#include "Personagem.h"
+#pragma once
 
-using std::cerr;
-using std::endl;
+#include "Personagem.h"
 
 class Inimigo;
 

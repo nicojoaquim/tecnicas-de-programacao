@@ -1,6 +1,9 @@
 #include "Colisoes.h"
+#include"Entidades/Entidade.h"
 
-using namespace std;
+using std::vector;
+using std::set;
+using std::list;
 
 GerenciadorColisoes::GerenciadorColisoes():LIs(),LOs(),LPs(),pJog1(NULL){
     LIs.clear();

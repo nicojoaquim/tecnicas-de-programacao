@@ -8,6 +8,6 @@ Personagem::~Personagem()
 {
 }
 
-void Personagem::salvardataBuffer(){
-    //depois
+void Personagem::salvarDataBuffer(){
+     buffer << x<< y<<num_vida;
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "../organiza.h"
+using std::cout;
+using std::endl;
 template <class TL>
 class Lista{
     private:

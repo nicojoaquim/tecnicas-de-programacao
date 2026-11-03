@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Ente.h"
 #include "../Listas/lista_entidade.h"
 #include "../Gerenciador/Colisoes.h"
@@ -8,10 +10,11 @@ protected:
     Lista_Entidade lista_ents;
 public:
     Fase();
-    ~Fase();
+    virtual ~Fase();
     virtual void execuar();
     virtual void executar();
 protected:
+    // talvez remover depois alguns metodos
     void criarInimigFaceis();//mudar nome depois
     void criarInimigMedio();//mudar nome depois
     void criarChefe();//mudar nome depois

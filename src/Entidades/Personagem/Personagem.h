@@ -1,13 +1,15 @@
+#pragma once
+
 #include "../Entidade.h"
 
 class Personagem:public Entidade
 {
-private:
+protected:
     int num_vida;
 public:
     Personagem();
-    ~Personagem();
-    void salvardataBuffer();
+    virtual ~Personagem();
+    void salvarDataBuffer();
     virtual void executar() = 0;
     virtual void salvar() = 0;
     virtual void mover() = 0;

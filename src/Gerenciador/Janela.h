@@ -21,6 +21,7 @@ public:
     ~Janela();
 
     const bool aberta() const;
+    bool evento(sf::Event & eve);
     // const sf::Event evento();
 };
 
