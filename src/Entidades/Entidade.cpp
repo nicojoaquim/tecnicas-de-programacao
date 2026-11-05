@@ -12,6 +12,30 @@ Entidade::~Entidade()
 {
     coord = Vector2f(0.f, 0.f);
 }
+void Entidade::inicializaPosicao(float x, float y)
+{
+    if(pFig != NULL)
+        pFig->setPosition({x,y});
+}
+
+void Entidade::desenhar(sf::Sprite* Fig, float x, float y){
+    if(Fig == NULL){
+        std::cerr << "Nulidade em desenhar" << std::endl;
+        return;
+    }
+    setFig(Fig);
+    centralizar();
+    inicializaPosicao(x + Fig->getLocalBounds().width/2.0f,y+ Fig->getLocalBounds().height/2.0f);
+}
+
+void Entidade::centralizar(){
+    if(pFig == NULL){
+        std::cerr << "Nulidade em centraliza" << std::endl;
+        return;
+    }
+    sf::FloatRect cent = pFig->getLocalBounds();
+    pFig->setOrigin(cent.width/2.0f,cent.height/2.0f);
+}
 
 void Entidade::salvarDataBuffer(){
     buffer << getCoord().x << " " << getCoord().y;

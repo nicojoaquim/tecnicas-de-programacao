@@ -27,8 +27,6 @@ public:
     sf::Sprite* getFig();
 
     // Mudar/mover esses métodos para Entidade
-    void inicializaPosicao(float x, float y);
-    void desenhar(sf::Sprite* Fig,float x, float y);
-    void centralizar(sf::Sprite* Fig);
+    //Mudado
 };
 

@@ -21,6 +21,9 @@ public:
     const sf::Vector2f getCoord() const;
     void setTamanho(sf::Vector2f novo_tam);
     const sf::Vector2f getTamanho() const;
+    void inicializaPosicao(float x, float y);
+    void desenhar(sf::Sprite* Fig,float x, float y);
+    void centralizar();
 
 protected:
     virtual void salvarDataBuffer();
