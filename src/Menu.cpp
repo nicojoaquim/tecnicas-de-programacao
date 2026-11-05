@@ -40,20 +40,20 @@ Menu::~Menu(){
 void Menu::executar(){
 
 }
-void Menu::tratarEvento(const sf::Event& evento, int& ativo, GerenciadorGrafico *GG){
+void Menu::tratarEvento(const sf::Event& evento, int& ativo){
     if(evento.type == sf::Event::MouseButtonPressed && evento.mouseButton.button == sf::Mouse::Left){
         mousePosi = {evento.mouseButton.x,evento.mouseButton.y};
-        if(textoMouse(texts[1],GG))
+        if(textoMouse(texts[1]))
             ativo = 0;
     }
 }
-void Menu::desenha(GerenciadorGrafico* GG){
-    if(GG == NULL){
+void Menu::desenha(){
+    if(pGG == NULL){
         std::cerr << "nulidade do gerenciador granfico no menu" << std::endl;
         return;
     }
     for(int i=0;i < texts.size();i++)
-        GG->desenhaTexto(texts[i]);
+        pGG->desenhaTexto(texts[i]);
 }
 void Menu::setMousePosi(sf::Vector2i mou){
     mousePosi = mou;
@@ -67,13 +67,13 @@ void Menu::setMouseCoorde(sf::Vector2f mou){
 sf::Vector2f Menu::getMouseCoorde(){
     return mouseCoorde;
 }
-void Menu::coordenadaMouse(GerenciadorGrafico *GG){
-    mousePosi = sf::Mouse::getPosition(GG->getJanela());
-    mouseCoorde = GG->getJanela().mapPixelToCoords(mousePosi);
+void Menu::coordenadaMouse(){
+    mousePosi = sf::Mouse::getPosition(pGG->getJanela());
+    mouseCoorde = pGG->getJanela().mapPixelToCoords(mousePosi);
 
 }
-bool Menu::textoMouse(sf::Text& texto,GerenciadorGrafico *GG){
-    if(texto.getGlobalBounds().contains(GG->getJanela().mapPixelToCoords(mousePosi)))
+bool Menu::textoMouse(sf::Text& texto){
+    if(texto.getGlobalBounds().contains(pGG->getJanela().mapPixelToCoords(mousePosi)))
         return true;
     return false;
 }

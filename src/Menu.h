@@ -20,13 +20,13 @@ private:
 public:
     Menu();
     ~Menu();
-    void tratarEvento(const sf::Event& evento,int& ativo,GerenciadorGrafico *GG);
-    void desenha(GerenciadorGrafico* GG);
+    void tratarEvento(const sf::Event& evento,int& ativo);
+    void desenha();
     void executar();
     void setMousePosi(sf::Vector2i mou);
     sf::Vector2i getMousePosi();
     void setMouseCoorde(sf::Vector2f mou);
     sf::Vector2f getMouseCoorde();
-    void coordenadaMouse(GerenciadorGrafico *GG);
-    bool textoMouse(sf::Text& texto,GerenciadorGrafico *GG);
+    void coordenadaMouse();
+    bool textoMouse(sf::Text& texto);
 };

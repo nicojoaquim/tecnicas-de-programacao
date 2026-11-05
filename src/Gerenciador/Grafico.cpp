@@ -1,6 +1,10 @@
 #include "Grafico.h"
 #include "../Ente.h"
 
+#include "../organiza.h"
+using std::cerr;
+using std::endl;
+
 GerenciadorGrafico::GerenciadorGrafico(): janela()
 {
     // janela.create(VideoMode(900,600),"Jogo");
@@ -14,9 +18,15 @@ GerenciadorGrafico::GerenciadorGrafico(): janela()
 GerenciadorGrafico::~GerenciadorGrafico(){
 
 }
-void GerenciadorGrafico::desenharEnte(Ente *pE){
-    //pE->desenhar();
-    janela.draw(*pE->getFig());
+
+void GerenciadorGrafico::desenharEnte(Ente *pE)
+{
+    if (pE == NULL) {
+        cerr << "Nulidade em GG::desenharEnte" << endl;
+    }
+    else {
+        janela.draw(*pE->getFig());
+    }
 }
 
 void GerenciadorGrafico::desenhaTexto(const sf::Text& texto){
@@ -40,10 +50,10 @@ void GerenciadorGrafico::limpar(){
 void GerenciadorGrafico::executar()
 {
     // adaptado do tutorial do SFML 2.6
-    // check all the window's events that were triggered since the last iteration of the loop
+    // para cada evento novo desde a última vez que passou pelo loop
     while (janela.pollEvent(evento))
     {
-        // "close requested" event: we close the window
+        // evento de fechar a janela
         if (evento.type == Event::Closed)
             janela.close();
     }
@@ -56,6 +66,7 @@ bool GerenciadorGrafico::eventoM(sf::Event& evento) {
 void GerenciadorGrafico::fechar() {
     janela.close();
 }
+
 sf::RenderWindow& GerenciadorGrafico::getJanela(){
     return janela;
 }
