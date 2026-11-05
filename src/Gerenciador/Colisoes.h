@@ -26,7 +26,7 @@ public:
     void incluirProjetil(Projetil* pj);
 
 private:
-    const bool verificarColisao(Entidade* p1, Entidade* p2);
+    const bool verificarColisao(Entidade* p1, Entidade* p2) const;
     void tratarColisaoJogsInimigo();
     void tratarColisaoJogsObstaculo();
     void tratarColisaoJogsProjetil();

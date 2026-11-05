@@ -21,12 +21,6 @@ private:
     sf::Text text;
     sf::Text text2;
 
-    sf::Texture texture;
-    sf::Sprite sprite;
-    sf::Font font;
-    sf::Text text;
-    sf::Text text2;
-
 public:
     Jogo();
     ~Jogo();

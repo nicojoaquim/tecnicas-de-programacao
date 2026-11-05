@@ -19,6 +19,7 @@ void Ente::inicializaPosicao(float x, float y)
     if(pFig != NULL)
         pFig->setPosition({x,y});
 }
+
 void Ente::desenhar(sf::Sprite* Fig, float x, float y){
     if(Fig == NULL){
         std::cerr << "Nulidade em desenhar" << std::endl;
@@ -28,6 +29,7 @@ void Ente::desenhar(sf::Sprite* Fig, float x, float y){
     centralizar(Fig);
     inicializaPosicao(x + Fig->getLocalBounds().width/2.0f,y+ Fig->getLocalBounds().height/2.0f);
 }
+
 void Ente::centralizar(sf::Sprite* Fig){
     if(Fig == NULL){
         std::cerr << "Nulidade em centraliza" << std::endl;
@@ -43,6 +45,7 @@ void Ente::setGG(GerenciadorGrafico* pG)
 void Ente::setFig(Sprite * Fig)
 {
     pFig = Fig;
+    // pFig->setOrigin(...);
 }
 Sprite * Ente::getFig()
 {
