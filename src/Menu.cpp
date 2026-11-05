@@ -53,7 +53,7 @@ void Menu::desenha(){
         return;
     }
     for(int i=0;i < texts.size();i++)
-        pGG->desenhaTexto(texts[i]);
+        pGG->desenharTexto(texts[i]);
 }
 void Menu::setMousePosi(sf::Vector2i mou){
     mousePosi = mou;

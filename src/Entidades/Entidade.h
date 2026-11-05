@@ -4,11 +4,12 @@
 #include "../Coordenada.h"
 #include <SFML/System/Vector2.hpp>
 
-class Entidade:public Ente
+// Usado para testar se é um vetor válido
+#define INEXISTENTE (Vector2f(-999999.f,-999999.f))
+
+class Entidade: public Ente
 {
 protected:
-    sf::Vector2f coord;
-    sf::Vector2f tamanho;
     std::ostream & buffer;
 
 public:
@@ -17,13 +18,19 @@ public:
     virtual void executar() = 0;
     virtual void salvar() = 0;
 
-    void setCoord(sf::Vector2f novas_coord); // Do centro da Fig??
-    const sf::Vector2f getCoord() const;
-    void setTamanho(sf::Vector2f novo_tam);
-    const sf::Vector2f getTamanho() const;
     void inicializaPosicao(float x, float y);
-    void desenhar(sf::Sprite* Fig,float x, float y);
-    void centralizar();
+    // void centralizar();
+
+    void atribuirSprite(sf::Sprite* Fig);
+
+    const sf::Vector2f getPosicao() const;
+    void setPosicao(const sf::Vector2f posicao);
+    const float getX() const;
+    const float getY() const;
+
+    const sf::Vector2f getTamanho() const;
+    const float getLargura() const;
+    const float getAltura() const;
 
 protected:
     virtual void salvarDataBuffer();

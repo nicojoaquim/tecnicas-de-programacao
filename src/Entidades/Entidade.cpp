@@ -1,64 +1,80 @@
-#include "../organiza.h"
 #include "Entidade.h"
 
-using std::cout;
-using sf::Vector2f;
+#include "../organiza.h"
 
-Entidade::Entidade(): coord(0.f, 0.f), buffer(cout)
+using sf::Vector2f;
+using sf::Sprite;
+
+Entidade::Entidade(): buffer(std::cout)
 {
 }
 
 Entidade::~Entidade()
 {
-    coord = Vector2f(0.f, 0.f);
-}
-void Entidade::inicializaPosicao(float x, float y)
-{
-    if(pFig != NULL)
-        pFig->setPosition({x,y});
 }
 
-void Entidade::desenhar(sf::Sprite* Fig, float x, float y){
-    if(Fig == NULL){
-        std::cerr << "Nulidade em desenhar" << std::endl;
+void Entidade::atribuirSprite(Sprite* Fig) {
+    if (Fig == NULL) {
+        std::cerr << "Nulidade em atribuirSprite" << std::endl;
         return;
     }
     setFig(Fig);
-    centralizar();
-    inicializaPosicao(x + Fig->getLocalBounds().width/2.0f,y+ Fig->getLocalBounds().height/2.0f);
-}
 
-void Entidade::centralizar(){
-    if(pFig == NULL){
-        std::cerr << "Nulidade em centraliza" << std::endl;
-        return;
-    }
-    sf::FloatRect cent = pFig->getLocalBounds();
-    pFig->setOrigin(cent.width/2.0f,cent.height/2.0f);
+    Vector2f centro(getLargura()/2.0f, getAltura()/2.0f);
+
+    pFig->setOrigin(centro.x, centro.y);
+    setPosicao(getPosicao()+centro);
 }
 
 void Entidade::salvarDataBuffer(){
-    buffer << getCoord().x << " " << getCoord().y;
+    buffer << getX() << " " << getY();
 }
 
-void Entidade::setCoord(sf::Vector2f novas_coord)
-{
-    coord = novas_coord;
+const Vector2f Entidade::getPosicao() const {
     if (pFig != NULL)
-        pFig->setPosition(coord); // Para o desenho
+        return pFig->getPosition();
+    else {
+        std::cerr << "Erro: Figura inexistente em getPosicao" << std::endl;
+        return INEXISTENTE;
+    }
 }
 
-const sf::Vector2f Entidade::getCoord() const
-{
-    return coord;
+const float Entidade::getX() const {
+    return Entidade::getPosicao().x;
 }
 
-void Entidade::setTamanho(sf::Vector2f novo_tam)
-{
-    tamanho = novo_tam;
+const float Entidade::getY() const {
+    return Entidade::getPosicao().y;
 }
 
-const sf::Vector2f Entidade::getTamanho() const
-{
-    return tamanho;
+void Entidade::setPosicao(const Vector2f posicao) {
+    if (pFig != NULL)
+        pFig->setPosition(posicao);
 }
+
+const Vector2f Entidade::getTamanho() const {
+    if (pFig != NULL)
+        // TODO ver se getSize() == getGlobalBounds().width e .height
+        // Estava em atribuirSprite:
+        // sf::FloatRect cent = pFig->getGlobalBounds();
+        // pFig->setOrigin(cent.width/2.0f,cent.height/2.0f);
+        return pFig->getGlobalBounds().getSize();
+    else {
+        std::cerr << "Erro: Figura inexistente em getTamanho" << std::endl;
+        return INEXISTENTE;
+    }
+}
+
+const float Entidade::getLargura() const {
+    return Entidade::getTamanho().x;
+}
+
+const float Entidade::getAltura() const {
+    return Entidade::getTamanho().y;
+}
+
+// Pode colocar sobrecarga de operador aqui para mudar posição da entidade
+// Entidade e;
+// e.setPosicao(Vector2f(1.f, 2.f));
+// e += Vector2f(2.f, 3.f);
+// e.getPosicao(); // (3., 5.)

@@ -6,6 +6,8 @@ class Personagem:public Entidade
 {
 protected:
     int num_vida;
+    sf::Vector2f v;
+
 public:
     Personagem();
     virtual ~Personagem();

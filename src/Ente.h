@@ -10,8 +10,8 @@ class Ente
 protected:
     int id;
     static GerenciadorGrafico* pGG;
-    sf::Sprite * pFig;
-    // sf::Sprite possui coordenadas também, mas são geridas pela coord em Entidade
+    sf::Sprite* pFig;
+    // sf::Sprite possui coordenadas
 
 public:
     Ente();
@@ -20,13 +20,12 @@ public:
 
     static void setGG(GerenciadorGrafico* pG);
 
+    void desenhar();
+
     void setId(int idO);
     int getId();
 
     void setFig(sf::Sprite * Fig);
     sf::Sprite* getFig();
-
-    // Mudar/mover esses métodos para Entidade
-    //Mudado
 };
 

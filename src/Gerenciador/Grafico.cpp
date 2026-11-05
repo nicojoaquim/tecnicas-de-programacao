@@ -29,7 +29,7 @@ void GerenciadorGrafico::desenharEnte(Ente *pE)
     }
 }
 
-void GerenciadorGrafico::desenhaTexto(const sf::Text& texto){
+void GerenciadorGrafico::desenharTexto(const sf::Text& texto){
     janela.draw(texto);
 }
 
@@ -65,8 +65,4 @@ bool GerenciadorGrafico::eventoM(sf::Event& evento) {
 
 void GerenciadorGrafico::fechar() {
     janela.close();
-}
-
-sf::RenderWindow& GerenciadorGrafico::getJanela(){
-    return janela;
 }

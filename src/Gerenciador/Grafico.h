@@ -28,14 +28,13 @@ public:
     ~GerenciadorGrafico();
 
     void desenharEnte(Ente* pE);
-    void desenhaTexto(const sf::Text & texto);
+    void desenharTexto(const sf::Text & texto);
     const bool aberto() const;
     void renderizar();
     void limpar();
     void executar();
     bool eventoM(sf::Event& evento);
     void fechar();
-    RenderWindow& getJanela();
 
-    void temporario_desenharTexto(sf::Text text) { janela.draw(text); }
+    RenderWindow & getJanela() { return janela; }
 };

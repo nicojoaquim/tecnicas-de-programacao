@@ -4,6 +4,9 @@
 
 using sf::Sprite;
 
+using std::cerr;
+using std::endl;
+
 GerenciadorGrafico* Ente::pGG(NULL);
 
 Ente::Ente():id(0)
@@ -13,6 +16,18 @@ Ente::Ente():id(0)
 Ente::~Ente()
 {
     pFig = NULL;
+}
+
+void Ente::desenhar() {
+    if (pGG == NULL) {
+        cerr << "Erro: tentativa de desenhar ente com GG nulo" << endl;
+        return;
+    }
+    if (pFig == NULL) {
+        cerr << "Erro: tentativa de desenhar ente com Sprite nulo" << endl;
+        return;
+    }
+    pGG->desenharEnte(static_cast<Ente*>(this));
 }
 
 void Ente::setGG(GerenciadorGrafico* pG)

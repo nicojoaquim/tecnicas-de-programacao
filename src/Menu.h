@@ -20,7 +20,7 @@ private:
 public:
     Menu();
     ~Menu();
-    void tratarEvento(const sf::Event& evento,int& ativo);
+    void tratarEvento(const sf::Event& evento, int& ativo);
     void desenha();
     void executar();
     void setMousePosi(sf::Vector2i mou);

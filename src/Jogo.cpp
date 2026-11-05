@@ -5,6 +5,8 @@
 using std::cout;
 using std::endl;
 using std::cerr;
+using sf::Vector2f;
+
 Jogo::Jogo():
     GG(),
     GC(),
@@ -30,8 +32,9 @@ Jogo::Jogo():
     sprite.setTexture(texture);
     sprite2.setTexture(texture);
 
-    primeiro.desenhar(&sprite,0,0);
-    teste.desenhar(&sprite2,105,105);
+    primeiro.atribuirSprite(&sprite);
+    teste.atribuirSprite(&sprite2);
+    //teste.setPosicao(Vector2f(105.f,105.f));
 
     if (!font.loadFromFile(FONTE)) {
         cerr << "Error loading font: " << FONTE << endl;
@@ -43,7 +46,7 @@ Jogo::Jogo():
     text.setString(L"Olá texo embaixo"); // L"" necessário para á
     text.setCharacterSize(100);
 
-    text2.setPosition(sf::Vector2f(0.f, 100.f));
+    text2.setPosition(Vector2f(0.f, 100.f));
 
     executar();
 }
@@ -62,10 +65,12 @@ void Jogo::desenhar()
 {
     GG.limpar(); // Início
 
-    GG.temporario_desenharTexto(text);
-    GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&primeiro))));// jogador
-    GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
-    GG.temporario_desenharTexto(text2);
+    GG.desenharTexto(text);
+    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&primeiro))));// jogador
+    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
+    primeiro.desenhar();
+    teste.desenhar();
+    GG.desenharTexto(text2);
 
     GG.renderizar(); // Final
 }
@@ -79,9 +84,9 @@ void Jogo::telaInicial(sf::Event* evento)
             if (evento->type == sf::Event::Closed)
                 GG.fechar();
 
-            menu.tratarEvento(*evento,ativo,&GG);
+            menu.tratarEvento(*evento, ativo);
         }
-        menu.desenha(&GG);
+        menu.desenha();
         GG.renderizar();
     }
 }

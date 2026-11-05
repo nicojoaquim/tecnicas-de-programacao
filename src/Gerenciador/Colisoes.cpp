@@ -9,33 +9,43 @@
 
 #include "../organiza.h"
 
+#include <cmath>
+using std::abs;
+
 using std::vector;
 using std::set;
 using std::list;
 
-GerenciadorColisoes::GerenciadorColisoes():LIs(),LOs(),LPs(),pJog1(NULL){
+using sf::Vector2f;
+
+GerenciadorColisoes::GerenciadorColisoes():LIs(),LOs(),LPs(),pJog1(NULL) {
     LIs.clear();
     LOs.clear();
     LPs.clear();
 }
 
-GerenciadorColisoes::~GerenciadorColisoes(){
+GerenciadorColisoes::~GerenciadorColisoes() {
     pJog1 = NULL;
 }
 
-void GerenciadorColisoes::incluirInimigo(Inimigo* pi){
+void GerenciadorColisoes::incluirInimigo(Inimigo* pi) {
     if(pi != NULL)
         LIs.push_back(pi);
 }
 
-void GerenciadorColisoes::incluirObstaculo(Obstaculo* po){
+void GerenciadorColisoes::incluirObstaculo(Obstaculo* po) {
     if(po != NULL)
         LOs.push_back(po);
 }
 
-void GerenciadorColisoes::incluirProjetil(Projetil* pj){
+void GerenciadorColisoes::incluirProjetil(Projetil* pj) {
     if(pj != NULL)
         LPs.insert(pj);
+}
+
+void GerenciadorColisoes::incluirChao(Chao* pc) {
+    if(pc != NULL)
+        LCs.push_back(pc);
 }
 
 const bool GerenciadorColisoes::verificarColisao(Entidade* p1, Entidade* p2) const
@@ -44,31 +54,37 @@ const bool GerenciadorColisoes::verificarColisao(Entidade* p1, Entidade* p2) con
         std::cerr << "Nulidade em GC::verificarColisao" << std::endl;
         return false;
     }
-    float dx = p1->getCoord().x - p2->getCoord().x;
-    float dy = p1->getCoord().y - p2->getCoord().y;
-    dx = abs(dx); // if (dx < 0) dx *= -1.f;
-    dy = abs(dy);
-    // Se getCoord() de Entidade retornará coordenadas do centro,
-    // as 2 linhas a seguir são desnecessárias
-    //float interx = abs(dx)-(getFig()->getGlobalBounds().width/2 + pIn->getFig()->getGlobalBounds().width/2) ;
-    //float intery = abs(dy)-(getFig()->getGlobalBounds().height/2 + pIn->getFig()->getGlobalBounds().height/2);
-    // O código a seguir supõe que getCoord é do centro, pois retângulos diferentes têm
-    // suas pontas sup. esq. a uma distância diferente do que da dos seus centros.
-    float internox = dx - (p1->getTamanho().x + p2->getTamanho().x)/2;
-    float internoy = dy - (p1->getTamanho().y + p2->getTamanho().y)/2;
 
+    // float dx = p1->getX() - p2->getX();
+    // float dy = p1->getY() - p2->getY();
+
+    Vector2f pos1 = p1->getPosicao();
+    Vector2f pos2 = p2->getPosicao();
+
+    float dx = pos1.x - pos2.x;
+    float dy = pos1.y - pos2.y;
+    dx = abs(dx);
+    dy = abs(dy);
+    // As linhas a seguir supõem que x e y são do centro, pois retângulos diferentes têm
+    // suas pontas sups. esqs. a uma distância diferente do que da dos seus centros.
+    float internox = dx - (p1->getX() + p2->getX())/2;
+    float internoy = dy - (p1->getY() + p2->getY())/2;
     return (internox < 0.0f && internoy < 0.0f);
 }
 
-void GerenciadorColisoes::tratarColisaoJogsInimigo(){
+void GerenciadorColisoes::tratarColisaoJogsInimigo() {
 
 }
 
-void GerenciadorColisoes::tratarColisaoJogsObstaculo(){
+void GerenciadorColisoes::tratarColisaoJogsObstaculo() {
 
 }
 
-void GerenciadorColisoes::tratarColisaoJogsProjetil(){
+void GerenciadorColisoes::tratarColisaoJogsProjetil() {
+
+}
+
+void GerenciadorColisoes::tratarColisaoJogsChao() {
 
 }
 
