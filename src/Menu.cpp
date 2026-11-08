@@ -25,7 +25,7 @@ if (!fontM.loadFromFile(FONTE)) {
     opicoes = {"Jogo","Jogar","Rankim"};
     coordes = {{530,-100},{550,250},{550,350}};
     tams = {200,100,100};
-    texts.resize(3);
+    texts.resize(2);
     for(size_t i = 0;i < texts.size();i++){
         texts[i].setFont(fontM);
         texts[i].setOutlineColor(sf::Color::White);

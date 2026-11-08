@@ -4,6 +4,7 @@
 //#include "Gerenciador/Janela.h"
 class Jogo;
 class GerenciadorGrafico;
+//baseando no menu do site terminal root
 class Menu: public Ente
 {
 private:

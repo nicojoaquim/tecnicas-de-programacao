@@ -52,6 +52,12 @@ void Entidade::setPosicao(const Vector2f posicao) {
         pFig->setPosition(posicao);
 }
 
+void Entidade::setPosicaoEsper(const Vector2f posicao){
+    Vector2f centro(getLargura(),getAltura());
+    if (pFig != NULL)
+        pFig->setPosition(posicao + centro/2.f);
+}
+
 const Vector2f Entidade::getTamanho() const {
     if (pFig != NULL)
         // TODO ver se getSize() == getGlobalBounds().width e .height
@@ -66,11 +72,11 @@ const Vector2f Entidade::getTamanho() const {
 }
 
 const float Entidade::getLargura() const {
-    return Entidade::getTamanho().x;
+    return getTamanho().x;
 }
 
 const float Entidade::getAltura() const {
-    return Entidade::getTamanho().y;
+    return getTamanho().y;
 }
 
 // Pode colocar sobrecarga de operador aqui para mudar posição da entidade

@@ -21,8 +21,8 @@ bool Jogador::colidir(Inimigo* pIn){
         return false;
     }
 
-    float dx = pIn->getFig()->getPosition().x- getFig()->getPosition().x;
-    float dy = pIn->getFig()->getPosition().y- getFig()->getPosition().y;
+    float dx = pIn->getFig()->getPosition().x - getFig()->getPosition().x;
+    float dy = pIn->getFig()->getPosition().y - getFig()->getPosition().y;
     float interx = abs(dx)-(getFig()->getGlobalBounds().width/2 + pIn->getFig()->getGlobalBounds().width/2) ;
     float intery = abs(dy)-(getFig()->getGlobalBounds().height/2 + pIn->getFig()->getGlobalBounds().height/2);
     if(interx < 0.0f && intery < 0.0f){
@@ -53,10 +53,9 @@ void Jogador::salvar(){
 void Jogador::mover(){
     Vector2f movimento = {0, 0}; // Vector2<float>
 
-    if (Keyboard::isKeyPressed(Keyboard::Up))
-        movimento.y -= 1;
-    if (Keyboard::isKeyPressed(Keyboard::Down))
-        movimento.y += 1;
+    if (Keyboard::isKeyPressed(Keyboard::Up)){
+        movimento.y -= 4;
+    }
     if (Keyboard::isKeyPressed(Keyboard::Left))
         movimento.x -= 1;
     if (Keyboard::isKeyPressed(Keyboard::Right))

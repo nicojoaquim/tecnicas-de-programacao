@@ -6,6 +6,7 @@
 class InimigoFacil:public Inimigo{
 private:
     float raio;
+    bool indoParaFrente;
 public:
     InimigoFacil();
     ~InimigoFacil();

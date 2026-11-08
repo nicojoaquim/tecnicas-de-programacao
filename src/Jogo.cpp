@@ -12,6 +12,7 @@ Jogo::Jogo():
     GC(),
     menu(),
     primeiro(),
+    chao(),
     teste(),
     texture(),
     sprite(),
@@ -28,12 +29,18 @@ Jogo::Jogo():
     }
     cout << "Success to load texture" << endl;
     texture.setSmooth(true);
-
+    GC.incluirJogador1(&primeiro);
+    GC.incluirInimigo(&teste);
+    GC.incluirChao(&chao);
     sprite.setTexture(texture);
     sprite2.setTexture(texture);
-
+    sprite3.setTexture(texture);
+    sprite2.setPosition(100,100);
     primeiro.atribuirSprite(&sprite);
     teste.atribuirSprite(&sprite2);
+    teste.setPosicaoEsper({105.f, 105.f});
+    chao.inicializaChao(&sprite3);
+    chao.setPosicaoEsper({0.f,600.f});
     //teste.setPosicao(Vector2f(105.f,105.f));
 
     if (!font.loadFromFile(FONTE)) {
@@ -58,7 +65,9 @@ void Jogo::preparar()
 {
     //GG.executar(); // Eventos
     primeiro.mover();
-    primeiro.colidir(static_cast<Inimigo*>(&teste));//a colição
+    teste.mover();
+    GC.executar();
+    //primeiro.colidir(static_cast<Inimigo*>(&teste));//a colição
 }
 
 void Jogo::desenhar()
@@ -70,6 +79,7 @@ void Jogo::desenhar()
     // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
     primeiro.desenhar();
     teste.desenhar();
+    chao.desenhar();
     GG.desenharTexto(text2);
 
     GG.renderizar(); // Final
@@ -89,6 +99,7 @@ void Jogo::telaInicial(sf::Event* evento)
         menu.desenha();
         GG.renderizar();
     }
+    Personagem::restartRelogio();
 }
 
 void Jogo::executar()
@@ -102,9 +113,14 @@ void Jogo::executar()
 
             //menu.tratarEvento(evento);
         }
-
         preparar();
         desenhar();
+        gravidade();
     }
 }
 
+void Jogo::gravidade(){
+    float dt = Personagem::getSegundos();
+    primeiro.gravitar(dt);
+    teste.gravitar(dt);
+}
