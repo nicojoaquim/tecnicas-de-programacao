@@ -6,9 +6,15 @@
 #include "Gerenciador/Colisoes.h"//temporario
 #include "Menu.h"
 
+// Usado para telaAtual
+enum Tela {
+    MENU, FASE1, FASE2
+};
+
 class Jogo
 {
 private:
+    Tela telaAtual;
     GerenciadorGrafico GG;
     GerenciadorColisoes GC;//temporario
     Jogador primeiro;
@@ -24,8 +30,9 @@ private:
 public:
     Jogo();
     ~Jogo();
-    void executar(); // Loop de execução: preparar, desenar, repetir
-    void telaInicial(sf::Event* evento);
+    void executar();
+    void telaInicial(); // Loop de execução do menu
+    void telaTeste(); // Loop de execução de teste: preparar, desenar
     void preparar(); // Mudanças no jogo que ocorrem a cada frame
     void desenhar(); // Desenho do novo frame
 };

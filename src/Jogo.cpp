@@ -6,12 +6,14 @@ using std::cout;
 using std::endl;
 using std::cerr;
 using sf::Vector2f;
+using sf::Event;
 
 Jogo::Jogo():
+    telaAtual(MENU),
     GG(),
     GC(),
-    menu(),
     primeiro(),
+    menu(),
     teste(),
     texture(),
     sprite(),
@@ -58,6 +60,8 @@ void Jogo::preparar()
 {
     //GG.executar(); // Eventos
     primeiro.mover();
+
+    // Mudar depois para o GC
     primeiro.colidir(static_cast<Inimigo*>(&teste));//a colição
 }
 
@@ -75,36 +79,62 @@ void Jogo::desenhar()
     GG.renderizar(); // Final
 }
 
-void Jogo::telaInicial(sf::Event* evento)
+void Jogo::telaInicial()
 {
+    Event evento;
     int ativo = 1;
-    while (GG.aberto() && ativo) {
+    while (ativo) {
         GG.limpar();
-        while (GG.eventoM(*evento)) {
-            if (evento->type == sf::Event::Closed)
+        while (GG.getEvento(evento)) {
+            if (evento.type == Event::Closed) {
                 GG.fechar();
+                return;
+            }
 
-            menu.tratarEvento(*evento, ativo);
+            menu.tratarEvento(evento, ativo);
         }
         menu.desenha();
         GG.renderizar();
+    }
+    // Temporário
+    if (ativo == 0) telaAtual = FASE1;
+}
+
+void Jogo::telaTeste()
+{
+    bool ativo = true;
+    Event evento;
+    while (ativo) {
+        while (GG.getEvento(evento)) {
+            if (evento.type == Event::Closed) {
+                GG.fechar();
+                ativo = false;
+                // return;
+            }
+            if ((evento.type == Event::KeyPressed)&&(evento.key.code == sf::Keyboard::Escape)) {
+                GG.fechar();
+                ativo = false;
+                // return;
+            }
+        }
+        preparar();
+        desenhar();
     }
 }
 
 void Jogo::executar()
 {
-    sf::Event evento;
-    telaInicial(&evento);
-    while (GG.aberto()) {
-        while (GG.eventoM(evento)) {
-            if (evento.type == sf::Event::Closed)
-                GG.fechar();
-
-            //menu.tratarEvento(evento);
+    while (GG.aberto())
+    {
+        if (telaAtual == MENU) {
+            telaInicial();
         }
-
-        preparar();
-        desenhar();
+        else if (telaAtual == FASE1) {
+            telaTeste();
+        }
+        else if (telaAtual == FASE2) {
+        }
+        // cerr << "Fim do while em executar " << GG.aberto() << endl;
     }
 }
 

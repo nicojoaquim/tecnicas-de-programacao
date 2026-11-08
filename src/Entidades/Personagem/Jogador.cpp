@@ -14,6 +14,7 @@ Jogador::Jogador():Personagem(),pontos(0)
 Jogador::~Jogador()
 {
 }
+
 //baseado na colisão de Hilze Vonck
 bool Jogador::colidir(Inimigo* pIn){
     if (pIn == NULL) {

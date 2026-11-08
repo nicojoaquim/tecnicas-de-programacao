@@ -14,5 +14,5 @@ public:
     bool colidir(Inimigo* pIn);
     void executar();
     void salvar();
-    void mover();//talvez seje virtual no futuro
+    void mover();
 };

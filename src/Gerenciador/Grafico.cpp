@@ -5,9 +5,13 @@
 using std::cerr;
 using std::endl;
 
+using sf::VideoMode;
+using sf::Event;
+using sf::Color;
+using sf::RenderWindow;
+
 GerenciadorGrafico::GerenciadorGrafico(): janela()
 {
-    // janela.create(VideoMode(900,600),"Jogo");
     janela.create(VideoMode::getDesktopMode(), "Jogo");
     janela.clear(Color::Black);
     janela.display();
@@ -46,7 +50,7 @@ void GerenciadorGrafico::renderizar(){
 void GerenciadorGrafico::limpar(){
     janela.clear();
 }
-
+/*
 void GerenciadorGrafico::executar()
 {
     // adaptado do tutorial do SFML 2.6
@@ -58,8 +62,9 @@ void GerenciadorGrafico::executar()
             janela.close();
     }
 }
+*/
 
-bool GerenciadorGrafico::eventoM(sf::Event& evento) {
+bool GerenciadorGrafico::getEvento(sf::Event& evento) {
     return janela.pollEvent(evento);
 }
 

@@ -5,7 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 
 // Usado para testar se é um vetor válido
-#define INEXISTENTE (Vector2f(-999999.f,-999999.f))
+#define INEXISTENTE (Vector2f(-99999999.f,-99999999.f))
 
 class Entidade: public Ente
 {
@@ -17,9 +17,6 @@ public:
     virtual ~Entidade();
     virtual void executar() = 0;
     virtual void salvar() = 0;
-
-    void inicializaPosicao(float x, float y);
-    // void centralizar();
 
     void atribuirSprite(sf::Sprite* Fig);
 

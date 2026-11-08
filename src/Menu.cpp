@@ -10,8 +10,9 @@ opicoes(),
 coordes(),
 texts(),
 tams(),
-mouseCoorde({0,0}),
-mousePosi({0,0}){
+mousePosi({0,0}),
+mouseCoorde({0,0})
+{
 if (!fontM.loadFromFile(FONTE)) {
         std::cerr << "Error loading font: " << FONTE << std::endl;
         exit(1);
@@ -52,7 +53,7 @@ void Menu::desenha(){
         std::cerr << "nulidade do gerenciador granfico no menu" << std::endl;
         return;
     }
-    for(int i=0;i < texts.size();i++)
+    for(unsigned int i = 0; i < texts.size(); i++)
         pGG->desenharTexto(texts[i]);
 }
 void Menu::setMousePosi(sf::Vector2i mou){
