@@ -3,10 +3,16 @@
 // #include <SFML/System.hpp>
 // #include <SFML/Window.hpp>
 // #include <SFML/Graphics.hpp>
-#include "Janela.h"
+//#include "Janela.h"
 
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
 #define GATO "assets/imagens/blanche100x100.png"
+
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp> // inclui sf::RenderWindow
+#include <SFML/System.hpp> // inclui sf::String
+
+
 
 // Temporários
 // using sf::Window;
@@ -35,6 +41,5 @@ public:
     void executar();
     bool eventoM(sf::Event& evento);
     void fechar();
-
     RenderWindow & getJanela() { return janela; }
 };
