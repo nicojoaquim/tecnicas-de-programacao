@@ -2,8 +2,9 @@
 
 #include "Gerenciador/Grafico.h"
 #include "Entidades/Personagem/Jogador.h"
-#include "Entidades/Personagem/InimigoMedio.h"
+#include "Entidades/Personagem/InimigoFacil.h"
 #include "Gerenciador/Colisoes.h"//temporario
+#include "Entidades/Chao.h"//temporario
 #include "Menu.h"
 
 // Usado para telaAtual
@@ -19,10 +20,12 @@ private:
     GerenciadorColisoes GC;//temporario
     Jogador primeiro;
     Menu menu;
-    InimigoMedio teste;
+    Chao chao;
+    InimigoFacil teste;
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Sprite sprite2;
+    sf::Sprite sprite3;
     sf::Font font;
     sf::Text text;
     sf::Text text2;
@@ -35,4 +38,5 @@ public:
     void telaTeste(); // Loop de execução de teste: preparar, desenar
     void preparar(); // Mudanças no jogo que ocorrem a cada frame
     void desenhar(); // Desenho do novo frame
+    void gravidade();
 };

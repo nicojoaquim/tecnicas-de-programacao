@@ -22,9 +22,10 @@ public:
 
     const sf::Vector2f getPosicao() const;
     void setPosicao(const sf::Vector2f posicao);
+    void setPosicaoEsper(const sf::Vector2f posicao);
     const float getX() const;
     const float getY() const;
-
+    //virtual void gravitar() = 0;, acho que vai ter que usar função amiga para ficar bom
     const sf::Vector2f getTamanho() const;
     const float getLargura() const;
     const float getAltura() const;

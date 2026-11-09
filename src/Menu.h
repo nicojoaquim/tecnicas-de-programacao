@@ -4,13 +4,14 @@
 //#include "Gerenciador/Janela.h"
 class Jogo;
 class GerenciadorGrafico;
+//baseando no menu do site terminal root
 class Menu: public Ente
 {
 private:
     Jogo* pJog;
     //sf::Text textoM;
     sf::Font fontM;
-    std::vector<const char*> opicoes;
+    std::vector<const char*> opcoes;
     std::vector<sf::Vector2f> coordes;
     std::vector<sf::Text> texts;
     std::vector<std::size_t>tams;
