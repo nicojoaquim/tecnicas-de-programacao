@@ -12,11 +12,11 @@ using sf::RenderWindow;
 
 GerenciadorGrafico::GerenciadorGrafico(): janela()
 {
-    janela.create(VideoMode::getDesktopMode(), "Jogo");
+    VideoMode video_mode = VideoMode::getDesktopMode();
+    int estilo_janela = sf::Style::Close; // Barra de título e botão de fechar
+    janela.create(video_mode, "Jogo", estilo_janela);
     janela.clear(Color::Black);
     janela.display();
-    //executar();
-
 }
 
 GerenciadorGrafico::~GerenciadorGrafico(){
@@ -53,6 +53,7 @@ void GerenciadorGrafico::limpar(){
 /*
 void GerenciadorGrafico::executar()
 {
+    Eent evento;
     // adaptado do tutorial do SFML 2.6
     // para cada evento novo desde a última vez que passou pelo loop
     while (janela.pollEvent(evento))

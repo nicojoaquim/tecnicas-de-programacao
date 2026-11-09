@@ -6,7 +6,7 @@ class Personagem:public Entidade
 {
 protected:
     int num_vida;
-    sf::Vector2f v;
+    sf::Vector2f velocidade;
 
 public:
     Personagem();
