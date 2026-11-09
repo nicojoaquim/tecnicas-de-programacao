@@ -1,6 +1,6 @@
 #include"Chao.h"
 #include<SFML/Window.hpp>
-Chao::Chao():altura(0),largura(0){
+Chao::Chao():largura(0),altura(0){
 
 }
 Chao::~Chao(){

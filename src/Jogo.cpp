@@ -10,8 +10,8 @@ using sf::Vector2f;
 Jogo::Jogo():
     GG(),
     GC(),
-    menu(),
     primeiro(),
+    menu(),
     chao(),
     teste(),
     texture(),
