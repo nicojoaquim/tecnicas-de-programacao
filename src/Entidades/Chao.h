@@ -13,7 +13,8 @@ public:
     ~Chao();
     void inicializaChao(sf::Sprite * chao);
     void tamanhoChao();
-    void gravitar();
+    void gravitar(const float dt);
+    void mover() {}
     void executar();
     void salvar();
 };

@@ -13,7 +13,8 @@ public:
     ~Projetil();
     const sf::Vector2f getV() const;
     void setV(const sf::Vector2f velocidade);
-    void gravidar();
+    void gravitar(const float dt);
+    void mover() {}
     void executar();
     void salvar();
 };

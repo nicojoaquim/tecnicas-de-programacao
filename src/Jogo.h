@@ -2,10 +2,12 @@
 
 #include "Gerenciador/Grafico.h"
 #include "Entidades/Personagem/Jogador.h"
-#include "Entidades/Personagem/InimigoFacil.h"
+#include "Entidades/Personagem/AranhaGigante.h"
 #include "Gerenciador/Colisoes.h"//temporario
 #include "Entidades/Chao.h"//temporario
 #include "Menu.h"
+#include "Fases/Fase.h"
+// #include "Fases/Fase.h"
 
 // Usado para telaAtual
 enum Tela {
@@ -17,11 +19,12 @@ class Jogo
 private:
     Tela telaAtual;
     GerenciadorGrafico GG;
-    GerenciadorColisoes GC;//temporario
-    Jogador primeiro;
+    GerenciadorColisoes GC; // TEMPORÁRIO
+    Jogador jogador1;
+
     Menu menu;
     Chao chao;
-    InimigoFacil teste;
+    AranhaGigante teste;
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Sprite sprite2;
@@ -35,8 +38,6 @@ public:
     ~Jogo();
     void executar();
     void telaInicial(); // Loop de execução do menu
-    void telaTeste(); // Loop de execução de teste: preparar, desenar
-    void preparar(); // Mudanças no jogo que ocorrem a cada frame
-    void desenhar(); // Desenho do novo frame
-    void gravidade();
+    // void preparar(); // Mudanças no jogo que ocorrem a cada frame
+    // void desenhar(); // Desenho do novo frame
 };

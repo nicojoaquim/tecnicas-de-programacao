@@ -3,12 +3,12 @@
 #include"Inimigo.h"
 
 //mudar nome da classe depois
-class InimigoMedio:public Inimigo{
+class OlhoVoador:public Inimigo{
 private:
     int tamanho;
 public:
-    InimigoMedio();
-    ~InimigoMedio();
+    OlhoVoador();
+    ~OlhoVoador();
     void executar();
     void salvar();
     void mover();

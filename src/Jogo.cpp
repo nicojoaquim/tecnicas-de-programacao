@@ -1,5 +1,8 @@
 #include "Jogo.h"
 
+#include "Fases/MemoriaRAM.h"
+#include "Gerenciador/Tempo.h"
+
 // Uso para debug/erros
 #include "organiza.h"
 using std::cout;
@@ -7,12 +10,13 @@ using std::endl;
 using std::cerr;
 using sf::Vector2f;
 using sf::Event;
+using sf::Keyboard;
 
 Jogo::Jogo():
     telaAtual(MENU),
     GG(),
     GC(),
-    primeiro(),
+    jogador1(),
     menu(),
     chao(),
     teste(),
@@ -31,14 +35,14 @@ Jogo::Jogo():
     }
     cout << "Success to load texture" << endl;
     texture.setSmooth(true);
-    GC.incluirJogador1(&primeiro);
+    GC.incluirJogador1(&jogador1);
     GC.incluirInimigo(&teste);
     GC.incluirChao(&chao);
     sprite.setTexture(texture);
     sprite2.setTexture(texture);
     sprite3.setTexture(texture);
     sprite2.setPosition(100,100);
-    primeiro.atribuirSprite(&sprite);
+    jogador1.atribuirSprite(&sprite);
     teste.atribuirSprite(&sprite2);
     teste.setPosicaoEsper({105.f, 105.f});
     chao.inicializaChao(&sprite3);
@@ -52,7 +56,7 @@ Jogo::Jogo():
     cout << "Success to load font" << endl;
 
     text.setFont(font);
-    text.setString(L"Olá texo embaixo"); // L"" necessário para á
+    text.setString(L"Olá texto embaixo"); // L"" necessário para á
     text.setCharacterSize(100);
 
     text2.setPosition(Vector2f(0.f, 100.f));
@@ -62,11 +66,11 @@ Jogo::Jogo():
 
 Jogo::~Jogo()
 {}
-
+/*
 void Jogo::preparar()
 {
     //GG.executar(); // Eventos
-    primeiro.mover();
+    jogador1.mover();
     teste.mover();
     GC.executar();
 }
@@ -76,16 +80,16 @@ void Jogo::desenhar()
     GG.limpar(); // Início
 
     GG.desenharTexto(text);
-    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&primeiro))));// jogador
+    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&jogador1))));// jogador
     // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
-    primeiro.desenhar();
+    jogador1.desenhar();
     teste.desenhar();
     chao.desenhar();
     GG.desenharTexto(text2);
 
     GG.renderizar(); // Final
 }
-
+*/
 void Jogo::telaInicial()
 {
     Event evento;
@@ -106,37 +110,15 @@ void Jogo::telaInicial()
     // Temporário
     if (ativo == 0)
         telaAtual = FASE1;
-    Personagem::restartRelogio();
+    Tempo::restartRelogio();
 }
-
-void Jogo::telaTeste()
-{
-    bool ativo = true;
-    Event evento;
-    while (ativo) {
-        while (GG.getEvento(evento)) {
-            if (evento.type == Event::Closed) {
-                GG.fechar();
-                ativo = false;
-                // return;
-            }
-            if ((evento.type == Event::KeyPressed)&&(evento.key.code == sf::Keyboard::Escape)) {
-                GG.fechar();
-                ativo = false;
-                // return;
-            }
-        }
-        preparar();
-        desenhar();
-        gravidade();
-    }
-}
-
+/*
 void Jogo::gravidade(){
     float dt = Personagem::getSegundos();
-    primeiro.gravitar(dt);
+    jogador1.gravitar(dt);
     teste.gravitar(dt);
 }
+*/
 
 void Jogo::executar()
 {
@@ -146,10 +128,23 @@ void Jogo::executar()
             telaInicial();
         }
         else if (telaAtual == FASE1) {
-            telaTeste();
+            MemoriaRam fase1;
+            fase1.tempAdicionaEnt(&jogador1);
+            fase1.tempAdicionaEnt(&chao);
+            //fase1.tempAdicionaEnt(&teste); // TEMP Mudar para fase1.criarInimigos()
+            fase1.executar();
+            if (jogador1.getNumVida() > 0) {
+                // Próxima fase
+                telaAtual = FASE2;
+            }
+            else {
+                // Perdeu, nenhum ponteiro tem endereço de jogador na memória mais
+                telaAtual = MENU;
+            }
         }
         else if (telaAtual == FASE2) {
+            // telaTeste();
+            GG.fechar();
         }
-        // cerr << "Fim do while em executar " << GG.aberto() << endl;
     }
 }

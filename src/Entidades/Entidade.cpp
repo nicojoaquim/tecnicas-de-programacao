@@ -4,8 +4,15 @@
 
 using sf::Vector2f;
 using sf::Sprite;
+/*
+Entidade::Entidade(bool gravidade):
+    buffer(std::cout),
+    sofre_gravidade(gravidade)
+{
+}*/
 
-Entidade::Entidade(): buffer(std::cout)
+Entidade::Entidade():
+    buffer(std::cout)
 {
 }
 
@@ -29,7 +36,11 @@ void Entidade::atribuirSprite(Sprite* Fig) {
 void Entidade::salvarDataBuffer(){
     buffer << getX() << " " << getY();
 }
-
+/*
+const bool Entidade::sofreGravidade() const {
+    return sofre_gravidade;
+}
+*/
 const Vector2f Entidade::getPosicao() const {
     if (pFig != NULL)
         return pFig->getPosition();

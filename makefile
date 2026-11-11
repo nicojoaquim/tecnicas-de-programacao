@@ -52,3 +52,4 @@ clean:
 run:
 	@$(binario)
 #	export LD_LIBRARY_PATH=/opt/sfml2/lib && $(binario)
+

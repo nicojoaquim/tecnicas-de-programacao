@@ -1,22 +1,24 @@
-#include"InimigoFacil.h"
+#include "AranhaGigante.h"
+#include "../../Gerenciador/Grafico.h"
+
 using sf::Vector2f;
 using sf::Vector2u;
-using::sf::Keyboard;
-#include "../../Gerenciador/Grafico.h"
-InimigoFacil::InimigoFacil():Inimigo(),raio(1),indoParaFrente(1){
+using sf::Keyboard;
+
+AranhaGigante::AranhaGigante():Inimigo(),raio(1),indoParaFrente(1){
 
 }
 
-InimigoFacil::~InimigoFacil(){
+AranhaGigante::~AranhaGigante(){
 
 }
-void InimigoFacil::executar(){
+void AranhaGigante::executar(){
 
 }
-void InimigoFacil::salvar(){
+void AranhaGigante::salvar(){
     salvarDataBuffer();
 }
-void InimigoFacil::mover(){
+void AranhaGigante::mover(){
     float movimento = 0; // Vector2<float>
     Vector2u  janela = pGG->getJanela().getSize();
 
@@ -36,6 +38,6 @@ void InimigoFacil::mover(){
 
     pFig->move(movimento,0);
 }
-void InimigoFacil::danificar(Jogador* pJog){
-    
+void AranhaGigante::danificar(Jogador* pJog){
+
 }

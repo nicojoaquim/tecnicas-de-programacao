@@ -17,3 +17,5 @@ void Projetil::executar(){
 void Projetil::salvar(){
     
 }
+
+void Projetil::gravitar(const float dt) {}

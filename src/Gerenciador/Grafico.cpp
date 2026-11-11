@@ -2,21 +2,29 @@
 #include "../Ente.h"
 
 #include "../organiza.h"
-using std::cerr;
-using std::endl;
 
 using sf::VideoMode;
 using sf::Event;
 using sf::Color;
 using sf::RenderWindow;
 
-GerenciadorGrafico::GerenciadorGrafico(): janela()
+#define JOGADOR "assets/imagens/Retro-Lines-16x16/Player.png"
+#define CHAO "assets/imagens/Retro-Lines-16x16/Environment.png"
+#define INIMIGOS "assets/imagens/Retro-Lines-16x16/Enemies.png"
+
+GerenciadorGrafico::GerenciadorGrafico():
+    janela(),
+    imgJogador(),
+    imgChao(),
+    imgInimigos()
 {
     VideoMode video_mode = VideoMode::getDesktopMode();
     int estilo_janela = sf::Style::Close; // Barra de título e botão de fechar
     janela.create(video_mode, "Jogo", estilo_janela);
     janela.clear(Color::Black);
     janela.display();
+
+    inicializarImagens();
 }
 
 GerenciadorGrafico::~GerenciadorGrafico(){
@@ -26,7 +34,7 @@ GerenciadorGrafico::~GerenciadorGrafico(){
 void GerenciadorGrafico::desenharEnte(Ente *pE)
 {
     if (pE == NULL) {
-        cerr << "Nulidade em GG::desenharEnte" << endl;
+        std::cerr << "Nulidade em GG::desenharEnte" << std::endl;
     }
     else {
         janela.draw(*pE->getFig());
@@ -71,4 +79,27 @@ bool GerenciadorGrafico::getEvento(sf::Event& evento) {
 
 void GerenciadorGrafico::fechar() {
     janela.close();
+}
+
+void GerenciadorGrafico::inicializarImagens() {
+    if (!imgJogador.loadFromFile(JOGADOR))
+        std::cerr << "Falha ao abrir " << JOGADOR << std::endl;
+
+    if (!imgChao.loadFromFile(CHAO))
+        std::cerr << "Falha ao abrir " << CHAO << std::endl;
+
+    if (!imgInimigos.loadFromFile(INIMIGOS))
+        std::cerr << "Falha ao abrir " << INIMIGOS << std::endl;
+}
+
+const sf::Image GerenciadorGrafico::getImgJogador() const {
+    return imgJogador;
+}
+
+const sf::Image GerenciadorGrafico::getImgChao() const {
+    return imgChao;
+}
+
+const sf::Image GerenciadorGrafico::getImgInimigos() const {
+    return imgInimigos;
 }

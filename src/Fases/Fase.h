@@ -1,27 +1,43 @@
 #pragma once
 
+#include <vector>
+
 #include "../Ente.h"
-#include "../Listas/lista_entidade.h"
+#include "../Listas/ListaEntidade.h"
 #include "../Gerenciador/Colisoes.h"
 
-class Fase:public Ente{
+class Fase: public Ente
+{
 protected:
     GerenciadorColisoes GC;
-    Lista_Entidade lista_ents;
+    ListaEntidade lista_ents;
+    std::vector<Entidade*> temp_lista_ents;
+    // Jogador* pJog1; Fase(Jogador* jogador1): pJog1(jogador1)
+
 public:
     Fase();
     virtual ~Fase();
-    virtual void execuar();
-    virtual void executar();
+    virtual void executar(); // Polimorfismo
+
+    void tempAdicionaEnt(Entidade* entidade) {
+        temp_lista_ents.push_back(entidade);
+    }
+
 protected:
     // talvez remover depois alguns metodos
-    void criarInimigFaceis();//mudar nome depois
-    void criarInimigMedio();//mudar nome depois
-    void criarChefe();//mudar nome depois
-    void criarPlataforma();//mudar nome depois
-    void criarObstMedio();//mudar nome depois
+    void criarAranhaGigante();
+    void criarOlhoVoador();
+    void criarBruxa();
+    void criarPlataforma();
+    void criarCogumelo();
     void criarObstDificil();//mudar nome depois
     virtual void criarInimigos() = 0;
-    virtual void criarObsr() = 0;
+    virtual void criarObst() = 0;
     void criarCenarios();
+    // virtual void desenhar() = 0;
+    // virtual void gravitar() = 0;
+    // virtual void mover() = 0;
+    void gravitar();
+    void mover();
+    void desenhar();
 };
