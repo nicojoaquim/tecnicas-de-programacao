@@ -1,33 +1,19 @@
 #pragma once
 
-// #include <SFML/System.hpp>
-// #include <SFML/Window.hpp>
-// #include <SFML/Graphics.hpp>
-//#include "Janela.h"
+#include <SFML/Graphics.hpp> // inclui sf::RenderWindow
 
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
 #define GATO "assets/imagens/blanche100x100.png"
-
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp> // inclui sf::RenderWindow
-#include <SFML/System.hpp> // inclui sf::String
-
-
-
-// Temporários
-// using sf::Window;
-using sf::VideoMode;
-using sf::Event;
-using sf::Color;
-using sf::RenderWindow;
 
 class Ente;
 class GerenciadorGrafico
 {
 private:
-    RenderWindow janela;
-    //Janela janela;
-    Event evento; // Atributo usado em executar()
+    sf::RenderWindow janela;
+    sf::Image imgJogador;
+    sf::Image imgChao;
+    sf::Image imgInimigos;
+    // sf::Image img...;
 
 public:
     GerenciadorGrafico();
@@ -38,8 +24,15 @@ public:
     const bool aberto() const;
     void renderizar();
     void limpar();
-    void executar();
-    bool eventoM(sf::Event& evento);
+    bool getEvento(sf::Event& evento);
     void fechar();
-    RenderWindow & getJanela() { return janela; }
+
+    sf::RenderWindow & getJanela() { return janela; }
+
+    const sf::Image getImgJogador() const;
+    const sf::Image getImgChao() const;
+    const sf::Image getImgInimigos() const;
+
+private:
+    void inicializarImagens();
 };

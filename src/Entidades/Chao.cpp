@@ -29,6 +29,6 @@ void Chao::executar(){
 void Chao::salvar(){
 
 }
-void Chao::gravitar(){
+void Chao::gravitar(const float dt){
     
 }

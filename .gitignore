@@ -6,3 +6,5 @@ build
 *.bkp
 codeblocks*
 .helix
+*.exe
+*.dll

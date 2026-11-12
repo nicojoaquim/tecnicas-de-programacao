@@ -1,14 +1,15 @@
 #pragma once
 
-#include"Inimigo.h"
+#include "Inimigo.h"
 
 //mudar nome da classe depois
-class Chefao:public Inimigo{
+class AranhaGigante:public Inimigo{
 private:
-    short int forca;
+    float raio;
+    bool indoParaFrente;
 public:
-    Chefao();
-    ~Chefao();
+    AranhaGigante();
+    ~AranhaGigante();
     void executar();
     void salvar();
     void mover();

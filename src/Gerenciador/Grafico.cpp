@@ -2,17 +2,29 @@
 #include "../Ente.h"
 
 #include "../organiza.h"
-using std::cerr;
-using std::endl;
 
-GerenciadorGrafico::GerenciadorGrafico(): janela()
+using sf::VideoMode;
+using sf::Event;
+using sf::Color;
+using sf::RenderWindow;
+
+#define JOGADOR "assets/imagens/Retro-Lines-16x16/Player.png"
+#define CHAO "assets/imagens/Retro-Lines-16x16/Environment.png"
+#define INIMIGOS "assets/imagens/Retro-Lines-16x16/Enemies.png"
+
+GerenciadorGrafico::GerenciadorGrafico():
+    janela(),
+    imgJogador(),
+    imgChao(),
+    imgInimigos()
 {
-    // janela.create(VideoMode(900,600),"Jogo");
-    janela.create(VideoMode::getDesktopMode(), "Jogo");
+    VideoMode video_mode = VideoMode::getDesktopMode();
+    int estilo_janela = sf::Style::Close; // Barra de título e botão de fechar
+    janela.create(video_mode, "Jogo", estilo_janela);
     janela.clear(Color::Black);
     janela.display();
-    //executar();
 
+    inicializarImagens();
 }
 
 GerenciadorGrafico::~GerenciadorGrafico(){
@@ -22,7 +34,7 @@ GerenciadorGrafico::~GerenciadorGrafico(){
 void GerenciadorGrafico::desenharEnte(Ente *pE)
 {
     if (pE == NULL) {
-        cerr << "Nulidade em GG::desenharEnte" << endl;
+        std::cerr << "Nulidade em GG::desenharEnte" << std::endl;
     }
     else {
         janela.draw(*pE->getFig());
@@ -46,9 +58,10 @@ void GerenciadorGrafico::renderizar(){
 void GerenciadorGrafico::limpar(){
     janela.clear();
 }
-
+/*
 void GerenciadorGrafico::executar()
 {
+    Eent evento;
     // adaptado do tutorial do SFML 2.6
     // para cada evento novo desde a última vez que passou pelo loop
     while (janela.pollEvent(evento))
@@ -58,11 +71,35 @@ void GerenciadorGrafico::executar()
             janela.close();
     }
 }
+*/
 
-bool GerenciadorGrafico::eventoM(sf::Event& evento) {
+bool GerenciadorGrafico::getEvento(sf::Event& evento) {
     return janela.pollEvent(evento);
 }
 
 void GerenciadorGrafico::fechar() {
     janela.close();
+}
+
+void GerenciadorGrafico::inicializarImagens() {
+    if (!imgJogador.loadFromFile(JOGADOR))
+        std::cerr << "Falha ao abrir " << JOGADOR << std::endl;
+
+    if (!imgChao.loadFromFile(CHAO))
+        std::cerr << "Falha ao abrir " << CHAO << std::endl;
+
+    if (!imgInimigos.loadFromFile(INIMIGOS))
+        std::cerr << "Falha ao abrir " << INIMIGOS << std::endl;
+}
+
+const sf::Image GerenciadorGrafico::getImgJogador() const {
+    return imgJogador;
+}
+
+const sf::Image GerenciadorGrafico::getImgChao() const {
+    return imgChao;
+}
+
+const sf::Image GerenciadorGrafico::getImgInimigos() const {
+    return imgInimigos;
 }

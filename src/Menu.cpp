@@ -4,33 +4,28 @@
 Menu::Menu():
     Ente(),
     pJog(NULL),
-    //textoM(),
     fontM(),
-    opicoes(),
+    opcoes(),
     coordes(),
     texts(),
     tams(),
     mousePosi({0,0}),
     mouseCoorde({0,0})
 {
-if (!fontM.loadFromFile(FONTE)) {
+    if (!fontM.loadFromFile(FONTE)) {
         std::cerr << "Error loading font: " << FONTE << std::endl;
         exit(1);
     }
     std::cout << "Success to load font" << std::endl;
 
-    /*textoM.setFont(fontM);
-    textoM.setString("Jogar");
-    textoM.setCharacterSize(100);
-    textoM.setPosition({400.0f,400.0f});*/
-    opicoes = {"Jogo","Jogar","Rankim"};
+    opcoes = {"Jogo","Jogar","Rankim"};
     coordes = {{530,-100},{550,250},{550,350}};
     tams = {200,100,100};
     texts.resize(2);
     for(size_t i = 0;i < texts.size();i++){
         texts[i].setFont(fontM);
         texts[i].setOutlineColor(sf::Color::White);
-        texts[i].setString(opicoes[i]);
+        texts[i].setString(opcoes[i]);
         texts[i].setPosition(coordes[i]);
         texts[i].setCharacterSize(tams[i]);
     }

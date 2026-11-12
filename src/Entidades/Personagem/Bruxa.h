@@ -3,13 +3,12 @@
 #include"Inimigo.h"
 
 //mudar nome da classe depois
-class InimigoFacil:public Inimigo{
+class Bruxa:public Inimigo{
 private:
-    float raio;
-    bool indoParaFrente;
+    short int forca;
 public:
-    InimigoFacil();
-    ~InimigoFacil();
+    Bruxa();
+    ~Bruxa();
     void executar();
     void salvar();
     void mover();

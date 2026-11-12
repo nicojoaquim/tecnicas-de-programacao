@@ -1,4 +1,5 @@
-#include"Obstaculo.h"
+#include "Obstaculo.h"
+
 Obstaculo::Obstaculo():Entidade(),danoso(false){
 
 }

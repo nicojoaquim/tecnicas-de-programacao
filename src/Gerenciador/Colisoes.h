@@ -37,7 +37,6 @@ public:
     void incluirChao(Chao* pc);
     void incluirJogador1(Jogador* pPrimeiro);
     void executar();
-    
 
 private:
     void colisaoJogsInimigo();
