@@ -24,6 +24,8 @@ void AranhaGigante::mover(){
 
     if (indoParaFrente){
         movimento+= 0.5;
+        // Este if estava dando erro na hora de rodar, pois em Fase::criarAranhaGigante
+        // o sprite que era atribuido a aranha com ponteiro estava naquele escopo
         if(pFig->getGlobalBounds().left + pFig->getGlobalBounds().width> janela.x )
             indoParaFrente=0;
     }

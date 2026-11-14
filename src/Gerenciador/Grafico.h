@@ -15,6 +15,10 @@ private:
     sf::Image imgInimigos;
     // sf::Image img...;
 
+    sf::Texture texAranhaGigante;
+    // static sf::Texture tex...;
+    // Poderiam ser static
+
 public:
     GerenciadorGrafico();
     ~GerenciadorGrafico();
@@ -33,6 +37,11 @@ public:
     const sf::Image getImgChao() const;
     const sf::Image getImgInimigos() const;
 
+    // Para desenhar corretamente, passamos por referência
+    // https://www.sfml-dev.org/tutorials/2.6/graphics/sprite/#the-white-square-problem
+    const sf::Texture& getTexAranhaGigante() const { return texAranhaGigante; }
+
 private:
     void inicializarImagens();
+    void inicializarTexturas();
 };

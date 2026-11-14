@@ -71,7 +71,6 @@ void Entidade::setPosicaoEsper(const Vector2f posicao){
 
 const Vector2f Entidade::getTamanho() const {
     if (pFig != NULL)
-        // TODO ver se getSize() == getGlobalBounds().width e .height
         // Estava em atribuirSprite:
         // sf::FloatRect cent = pFig->getGlobalBounds();
         // pFig->setOrigin(cent.width/2.0f,cent.height/2.0f);
