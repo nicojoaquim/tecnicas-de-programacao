@@ -6,7 +6,8 @@
 #include "../Entidades/Entidade.h"
 #include "../Listas/ListaEntidade.h"
 #include "../Gerenciador/Colisoes.h"
-
+#include "../Entidades/Personagem/Jogador.h"
+#include "../Entidades/Chao.h"
 class Fase: public Ente
 {
 protected:
@@ -20,9 +21,8 @@ public:
     virtual ~Fase();
     virtual void executar(); // Polimorfismo
 
-    void tempAdicionaEnt(Entidade* entidade) {
-        temp_lista_ents.push_front(entidade);
-    }
+    void tempAdicionaChao(Chao* chao);
+    void tempAdicionaJog1(Jogador* joagdor1);
 
 protected:
     virtual void criarInimigos() = 0;

@@ -40,7 +40,14 @@ Fase::~Fase() {
         it++;
     }
 }
-
+void Fase::tempAdicionaJog1(Jogador* jogador1){
+        temp_lista_ents.push_back(static_cast<Entidade*>(static_cast<Personagem*>(jogador1)));
+        GC.incluirJogador1(jogador1);
+    }
+void Fase::tempAdicionaChao(Chao* chao){
+    temp_lista_ents.push_back(static_cast<Entidade*>(chao));
+    GC.incluirChao(chao);
+}
 void Fase::gravitar() {
     list<Entidade*>::iterator it;
     float dt = Tempo::getSegundos();
@@ -126,6 +133,7 @@ void Fase::criarAranhaGigante() {
               << "getFig: " << pAranha->getFig() << std::endl;
     //incluir na lista de entidades
     temp_lista_ents.push_back(static_cast<Entidade*>(pAranha)); // FAZER DELETE DEPOIS
+    GC.incluirInimigo(static_cast<Inimigo*>(pAranha));
 }
 
 void Fase::criarOlhoVoador() {
