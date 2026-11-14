@@ -20,18 +20,24 @@ using std::list;
 using sf::Vector2f;
 
 GerenciadorColisoes::GerenciadorColisoes():
-LIs(),
-LOs(),
-LPs(),
-LCs(),
-pJog1(NULL),
-dx(0),
-dy(0),
-internox(0),
-internoy(0) {
+    LIs(),
+    LOs(),
+    LPs(),
+    LCs(),
+    pJog1(NULL),
+    itIs(),
+    itOs(),
+    itPs(),
+    itCs(),
+    dx(0),
+    dy(0),
+    internox(0),
+    internoy(0)
+{
     LIs.clear();
     LOs.clear();
     LPs.clear();
+    LCs.clear();
 }
 
 GerenciadorColisoes::~GerenciadorColisoes() {
@@ -98,8 +104,8 @@ void GerenciadorColisoes::tratarColisaoJogsInimigo() {
         else {
             if(dy>0)
                pJog1->getFig()->setPosition(pJog1->getX(),pJog1->getY()-internoy);
-            
-            else 
+
+            else
             pJog1->getFig()->setPosition(pJog1->getX(),pJog1->getY()+internoy);
         }
 }
@@ -126,7 +132,7 @@ if(LCs.empty()){
         else {
             if(dy>0)
                pJog1->getFig()->setPosition(pJog1->getX(),pJog1->getY()-internoy);
-            
+
             else{ pJog1->getFig()->setPosition({pJog1->getX(),(*itCs)->getY() - ((*itCs)->getAltura() + pJog1->getAltura())/2.f});
                 pJog1->setVy(0);}//para o jogador não ficar quicando ou atravessar o chão
         }
@@ -145,7 +151,7 @@ void GerenciadorColisoes::tratarColisaoChaoInimigo(){
         else {
             if(dy>0)
                (*itIs)->getFig()->setPosition((*itIs)->getX(),(*itIs)->getY()-internoy);
-            
+
             else{ (*itIs)->getFig()->setPosition({(*itIs)->getX(),(*itCs)->getY() - ((*itCs)->getAltura() + (*itIs)->getAltura())/2.f});
                 (*itIs)->setVy(0);}
         }

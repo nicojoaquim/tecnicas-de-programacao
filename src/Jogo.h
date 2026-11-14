@@ -24,7 +24,7 @@ private:
 
     Menu menu;
     Chao chao;
-    AranhaGigante teste;
+//    AranhaGigante teste;
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Sprite sprite2;

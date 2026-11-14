@@ -9,8 +9,8 @@
 using sf::Event;
 using sf::Keyboard;
 
-#include <vector>
-using std::vector;
+#include <list>
+using std::list;
 
 #include "../organiza.h"
 
@@ -19,13 +19,30 @@ Fase::Fase():
     GC(),
     lista_ents()
 {
+    std::cerr << "\nEntrando na fase" << std::endl;
 }
 
-Fase::~Fase(){
+Fase::~Fase() {
+    std::cerr << "\nSaindo da fase" << std::endl;
+    // TEMPORÁRIO
+    list<Entidade*>::iterator it;
+    it = temp_lista_ents.begin();
+
+    std::cerr << "jogador (Jogo): " << (*it) << std::endl;
+    it++; // jogador
+
+    std::cerr << "chao (Jogo): " << (*it) << std::endl;
+    it++; // chao
+
+    while (it != temp_lista_ents.end()) {
+        std::cerr << "*it: " << (*it) << std::endl;
+        destruirEntidade(*it);
+        it++;
+    }
 }
 
 void Fase::gravitar() {
-    vector<Entidade*>::iterator it;
+    list<Entidade*>::iterator it;
     float dt = Tempo::getSegundos();
     for (it = temp_lista_ents.begin(); it != temp_lista_ents.end(); it++)
     {
@@ -44,14 +61,14 @@ void Fase::gravitar() {
 }
 
 void Fase::mover() {
-    vector<Entidade*>::iterator it;
+    list<Entidade*>::iterator it;
     for (it = temp_lista_ents.begin(); it != temp_lista_ents.end(); it++) {
         (*it)->mover();
     }
 }
 
 void Fase::desenhar() {
-    vector<Entidade*>::iterator it;
+    list<Entidade*>::iterator it;
     for (it = temp_lista_ents.begin(); it != temp_lista_ents.end(); it++) {
         (*it)->desenhar();
     }
@@ -84,20 +101,31 @@ void Fase::executar() {
     }
 }
 
-void Fase::criarAranhaGigante() {
-    const sf::Image image = pGG->getImgInimigos();
-    sf::Texture texture;
-    sf::Sprite sprite;
-    if (!texture.loadFromImage(image, sf::IntRect(3, 184, 12, 8))) {
-        std::cerr << "Erro ao carregar imagem em Fase::criarAranha" << std::endl;
+void Fase::destruirEntidade(Entidade* pE) {
+    if (pE == NULL) {
+        std::cerr << "Nulidade em Fase::destruirEntidade" << std::endl;
+        return;
     }
-    texture.setSmooth(false); // continuar pixelada
-    sprite.setTexture(texture);
+    std::cerr << "delete: " << pE << std::endl;
+    delete (pE->getFig()); // Sprite
+    delete pE; // Entidade
+}
 
-    AranhaGigante* aranha = new AranhaGigante;
-    aranha->atribuirSprite(&sprite);
+void Fase::criarAranhaGigante() {
+    AranhaGigante* pAranha;
+    sf::Sprite* pSprite;
+
+    pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexAranhaGigante());
+
+    pAranha = new AranhaGigante;
+    pAranha->atribuirSprite(pSprite);
+
+    std::cerr << "aranha: " << pAranha << "\t"
+              << "sprite: " << pSprite << "\t"
+              << "getFig: " << pAranha->getFig() << std::endl;
     //incluir na lista de entidades
-    temp_lista_ents.push_back(static_cast<Entidade*>(aranha)); // FAZER DELETE DEPOIS
+    temp_lista_ents.push_back(static_cast<Entidade*>(pAranha)); // FAZER DELETE DEPOIS
 }
 
 void Fase::criarOlhoVoador() {

@@ -25,6 +25,7 @@ GerenciadorGrafico::GerenciadorGrafico():
     janela.display();
 
     inicializarImagens();
+    inicializarTexturas();
 }
 
 GerenciadorGrafico::~GerenciadorGrafico(){
@@ -90,6 +91,14 @@ void GerenciadorGrafico::inicializarImagens() {
 
     if (!imgInimigos.loadFromFile(INIMIGOS))
         std::cerr << "Falha ao abrir " << INIMIGOS << std::endl;
+}
+
+void GerenciadorGrafico::inicializarTexturas() {
+    if (!texAranhaGigante.loadFromImage(getImgInimigos(), sf::IntRect(3, 184, 12, 8))) {
+        std::cerr << "Erro ao carregar em GG::inicializarTexturas" << std::endl;
+        return;
+    }
+    texAranhaGigante.setSmooth(false); // Serve para continuar pixelada quando esticada
 }
 
 const sf::Image GerenciadorGrafico::getImgJogador() const {
