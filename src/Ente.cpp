@@ -6,19 +6,18 @@ using sf::Sprite;
 
 using std::cerr;
 using std::endl;
+trabalhoJogo::Gerenciador::GerenciadorGrafico* trabalhoJogo::Ente::pGG(NULL);
 
-GerenciadorGrafico* Ente::pGG(NULL);
-
-Ente::Ente():id(0)
+trabalhoJogo::Ente::Ente():id(0)
 {
     pFig = NULL;
 }
-Ente::~Ente()
+trabalhoJogo::Ente::~Ente()
 {
     pFig = NULL;
 }
 
-void Ente::desenhar() {
+void trabalhoJogo::Ente::desenhar() {
     if (pGG == NULL) {
         cerr << "Erro: tentativa de desenhar ente com GG nulo" << endl;
         return;
@@ -30,24 +29,24 @@ void Ente::desenhar() {
     pGG->desenharEnte(static_cast<Ente*>(this));
 }
 
-void Ente::setGG(GerenciadorGrafico* pG)
+void trabalhoJogo::Ente::setGG(trabalhoJogo::Gerenciador::GerenciadorGrafico* pG)
 {
     pGG = pG;
 }
-void Ente::setFig(Sprite * Fig)
+void trabalhoJogo::Ente::setFig(Sprite * Fig)
 {
     pFig = Fig;
     // pFig->setOrigin(...);
 }
-Sprite * Ente::getFig()
+Sprite * trabalhoJogo::Ente::getFig()
 {
     return pFig;
 }
-void Ente::setId(int idO)
+void trabalhoJogo::Ente::setId(int idO)
 {
     id = idO;
 }
-int Ente::getId()
+int trabalhoJogo::Ente::getId()
 {
     return id;
 }

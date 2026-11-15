@@ -1,21 +1,21 @@
 #include"Projetil.h"
-Projetil::Projetil():Entidade(),v({0,0}),ativo(false){
+trabalhoJogo::Entidades::Projetil::Projetil():Entidade(),v({0,0}),ativo(false){
 
 }
-Projetil::~Projetil(){
+trabalhoJogo::Entidades::Projetil::~Projetil(){
 
 }
-const sf::Vector2f Projetil::getV() const{
+const sf::Vector2f trabalhoJogo::Entidades::Projetil::getV() const{
     return v;
 }
-void Projetil::setV(const sf::Vector2f velocidade){
+void trabalhoJogo::Entidades::Projetil::setV(const sf::Vector2f velocidade){
     v = velocidade;
 }
-void Projetil::executar(){
+void trabalhoJogo::Entidades::Projetil::executar(){
 
 }
-void Projetil::salvar(){
+void trabalhoJogo::Entidades::Projetil::salvar(){
     
 }
 
-void Projetil::gravitar(const float dt) {}
+void trabalhoJogo::Entidades::Projetil::gravitar(const float dt) {}

@@ -1,12 +1,12 @@
 #include"Chao.h"
 #include<SFML/Window.hpp>
-Chao::Chao():largura(0),altura(0){
+trabalhoJogo::Entidades::Chao::Chao():largura(0),altura(0){
 
 }
-Chao::~Chao(){
+trabalhoJogo::Entidades::Chao::~Chao(){
 
 }
-void Chao::inicializaChao(sf::Sprite* chao){
+void trabalhoJogo::Entidades::Chao::inicializaChao(sf::Sprite* chao){
     if(chao == NULL){
         std::cerr << "nulidade em inicializar chao" << std::endl;
         return;
@@ -14,7 +14,7 @@ void Chao::inicializaChao(sf::Sprite* chao){
     atribuirSprite(chao);
     tamanhoChao();
 }
-void Chao::tamanhoChao(){
+void trabalhoJogo::Entidades::Chao::tamanhoChao(){
     if(pFig == NULL){
         std::cerr << "nulidade em tamanho chao" << std::endl;
         return;
@@ -23,12 +23,15 @@ void Chao::tamanhoChao(){
     altura = sf::VideoMode::getDesktopMode().height/getAltura();
     pFig->setScale({largura,altura});
 }
-void Chao::executar(){
+void trabalhoJogo::Entidades::Chao::executar(){
 
 }
-void Chao::salvar(){
+void trabalhoJogo::Entidades::Chao::salvar(){
 
 }
-void Chao::gravitar(const float dt){
+void trabalhoJogo::Entidades::Chao::mover(){
+    
+}
+void trabalhoJogo::Entidades::Chao::gravitar(const float dt){
     
 }

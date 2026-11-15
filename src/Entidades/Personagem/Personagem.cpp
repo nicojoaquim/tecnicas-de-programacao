@@ -1,6 +1,6 @@
 #include"Personagem.h"
 
-Personagem::Personagem():
+trabalhoJogo::Entidades::Personagens::Personagem::Personagem():
     // Entidade(true), // sofre_gravidade = true
     Entidade(),
     num_vida(3),
@@ -8,15 +8,15 @@ Personagem::Personagem():
 {
 }
 
-Personagem::~Personagem()
+trabalhoJogo::Entidades::Personagens::Personagem::~Personagem()
 {
 }
-void Personagem::setVy(float y){
+void trabalhoJogo::Entidades::Personagens::Personagem::setVy(float y){
     velocidade.y = y;
 }
 
 // baseado em https://gafferongames.com/post/integration_basics/
-void Personagem::gravitar(const float dt){
+void trabalhoJogo::Entidades::Personagens::Personagem::gravitar(const float dt){
     float gravidadeMax = 800.f;
     float aceleracao = 1200.f;
     velocidade.y += aceleracao*dt;

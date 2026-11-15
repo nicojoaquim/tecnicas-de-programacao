@@ -11,16 +11,17 @@ Entidade::Entidade(bool gravidade):
 {
 }*/
 
-Entidade::Entidade():
-    buffer(std::cout)
+trabalhoJogo::Entidades::Entidade::Entidade():
+    buffer(std::cout),
+    dinamico(false)
 {
 }
 
-Entidade::~Entidade()
+trabalhoJogo::Entidades::Entidade::~Entidade()
 {
 }
 
-void Entidade::atribuirSprite(Sprite* Fig) {
+void trabalhoJogo::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
     if (Fig == NULL) {
         std::cerr << "Nulidade em atribuirSprite" << std::endl;
         return;
@@ -33,7 +34,7 @@ void Entidade::atribuirSprite(Sprite* Fig) {
     setPosicao(getPosicao()+centro);
 }
 
-void Entidade::salvarDataBuffer(){
+void trabalhoJogo::Entidades::Entidade::salvarDataBuffer(){
     buffer << getX() << " " << getY();
 }
 /*
@@ -41,7 +42,7 @@ const bool Entidade::sofreGravidade() const {
     return sofre_gravidade;
 }
 */
-const Vector2f Entidade::getPosicao() const {
+const Vector2f trabalhoJogo::Entidades::Entidade::getPosicao() const {
     if (pFig != NULL)
         return pFig->getPosition();
     else {
@@ -50,27 +51,28 @@ const Vector2f Entidade::getPosicao() const {
     }
 }
 
-const float Entidade::getX() const {
+const float trabalhoJogo::Entidades::Entidade::getX() const {
     return Entidade::getPosicao().x;
 }
 
-const float Entidade::getY() const {
+const float trabalhoJogo::Entidades::Entidade::getY() const {
     return Entidade::getPosicao().y;
 }
 
-void Entidade::setPosicao(const Vector2f posicao) {
+void trabalhoJogo::Entidades::Entidade::setPosicao(const Vector2f posicao) {
     if (pFig != NULL)
         pFig->setPosition(posicao);
 }
 
-void Entidade::setPosicaoEsper(const Vector2f posicao){
+void trabalhoJogo::Entidades::Entidade::setPosicaoEsper(const Vector2f posicao){
     Vector2f centro(getLargura(),getAltura());
     if (pFig != NULL)
         pFig->setPosition(posicao + centro/2.f);
 }
 
-const Vector2f Entidade::getTamanho() const {
+const Vector2f trabalhoJogo::Entidades::Entidade::getTamanho() const {
     if (pFig != NULL)
+        // TODO ver se getSize() == getGlobalBounds().width e .height
         // Estava em atribuirSprite:
         // sf::FloatRect cent = pFig->getGlobalBounds();
         // pFig->setOrigin(cent.width/2.0f,cent.height/2.0f);
@@ -81,14 +83,19 @@ const Vector2f Entidade::getTamanho() const {
     }
 }
 
-const float Entidade::getLargura() const {
+const float trabalhoJogo::Entidades::Entidade::getLargura() const {
     return getTamanho().x;
 }
 
-const float Entidade::getAltura() const {
+const float trabalhoJogo::Entidades::Entidade::getAltura() const {
     return getTamanho().y;
 }
-
+void trabalhoJogo::Entidades::Entidade::setDinamico(bool dim){
+    dinamico = dim;
+}
+const bool trabalhoJogo::Entidades::Entidade::getDinamico() const{
+    return dinamico;
+}
 // Pode colocar sobrecarga de operador aqui para mudar posição da entidade
 // Entidade e;
 // e.setPosicao(Vector2f(1.f, 2.f));

@@ -1,21 +1,21 @@
 #include "Bruxa.h"
 
-Bruxa::Bruxa():Inimigo(),forca(1){
+trabalhoJogo::Entidades::Personagens::Bruxa::Bruxa():Inimigo(),forca(1){
 
 }
 
-Bruxa::~Bruxa(){
+trabalhoJogo::Entidades::Personagens::Bruxa::~Bruxa(){
 
 }
-void Bruxa::executar(){
+void trabalhoJogo::Entidades::Personagens::Bruxa::executar(){
 
 }
-void Bruxa::salvar(){
+void trabalhoJogo::Entidades::Personagens::Bruxa::salvar(){
     salvarDataBuffer();
 }
-void Bruxa::mover(){
+void trabalhoJogo::Entidades::Personagens::Bruxa::mover(){
     //depois
 }
-void Bruxa::danificar(Jogador* pJog){
+void trabalhoJogo::Entidades::Personagens::Bruxa::danificar(Jogador* pJog){
 
 }

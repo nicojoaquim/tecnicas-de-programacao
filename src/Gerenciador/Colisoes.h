@@ -3,49 +3,55 @@
 #include <vector>
 #include <list>
 #include <set>
+namespace trabalhoJogo{
+    namespace Entidades{
+        class Entidade;
+        class Obstaculo;
+        class Projetil;
+        namespace Personagens{
+            class Jogador;
+            class Inimigo;
+        }
+        class Chao;
+    }
+    namespace Gerenciador{
+        class GerenciadorColisoes
+        {
+        private:
+            std::vector<Entidades::Personagens::Inimigo*> LIs;
+            std::list<Entidades::Obstaculo*> LOs;
+            std::set<Entidades::Projetil*> LPs;
+            std::list<Entidades::Chao*> LCs;
+            Entidades::Personagens::Jogador* pJog1;
+            std::vector<Entidades::Personagens::Inimigo*>::iterator itIs;
+            std::list<Entidades::Obstaculo*>::iterator itOs;
+            std::set<Entidades::Projetil*>::iterator itPs;
+            std::list<Entidades::Chao*>::iterator itCs;
+            float dx;
+            float dy;
+            float internox;
+            float internoy;
 
-class Entidade;
-class Inimigo;
-class Obstaculo;
-class Projetil;
-class Jogador;
-class Chao;
+        public:
+            GerenciadorColisoes();
+            ~GerenciadorColisoes();
+            void incluirInimigo(Entidades::Personagens::Inimigo* pi);
+            void incluirObstaculo(Entidades::Obstaculo* po);
+            void incluirProjetil(Entidades::Projetil* pj);
+            void incluirChao(Entidades::Chao* pc);
+            void incluirJogador1(Entidades::Personagens::Jogador* pPrimeiro);
+            void executar();
 
-class GerenciadorColisoes
-{
-private:
-    std::vector<Inimigo*> LIs;
-    std::list<Obstaculo*> LOs;
-    std::set<Projetil*> LPs;
-    std::list<Chao*> LCs;
-    Jogador* pJog1;
-    std::vector<Inimigo*>::iterator itIs;
-    std::list<Obstaculo*>::iterator itOs;
-    std::set<Projetil*>::iterator itPs;
-    std::list<Chao*>::iterator itCs;
-    float dx;
-    float dy;
-    float internox;
-    float internoy;
-
-public:
-    GerenciadorColisoes();
-    ~GerenciadorColisoes();
-    void incluirInimigo(Inimigo* pi);
-    void incluirObstaculo(Obstaculo* po);
-    void incluirProjetil(Projetil* pj);
-    void incluirChao(Chao* pc);
-    void incluirJogador1(Jogador* pPrimeiro);
-    void executar();
-
-private:
-    void colisaoJogsInimigo();
-    void colisaoJogsChao();
-    void colisaoChaoInimigo();
-    void tratarColisaoJogsInimigo();
-    void tratarColisaoJogsObstaculo();
-    void tratarColisaoJogsProjetil();
-    void tratarColisaoJogsChao();
-    void tratarColisaoChaoInimigo();
-    const bool verificarColisao(Entidade* p1, Entidade* p2);
-};
+        private:
+            void colisaoJogsInimigo();
+            void colisaoJogsChao();
+            void colisaoChaoInimigo();
+            void tratarColisaoJogsInimigo();
+            void tratarColisaoJogsObstaculo();
+            void tratarColisaoJogsProjetil();
+            void tratarColisaoJogsChao();
+            void tratarColisaoChaoInimigo();
+            const bool verificarColisao(Entidades::Entidade* p1, Entidades::Entidade* p2);
+        };
+    }
+}

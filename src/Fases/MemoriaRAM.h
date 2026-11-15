@@ -5,18 +5,21 @@
 #include "../Entidades/Personagem/AranhaGigante.h"
 #include "../Entidades/Personagem/OlhoVoador.h"
 #include "../Entidades/Obstaculo/Cogumelo.h"
+namespace trabalhoJogo{
+    namespace Fases{
+    class MemoriaRam : public Fase
+    {
+    private:
+        const int maxOlhosVoadores;
+        void criarInimigos();
+        void criarObst();
 
-class MemoriaRam : public Fase
-{
-private:
-    const int maxOlhosVoadores;
-    void criarInimigos();
-    void criarObst();
-
-public:
-    MemoriaRam();
-    ~MemoriaRam();
-    // void desenhar();
-    // void gravitar();
-    // void mover();
-};
+    public:
+        MemoriaRam();
+        ~MemoriaRam();
+        // void desenhar();
+        // void gravitar();
+        // void mover();
+    };
+    }
+}

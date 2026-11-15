@@ -1,6 +1,6 @@
 #include "AridoCPU.h"
 
-AridoCPU::AridoCPU():
+trabalhoJogo::Fases::AridoCPU::AridoCPU():
     Fase(),
     maxBruxas(1)
 {
@@ -8,16 +8,16 @@ AridoCPU::AridoCPU():
     criarObst();
 }
 
-AridoCPU::~AridoCPU()
+trabalhoJogo::Fases::AridoCPU::~AridoCPU()
 {}
 
-void AridoCPU::executar()
+void trabalhoJogo::Fases::AridoCPU::executar()
 {
     ;
 }
 
-void AridoCPU::criarInimigos()
+void trabalhoJogo::Fases::AridoCPU::criarInimigos()
 {}
 
-void AridoCPU::criarObst()
+void trabalhoJogo::Fases::AridoCPU::criarObst()
 {}

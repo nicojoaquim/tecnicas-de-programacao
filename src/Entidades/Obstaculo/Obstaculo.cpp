@@ -1,11 +1,11 @@
 #include "Obstaculo.h"
 
-Obstaculo::Obstaculo():Entidade(),danoso(false){
+trabalhoJogo::Entidades::Obstaculos::Obstaculo::Obstaculo():Entidade(),danoso(false){
 
 }
-Obstaculo::~Obstaculo(){
+trabalhoJogo::Entidades::Obstaculos::Obstaculo::~Obstaculo(){
 
 }
-void Obstaculo:: salvarDataBuffer(){
+void trabalhoJogo::Entidades::Obstaculos::Obstaculo:: salvarDataBuffer(){
 
 }

@@ -12,14 +12,13 @@ using sf::Vector2f;
 using sf::Event;
 using sf::Keyboard;
 
-Jogo::Jogo():
+trabalhoJogo::Jogo::Jogo():
     telaAtual(MENU),
     GG(),
-    GC(),
     jogador1(),
     menu(),
     chao(),
-//    teste(),
+    teste(),
     texture(),
     sprite(),
     sprite2(),
@@ -35,16 +34,13 @@ Jogo::Jogo():
     }
     cout << "Success to load texture" << endl;
     texture.setSmooth(true);
-    GC.incluirJogador1(&jogador1); // Usado pela Fase
-//    GC.incluirInimigo(&teste);     // ||
-    GC.incluirChao(&chao);         // ||
     sprite.setTexture(texture);
     sprite2.setTexture(texture);
     sprite3.setTexture(texture);
     sprite2.setPosition(100,100);
     jogador1.atribuirSprite(&sprite);
-//    teste.atribuirSprite(&sprite2);
-//    teste.setPosicaoEsper({105.f, 105.f});
+    teste.atribuirSprite(&sprite2);
+    teste.setPosicaoEsper({105.f, 105.f});
     chao.inicializaChao(&sprite3);
     chao.setPosicaoEsper({0.f,600.f});
     //teste.setPosicao(Vector2f(105.f,105.f));
@@ -64,7 +60,7 @@ Jogo::Jogo():
     executar();
 }
 
-Jogo::~Jogo()
+trabalhoJogo::Jogo::~Jogo()
 {}
 /*
 void Jogo::preparar()
@@ -90,16 +86,14 @@ void Jogo::desenhar()
     GG.renderizar(); // Final
 }
 */
-void Jogo::telaInicial()
+void trabalhoJogo::Jogo::telaInicial()
 {
     Event evento;
     int ativo = 1;
     while (ativo) {
         GG.limpar();
         while (GG.getEvento(evento)) {
-            if ((evento.type == Event::Closed)
-                || (evento.type == Event::KeyPressed && evento.key.code == Keyboard::Escape))
-            {
+            if (evento.type == Event::Closed) {
                 GG.fechar();
                 return;
             }
@@ -122,7 +116,7 @@ void Jogo::gravidade(){
 }
 */
 
-void Jogo::executar()
+void trabalhoJogo::Jogo::executar()
 {
     while (GG.aberto())
     {
@@ -130,9 +124,10 @@ void Jogo::executar()
             telaInicial();
         }
         else if (telaAtual == FASE1) {
-            MemoriaRam fase1;
-            fase1.tempAdicionaEnt(&chao);
-            fase1.tempAdicionaEnt(&jogador1);
+            trabalhoJogo::Fases::MemoriaRam fase1;
+            fase1.adicionaJog1(&jogador1);
+            fase1.adicionaChao(&chao);
+            //fase1.tempAdicionaEnt(&teste); // TEMP Mudar para fase1.criarInimigos()
             fase1.executar();
             if (jogador1.getNumVida() > 0) {
                 // Próxima fase
@@ -142,8 +137,6 @@ void Jogo::executar()
                 // Perdeu, nenhum ponteiro tem endereço de jogador na memória mais
                 telaAtual = MENU;
             }
-
-            telaAtual = MENU;
         }
         else if (telaAtual == FASE2) {
             // telaTeste();

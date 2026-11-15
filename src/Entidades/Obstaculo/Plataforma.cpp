@@ -1,21 +1,21 @@
 #include "Plataforma.h"
 
-Plataforma::Plataforma():
+trabalhoJogo::Entidades::Obstaculos::Plataforma::Plataforma():
     Obstaculo(),
     altura(-1)
 {
 }
 
-Plataforma::~Plataforma()
+trabalhoJogo::Entidades::Obstaculos::Plataforma::~Plataforma()
 {
 }
 
-void Plataforma::executar()
+void trabalhoJogo::Entidades::Obstaculos::Plataforma::executar()
 {
 }
 
-void Plataforma::obstaculizar(Jogador *p)
+void trabalhoJogo::Entidades::Obstaculos::Plataforma::obstaculizar(Personagens::Jogador *p)
 {
 }
 
-void Plataforma::gravitar(const float dt) {}
+void trabalhoJogo::Entidades::Obstaculos::Plataforma::gravitar(const float dt) {}
