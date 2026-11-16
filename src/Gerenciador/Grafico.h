@@ -4,6 +4,7 @@
 
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
 #define GATO "assets/imagens/blanche100x100.png"
+
 namespace trabalhoJogo{
     class Ente;
     namespace Gerenciador{
@@ -15,6 +16,9 @@ namespace trabalhoJogo{
             sf::Image imgChao;
             sf::Image imgInimigos;
             // sf::Image img...;
+
+            sf::Texture texAranhaGigante;
+            // sf::Texture tex...;
 
         public:
             GerenciadorGrafico();
@@ -34,8 +38,13 @@ namespace trabalhoJogo{
             const sf::Image& getImgChao() const;
             const sf::Image& getImgInimigos() const;
 
+            // Para desenhar corretamente, passamos por referência
+            // https://www.sfml-dev.org/tutorials/2.6/graphics/sprite/#the-white-square-problem
+            const sf::Texture& getTexAranhaGigante() const { return texAranhaGigante; }
+
         private:
             void inicializarImagens();
+            void inicializarTexturas();
         };
     }
 }

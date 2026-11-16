@@ -1,26 +1,31 @@
 #pragma once
 
-#include <vector>
-
 #include "../Ente.h"
+#include "../Entidades/Entidade.h"
 #include "../Listas/ListaEntidade.h"
 #include "../Gerenciador/Colisoes.h"
-namespace trabalhoJogo{
-    namespace Entidades{
-        class Entidade;
-        class Chao;
-        namespace Personagens{
+
+namespace trabalhoJogo
+{
+    namespace Entidades
+    {
+    class Entidade;
+    class Chao;
+        namespace Personagens
+        {
             class Jogador;
         }
     }
-    namespace Fases{
+
+    namespace Fases
+    {
     class Fase: public Ente
     {
     protected:
         Gerenciador::GerenciadorColisoes GC;
         Listas::ListaEntidade lista_ents;
-        sf::Texture texture;
-        sf::Sprite sprite;
+        // sf::Texture texture;
+        // sf::Sprite sprite;
         // Jogador* pJog1; Fase(Jogador* jogador1): pJog1(jogador1)
 
     public:
@@ -28,16 +33,9 @@ namespace trabalhoJogo{
         virtual ~Fase();
         virtual void executar(); // Polimorfismo
         void adicionaChao(Entidades::Chao* chao);
-        void adicionaJog1(Entidades::Personagens::Jogador* joagdor1); 
+        void adicionaJog1(Entidades::Personagens::Jogador* joagdor1);
 
     protected:
-        // talvez remover depois alguns metodos
-        void criarAranhaGigante();
-        void criarOlhoVoador();
-        void criarBruxa();
-        void criarPlataforma();
-        void criarCogumelo();
-        void criarObstDificil();//mudar nome depois
         virtual void criarInimigos() = 0;
         virtual void criarObst() = 0;
         void criarCenarios();
@@ -47,6 +45,15 @@ namespace trabalhoJogo{
         void gravitar();
         void mover();
         void desenhar();
+
+        void criarAranhaGigante();
+        void criarOlhoVoador();
+        void criarBruxa();
+        void criarPlataforma();
+        void criarCogumelo();
+        void criarObstDificil();//mudar nome depois
+
+        void destruirEntidade(Entidades::Entidade* pE);
     };
     }
 }

@@ -3,18 +3,23 @@
 #include <vector>
 #include <list>
 #include <set>
-namespace trabalhoJogo{
-    namespace Entidades{
+
+namespace trabalhoJogo
+{
+    namespace Entidades
+    {
         class Entidade;
         class Obstaculo;
         class Projetil;
-        namespace Personagens{
+        namespace Personagens
+        {
             class Jogador;
             class Inimigo;
         }
         class Chao;
     }
-    namespace Gerenciador{
+    namespace Gerenciador
+    {
         class GerenciadorColisoes
         {
         private:
@@ -29,8 +34,8 @@ namespace trabalhoJogo{
             std::list<Entidades::Chao*>::iterator itCs;
             float dx;
             float dy;
-            float internox;
-            float internoy;
+            float internox; // Usado entre funções, sempre atribuir antes de usar
+            float internoy; // ||
 
         public:
             GerenciadorColisoes();

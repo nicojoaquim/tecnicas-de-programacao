@@ -1,11 +1,16 @@
 #pragma once
 
 #include"lista.h"
-namespace trabalhoJogo{
-    namespace Entidades{
+
+namespace trabalhoJogo
+{
+    namespace Entidades
+    {
         class Entidade;
-        }
-    namespace Listas{
+    }
+
+    namespace Listas
+    {
         class ListaEntidade {
         private:
             Lista<Entidades::Entidade> LEs;
@@ -17,6 +22,6 @@ namespace trabalhoJogo{
             void incluir(Entidades::Entidade* pE);
             void percorrer();
             void executar(); // TODO implementar
-    };
+        };
     }
 }

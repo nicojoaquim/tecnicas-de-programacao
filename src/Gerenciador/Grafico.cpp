@@ -26,6 +26,7 @@ trabalhoJogo::Gerenciador::GerenciadorGrafico::GerenciadorGrafico():
     janela.display();
 
     inicializarImagens();
+    inicializarTexturas();
 }
 
 trabalhoJogo::Gerenciador::GerenciadorGrafico::~GerenciadorGrafico(){
@@ -91,6 +92,14 @@ void trabalhoJogo::Gerenciador::GerenciadorGrafico::inicializarImagens() {
 
     if (!imgInimigos.loadFromFile(INIMIGOS))
         std::cerr << "Falha ao abrir " << INIMIGOS << std::endl;
+}
+
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::inicializarTexturas() {
+    if (!texAranhaGigante.loadFromImage(getImgInimigos(), sf::IntRect(3, 184, 12, 8))) {
+        std::cerr << "Erro ao carregar em GG::inicializarTexturas" << std::endl;
+        return;
+    }
+    texAranhaGigante.setSmooth(false); // Serve para continuar pixelada quando esticada
 }
 
 const sf::Image& trabalhoJogo::Gerenciador::GerenciadorGrafico::getImgJogador() const {

@@ -24,7 +24,7 @@ namespace trabalhoJogo{
 
         Menu menu;
         Entidades::Chao chao;
-        Entidades::Personagens::AranhaGigante teste;
+        // Entidades::Personagens::AranhaGigante teste;
         sf::Texture texture;
         sf::Sprite sprite;
         sf::Sprite sprite2;

@@ -5,6 +5,7 @@ build
 *.old
 *.bkp
 codeblocks*
+*.cbp
 .helix
 *.exe
 *.dll
