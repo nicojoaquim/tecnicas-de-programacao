@@ -5,7 +5,7 @@
 #include "../Entidades/Personagem/AranhaGigante.h"
 #include "../Entidades/Personagem/OlhoVoador.h"
 #include "../Entidades/Obstaculo/Cogumelo.h"
-namespace trabalhoJogo{
+namespace CMD{
     namespace Fases{
     class MemoriaRam : public Fase
     {

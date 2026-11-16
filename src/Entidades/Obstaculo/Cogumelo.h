@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Obstaculo.h"
-namespace trabalhoJogo{
+namespace CMD{
     namespace Entidades{
         namespace Obstaculos{
             class Cogumelo : public Obstaculo

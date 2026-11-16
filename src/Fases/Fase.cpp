@@ -13,48 +13,48 @@ using sf::Keyboard;
 
 #include "../organiza.h"
 
-trabalhoJogo::Fases::Fase::Fase():
+CMD::Fases::Fase::Fase():
     Ente(),
     GC(),
     lista_ents()
 {
 }
 
-trabalhoJogo::Fases::Fase::~Fase(){
+CMD::Fases::Fase::~Fase(){
     Listas::Lista<Entidades::Entidade>::Iterador it;
     for(it = lista_ents.inicio(); it != lista_ents.fim(); ++it)
         if((*it)->getDinamico())
             destruirEntidade(*it);
 }
-void trabalhoJogo::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
+void CMD::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
         lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador1)));
         GC.incluirJogador1(jogador1);
     }
-void trabalhoJogo::Fases::Fase::adicionaChao(Entidades::Chao* chao){
+void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
     lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
     GC.incluirChao(chao);
 }
-void trabalhoJogo::Fases::Fase::gravitar() {
+void CMD::Fases::Fase::gravitar() {
     float dt = Tempo::getSegundos();
     Listas::Lista<Entidades::Entidade>::Iterador it;
     for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
         (*it)->gravitar(dt);
 }
 
-void trabalhoJogo::Fases::Fase::mover() {
+void CMD::Fases::Fase::mover() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
     for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
         (*it)->mover();
 
 }
 
-void trabalhoJogo::Fases::Fase::desenhar() {
+void CMD::Fases::Fase::desenhar() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
     for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
         (*it)->desenhar();
 }
 
-void trabalhoJogo::Fases::Fase::executar() {
+void CMD::Fases::Fase::executar() {
     Event evento;
     bool jogando = true;
     while (jogando) {
@@ -81,7 +81,7 @@ void trabalhoJogo::Fases::Fase::executar() {
     }
 }
 
-void trabalhoJogo::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
+void CMD::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
     if (pE == NULL) {
         std::cerr << "Nulidade em Fase::destruirEntidade" << std::endl;
         return;
@@ -91,7 +91,7 @@ void trabalhoJogo::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
     delete pE; // Entidade
 }
 
-void trabalhoJogo::Fases::Fase::criarAranhaGigante() {
+void CMD::Fases::Fase::criarAranhaGigante() {
     Entidades::Personagens::AranhaGigante* pAranha;
     sf::Sprite* pSprite;
 
@@ -106,26 +106,26 @@ void trabalhoJogo::Fases::Fase::criarAranhaGigante() {
     GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pAranha));
 }
 
-void trabalhoJogo::Fases::Fase::criarOlhoVoador() {
+void CMD::Fases::Fase::criarOlhoVoador() {
 
 }
 
-void trabalhoJogo::Fases::Fase::criarBruxa() {
+void CMD::Fases::Fase::criarBruxa() {
 
 }
 
-void trabalhoJogo::Fases::Fase::criarPlataforma() {
+void CMD::Fases::Fase::criarPlataforma() {
 
 }
 
-void trabalhoJogo::Fases::Fase::criarCogumelo() {
+void CMD::Fases::Fase::criarCogumelo() {
 
 }
 
-void trabalhoJogo::Fases::Fase::criarObstDificil() {
+void CMD::Fases::Fase::criarObstDificil() {
 
 }
 
-void trabalhoJogo::Fases::Fase::criarCenarios() {
+void CMD::Fases::Fase::criarCenarios() {
 
 }

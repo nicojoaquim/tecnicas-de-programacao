@@ -5,7 +5,7 @@
 #include "../Listas/ListaEntidade.h"
 #include "../Gerenciador/Colisoes.h"
 
-namespace trabalhoJogo
+namespace CMD
 {
     namespace Entidades
     {

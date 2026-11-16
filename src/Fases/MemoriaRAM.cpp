@@ -1,6 +1,6 @@
 #include "MemoriaRAM.h"
 
-trabalhoJogo::Fases::MemoriaRam::MemoriaRam():
+CMD::Fases::MemoriaRam::MemoriaRam():
     Fase(),
     maxOlhosVoadores(1)
 {
@@ -9,7 +9,7 @@ trabalhoJogo::Fases::MemoriaRam::MemoriaRam():
     criarObst();
 }
 
-trabalhoJogo::Fases::MemoriaRam::~MemoriaRam()
+CMD::Fases::MemoriaRam::~MemoriaRam()
 {
     // lista_ents.percorrer(); // Não da pra usar? Percorrer só passa por todos os elem.
 
@@ -35,10 +35,10 @@ void MemoriaRam::desenhar()
     ;
 }
 */
-void trabalhoJogo::Fases::MemoriaRam::criarInimigos()
+void CMD::Fases::MemoriaRam::criarInimigos()
 {
     criarAranhaGigante();
 }
 
-void trabalhoJogo::Fases::MemoriaRam::criarObst()
+void CMD::Fases::MemoriaRam::criarObst()
 {}

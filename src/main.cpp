@@ -2,6 +2,6 @@
 
 int main ()
 {
-    trabalhoJogo::Jogo jogo;
+    CMD::Jogo jogo;
     return 0;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entidade.h"
-namespace trabalhoJogo{
+namespace CMD{
     namespace Entidades{
         class Projetil : public Entidade
         {

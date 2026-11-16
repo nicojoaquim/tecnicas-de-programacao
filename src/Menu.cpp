@@ -1,7 +1,7 @@
 #include"Menu.h"
 #include "Gerenciador/Grafico.h"
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
-trabalhoJogo::Menu::Menu():
+CMD::Menu::Menu():
     Ente(),
     pJog(NULL),
     fontM(),
@@ -30,20 +30,20 @@ trabalhoJogo::Menu::Menu():
         texts[i].setCharacterSize(tams[i]);
     }
 }
-trabalhoJogo::Menu::~Menu(){
+CMD::Menu::~Menu(){
 
 }
-void trabalhoJogo::Menu::executar(){
+void CMD::Menu::executar(){
 
 }
-void trabalhoJogo::Menu::tratarEvento(const sf::Event& evento, int& ativo){
+void CMD::Menu::tratarEvento(const sf::Event& evento, int& ativo){
     if(evento.type == sf::Event::MouseButtonPressed && evento.mouseButton.button == sf::Mouse::Left){
         mousePosi = {evento.mouseButton.x,evento.mouseButton.y};
         if(textoMouse(texts[1]))
             ativo = 0;
     }
 }
-void trabalhoJogo::Menu::desenha(){
+void CMD::Menu::desenha(){
     if(pGG == NULL){
         std::cerr << "nulidade do gerenciador granfico no menu" << std::endl;
         return;
@@ -51,24 +51,24 @@ void trabalhoJogo::Menu::desenha(){
     for(unsigned int i = 0; i < texts.size(); i++)
         pGG->desenharTexto(texts[i]);
 }
-void trabalhoJogo::Menu::setMousePosi(sf::Vector2i mou){
+void CMD::Menu::setMousePosi(sf::Vector2i mou){
     mousePosi = mou;
 }
-sf::Vector2i trabalhoJogo::Menu::getMousePosi(){
+sf::Vector2i CMD::Menu::getMousePosi(){
     return mousePosi;
 }
-void trabalhoJogo::Menu::setMouseCoorde(sf::Vector2f mou){
+void CMD::Menu::setMouseCoorde(sf::Vector2f mou){
     mouseCoorde = mou;
 }
-sf::Vector2f trabalhoJogo::Menu::getMouseCoorde(){
+sf::Vector2f CMD::Menu::getMouseCoorde(){
     return mouseCoorde;
 }
-void trabalhoJogo::Menu::coordenadaMouse(){
+void CMD::Menu::coordenadaMouse(){
     mousePosi = sf::Mouse::getPosition(pGG->getJanela());
     mouseCoorde = pGG->getJanela().mapPixelToCoords(mousePosi);
 
 }
-bool trabalhoJogo::Menu::textoMouse(sf::Text& texto){
+bool CMD::Menu::textoMouse(sf::Text& texto){
     if(texto.getGlobalBounds().contains(pGG->getJanela().mapPixelToCoords(mousePosi)))
         return true;
     return false;

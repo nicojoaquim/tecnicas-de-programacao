@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/System.hpp>
-namespace trabalhoJogo{
+namespace CMD{
     class Tempo
     {
     private:

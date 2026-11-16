@@ -2,7 +2,7 @@
 
 #include "../organiza.h"
 
-namespace trabalhoJogo
+namespace CMD
 {
     namespace Listas
     {
@@ -63,115 +63,115 @@ namespace trabalhoJogo
 
 template <class TL>
 template <class TE>
-trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::Elemento(){
+CMD::Listas::Lista<TL>::Elemento<TE>::Elemento(){
     aterraElem();
 }
 
 template <class TL>
 template <class TE>
-trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::~Elemento(){
+CMD::Listas::Lista<TL>::Elemento<TE>::~Elemento(){
     aterraElem();
 }
 
 template <class TL>
 template <class TE>
-void trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::aterraElem(){
+void CMD::Listas::Lista<TL>::Elemento<TE>::aterraElem(){
     pProx = NULL;
     pInfo = NULL;
 }
 
 template <class TL>
 template <class TE>
-void trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::incluir(TE* p){
+void CMD::Listas::Lista<TL>::Elemento<TE>::incluir(TE* p){
     pInfo = p;
 }
 
 template <class TL>
 template <class TE>
-const TE* trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::getInfo() const{
+const TE* CMD::Listas::Lista<TL>::Elemento<TE>::getInfo() const{
     return pInfo;
 }
 
 template <class TL>
 template <class TE>
-TE* trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::getInfo(){
+TE* CMD::Listas::Lista<TL>::Elemento<TE>::getInfo(){
     return pInfo;
 }
 
 template <class TL>
 template <class TE>
-void trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::setProx(Elemento<TE>* pP){
+void CMD::Listas::Lista<TL>::Elemento<TE>::setProx(Elemento<TE>* pP){
     pProx = pP;
 }
 
 template <class TL>
 template <class TE>
-typename trabalhoJogo::Listas::Lista<TL>::template Elemento<TE>*
- trabalhoJogo::Listas::Lista<TL>::Elemento<TE>::getProximo() const {
+typename CMD::Listas::Lista<TL>::template Elemento<TE>*
+ CMD::Listas::Lista<TL>::Elemento<TE>::getProximo() const {
     return pProx;
 }
 
 template <class TL>
-trabalhoJogo::Listas::Lista<TL>::Iterador::Iterador(Elemento<TL>* pElem):atual(pElem){
+CMD::Listas::Lista<TL>::Iterador::Iterador(Elemento<TL>* pElem):atual(pElem){
 }
 
 template <class TL>
-trabalhoJogo::Listas::Lista<TL>::Iterador::Iterador():atual(NULL){
+CMD::Listas::Lista<TL>::Iterador::Iterador():atual(NULL){
 }
 
 template <class TL>
-trabalhoJogo::Listas::Lista<TL>::Iterador::~Iterador(){
+CMD::Listas::Lista<TL>::Iterador::~Iterador(){
 
 }
 
 template <class TL>
-typename trabalhoJogo::Listas::Lista<TL>::Iterador&
-trabalhoJogo::Listas::Lista<TL>::Iterador::operator++(){
+typename CMD::Listas::Lista<TL>::Iterador&
+CMD::Listas::Lista<TL>::Iterador::operator++(){
     if(atual)
         atual = atual->getProximo();
     return *this;
 }
 
 template <class TL>
-const bool trabalhoJogo::Listas::Lista<TL>::Iterador::operator==(const Iterador& outro) const{
+const bool CMD::Listas::Lista<TL>::Iterador::operator==(const Iterador& outro) const{
     return atual == outro.atual;
 }
 
 template <class TL>
-const bool trabalhoJogo::Listas::Lista<TL>::Iterador::operator!=(const Iterador& outro) const{
+const bool CMD::Listas::Lista<TL>::Iterador::operator!=(const Iterador& outro) const{
     return atual != outro.atual;
 }
 
 template <class TL>
-TL* trabalhoJogo::Listas::Lista<TL>::Iterador::operator*() const{
+TL* CMD::Listas::Lista<TL>::Iterador::operator*() const{
     return atual->getInfo();
 }
 
 template <class TL>
-TL* trabalhoJogo::Listas::Lista<TL>::Iterador::operator->() const {
+TL* CMD::Listas::Lista<TL>::Iterador::operator->() const {
     return atual->getInfo();
 }
 
 template <class TL>
-trabalhoJogo::Listas::Lista<TL>::Lista()
+CMD::Listas::Lista<TL>::Lista()
 {
     aterrarList();
 }
 
 template <class TL>
-trabalhoJogo::Listas::Lista<TL>::~Lista()
+CMD::Listas::Lista<TL>::~Lista()
 {
     limpar();
 }
 
 template <class TL>
-void trabalhoJogo::Listas::Lista<TL>::aterrarList(){
+void CMD::Listas::Lista<TL>::aterrarList(){
     pPrimeiro = NULL;
     pUltimo = NULL;
 }
 
 template <class TL>
-void trabalhoJogo::Listas::Lista<TL>::incluir(TL* p){
+void CMD::Listas::Lista<TL>::incluir(TL* p){
     if(p == NULL){
         std::cout << "Tentativa de incluir nulidade" << std::endl;
         return;
@@ -194,7 +194,7 @@ void trabalhoJogo::Listas::Lista<TL>::incluir(TL* p){
 }
 
 template <class TL>
-void trabalhoJogo::Listas::Lista<TL>::limpar(){
+void CMD::Listas::Lista<TL>::limpar(){
     Elemento<TL>* temp=pPrimeiro, *depois=NULL;
     while (temp){
         depois = temp->getProximo();
@@ -205,7 +205,7 @@ void trabalhoJogo::Listas::Lista<TL>::limpar(){
 }
 
 template <class TL>
-void trabalhoJogo::Listas::Lista<TL>::percorrer(){
+void CMD::Listas::Lista<TL>::percorrer(){
     Elemento<TL>*temp = pPrimeiro;
     while(temp != NULL){
         temp = temp->getProximo();
@@ -213,25 +213,25 @@ void trabalhoJogo::Listas::Lista<TL>::percorrer(){
 }
 
 template <class TL>
-typename trabalhoJogo::Listas::Lista<TL>::Iterador
-trabalhoJogo::Listas::Lista<TL>::inicio(){
+typename CMD::Listas::Lista<TL>::Iterador
+CMD::Listas::Lista<TL>::inicio(){
     return Iterador(pPrimeiro);
 }
 
 template <class TL>
-typename trabalhoJogo::Listas::Lista<TL>::Iterador
-trabalhoJogo::Listas::Lista<TL>::fim(){
+typename CMD::Listas::Lista<TL>::Iterador
+CMD::Listas::Lista<TL>::fim(){
     return Iterador(NULL);
 }
 
 template <class TL>
-typename trabalhoJogo::Listas::Lista<TL>::Iterador
-trabalhoJogo::Listas::Lista<TL>::inicio()const {
+typename CMD::Listas::Lista<TL>::Iterador
+CMD::Listas::Lista<TL>::inicio()const {
     return Iterador(pPrimeiro);
 }
 
 template <class TL>
-typename trabalhoJogo::Listas::Lista<TL>::Iterador
-trabalhoJogo::Listas::Lista<TL>::fim() const{
+typename CMD::Listas::Lista<TL>::Iterador
+CMD::Listas::Lista<TL>::fim() const{
     return Iterador(NULL);
 }

@@ -1,18 +1,18 @@
 #include "Tempo.h"
 
 // Relógio é static
-sf::Clock trabalhoJogo::Tempo::relogio;
+sf::Clock CMD::Tempo::relogio;
 
-trabalhoJogo::Tempo::Tempo() {
+CMD::Tempo::Tempo() {
 }
 
-trabalhoJogo::Tempo::~Tempo() {
+CMD::Tempo::~Tempo() {
 }
 
-void trabalhoJogo::Tempo::restartRelogio(){
+void CMD::Tempo::restartRelogio(){
     relogio.restart();
 }
 
-const float trabalhoJogo::Tempo::getSegundos(){
+const float CMD::Tempo::getSegundos(){
     return relogio.restart().asSeconds();
 }

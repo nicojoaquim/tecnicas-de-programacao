@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../Ente.h"
-#include "../Coordenada.h"
+#include "../Coordenadas.h"
 #include <SFML/System/Vector2.hpp>
 
 // Usado para testar se é um vetor válido
 #define INEXISTENTE (Vector2f(-99999999.f,-99999999.f))
-namespace trabalhoJogo{
+namespace CMD{
     namespace Entidades{
         class Entidade: public Ente
         {
