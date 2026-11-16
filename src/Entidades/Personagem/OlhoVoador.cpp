@@ -1,21 +1,21 @@
 #include "OlhoVoador.h"
 
-OlhoVoador::OlhoVoador():Inimigo(),tamanho(1){
+trabalhoJogo::Entidades::Personagens::OlhoVoador::OlhoVoador():Inimigo(),tamanho(1){
 
 }
 
-OlhoVoador::~OlhoVoador(){
+trabalhoJogo::Entidades::Personagens::OlhoVoador::~OlhoVoador(){
 
 }
-void OlhoVoador::executar(){
+void trabalhoJogo::Entidades::Personagens::OlhoVoador::executar(){
 
 }
-void OlhoVoador::salvar(){
+void trabalhoJogo::Entidades::Personagens::OlhoVoador::salvar(){
     salvarDataBuffer();
 }
-void OlhoVoador::mover(){
+void trabalhoJogo::Entidades::Personagens::OlhoVoador::mover(){
     //depois
 }
-void OlhoVoador::danificar(Jogador* pJog){
+void trabalhoJogo::Entidades::Personagens::OlhoVoador::danificar(Jogador* pJog){
 
 }

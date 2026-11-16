@@ -5,27 +5,25 @@ using sf::Vector2f;
 using sf::Vector2u;
 using sf::Keyboard;
 
-AranhaGigante::AranhaGigante():Inimigo(),raio(1),indoParaFrente(1){
+trabalhoJogo::Entidades::Personagens::AranhaGigante::AranhaGigante():Inimigo(),raio(1),indoParaFrente(1){
 
 }
 
-AranhaGigante::~AranhaGigante(){
+trabalhoJogo::Entidades::Personagens::AranhaGigante::~AranhaGigante(){
 
 }
-void AranhaGigante::executar(){
+void trabalhoJogo::Entidades::Personagens::AranhaGigante::executar(){
 
 }
-void AranhaGigante::salvar(){
+void trabalhoJogo::Entidades::Personagens::AranhaGigante::salvar(){
     salvarDataBuffer();
 }
-void AranhaGigante::mover(){
+void trabalhoJogo::Entidades::Personagens::AranhaGigante::mover(){
     float movimento = 0; // Vector2<float>
     Vector2u  janela = pGG->getJanela().getSize();
 
     if (indoParaFrente){
         movimento+= 0.5;
-        // Este if estava dando erro na hora de rodar, pois em Fase::criarAranhaGigante
-        // o sprite que era atribuido a aranha com ponteiro estava naquele escopo
         if(pFig->getGlobalBounds().left + pFig->getGlobalBounds().width> janela.x )
             indoParaFrente=0;
     }
@@ -40,6 +38,6 @@ void AranhaGigante::mover(){
 
     pFig->move(movimento,0);
 }
-void AranhaGigante::danificar(Jogador* pJog){
+void trabalhoJogo::Entidades::Personagens::AranhaGigante::danificar(Jogador* pJog){
 
 }

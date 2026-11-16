@@ -7,51 +7,51 @@ using sf::Vector2f;
 using std::cerr;
 using std::endl;
 
-Jogador::Jogador():Personagem(),pontos(0)
+trabalhoJogo::Entidades::Personagens::Jogador::Jogador():Personagem(),pontos(0)
 {
 }
 
-Jogador::~Jogador()
+trabalhoJogo::Entidades::Personagens::Jogador::~Jogador()
 {
 }
 
 //baseado na colisão de Hilze Vonck
-bool Jogador::colidir(Inimigo* pIn){
+bool trabalhoJogo::Entidades::Personagens::Jogador::colidir(Personagens::Inimigo* pIn){
     if (pIn == NULL) {
         cerr << "Inimigo nulo" << endl;
         return false;
     }
 
-    float dx = pIn->getFig()->getPosition().x - getFig()->getPosition().x;
-    float dy = pIn->getFig()->getPosition().y - getFig()->getPosition().y;
-    float interx = abs(dx)-(getFig()->getGlobalBounds().width/2 + pIn->getFig()->getGlobalBounds().width/2) ;
-    float intery = abs(dy)-(getFig()->getGlobalBounds().height/2 + pIn->getFig()->getGlobalBounds().height/2);
+    float dx = pIn->getFig()->getPosition().x - this->getFig()->getPosition().x;
+    float dy = pIn->getFig()->getPosition().y - this->getFig()->getPosition().y;
+    float interx = std::abs(dx)-(this->getFig()->getGlobalBounds().width/2 + pIn->getFig()->getGlobalBounds().width/2) ;
+    float intery = std::abs(dy)-(this->getFig()->getGlobalBounds().height/2 + pIn->getFig()->getGlobalBounds().height/2);
     if(interx < 0.0f && intery < 0.0f){
         if(interx > intery){
             if(dx > 0)
-                getFig()->move({-1.0f,0.0f});
+                this->getFig()->move({-1.0f,0.0f});
             else
-                getFig()->move({1.0f,0.0f});
+                this->getFig()->move({1.0f,0.0f});
             }
         else {
             if(dy>0)
-                getFig()->move({0.0f,-1.0f});
+                this->getFig()->move({0.0f,-1.0f});
             else
-                getFig()->move({0.0f,1.0f});
+                this->getFig()->move({0.0f,1.0f});
         }
         return true;
     }
     return false;
 }
 
-void Jogador::executar(){
+void trabalhoJogo::Entidades::Personagens::Jogador::executar(){
 
 }
-void Jogador::salvar(){
+void trabalhoJogo::Entidades::Personagens::Jogador::salvar(){
 
 }
 
-void Jogador::mover(){
+void trabalhoJogo::Entidades::Personagens::Jogador::mover(){
     Vector2f movimento = {0, 0}; // Vector2<float>
 
     if (Keyboard::isKeyPressed(Keyboard::Up)){

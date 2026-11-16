@@ -5,43 +5,46 @@
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
 #define GATO "assets/imagens/blanche100x100.png"
 
-class Ente;
-class GerenciadorGrafico
-{
-private:
-    sf::RenderWindow janela;
-    sf::Image imgJogador;
-    sf::Image imgChao;
-    sf::Image imgInimigos;
-    // sf::Image img...;
+namespace trabalhoJogo{
+    class Ente;
+    namespace Gerenciador{
+        class GerenciadorGrafico
+        {
+        private:
+            sf::RenderWindow janela;
+            sf::Image imgJogador;
+            sf::Image imgChao;
+            sf::Image imgInimigos;
+            // sf::Image img...;
 
-    sf::Texture texAranhaGigante;
-    // static sf::Texture tex...;
-    // Poderiam ser static
+            sf::Texture texAranhaGigante;
+            // sf::Texture tex...;
 
-public:
-    GerenciadorGrafico();
-    ~GerenciadorGrafico();
+        public:
+            GerenciadorGrafico();
+            ~GerenciadorGrafico();
 
-    void desenharEnte(Ente* pE);
-    void desenharTexto(const sf::Text & texto);
-    const bool aberto() const;
-    void renderizar();
-    void limpar();
-    bool getEvento(sf::Event& evento);
-    void fechar();
+            void desenharEnte(Ente* pE);
+            void desenharTexto(const sf::Text & texto);
+            const bool aberto() const;
+            void renderizar();
+            void limpar();
+            bool getEvento(sf::Event& evento);
+            void fechar();
 
-    sf::RenderWindow & getJanela() { return janela; }
+            sf::RenderWindow & getJanela() { return janela; }
 
-    const sf::Image getImgJogador() const;
-    const sf::Image getImgChao() const;
-    const sf::Image getImgInimigos() const;
+            const sf::Image& getImgJogador() const;
+            const sf::Image& getImgChao() const;
+            const sf::Image& getImgInimigos() const;
 
-    // Para desenhar corretamente, passamos por referência
-    // https://www.sfml-dev.org/tutorials/2.6/graphics/sprite/#the-white-square-problem
-    const sf::Texture& getTexAranhaGigante() const { return texAranhaGigante; }
+            // Para desenhar corretamente, passamos por referência
+            // https://www.sfml-dev.org/tutorials/2.6/graphics/sprite/#the-white-square-problem
+            const sf::Texture& getTexAranhaGigante() const { return texAranhaGigante; }
 
-private:
-    void inicializarImagens();
-    void inicializarTexturas();
-};
+        private:
+            void inicializarImagens();
+            void inicializarTexturas();
+        };
+    }
+}

@@ -2,86 +2,59 @@
 #include "../Gerenciador/Grafico.h"
 #include "../Gerenciador/Tempo.h"
 #include "../Entidades/Entidade.h"
+#include "../Entidades/Personagem/Jogador.h"
+#include "../Entidades/Chao.h"
 
 #include "../Entidades/Personagem/AranhaGigante.h"
-
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window.hpp>
 using sf::Event;
 using sf::Keyboard;
 
-#include <list>
-using std::list;
-
 #include "../organiza.h"
 
-Fase::Fase():
+trabalhoJogo::Fases::Fase::Fase():
     Ente(),
     GC(),
     lista_ents()
 {
-    std::cerr << "\nEntrando na fase" << std::endl;
 }
 
-Fase::~Fase() {
-    std::cerr << "\nSaindo da fase" << std::endl;
-    // TEMPORÁRIO
-    list<Entidade*>::iterator it;
-    it = temp_lista_ents.begin();
-
-    std::cerr << "jogador (Jogo): " << (*it) << std::endl;
-    it++; // jogador
-
-    std::cerr << "chao (Jogo): " << (*it) << std::endl;
-    it++; // chao
-
-    while (it != temp_lista_ents.end()) {
-        std::cerr << "*it: " << (*it) << std::endl;
-        destruirEntidade(*it);
-        it++;
-    }
+trabalhoJogo::Fases::Fase::~Fase(){
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    for(it = lista_ents.inicio(); it != lista_ents.fim(); ++it)
+        if((*it)->getDinamico())
+            destruirEntidade(*it);
 }
-void Fase::tempAdicionaJog1(Jogador* jogador1){
-        temp_lista_ents.push_back(static_cast<Entidade*>(static_cast<Personagem*>(jogador1)));
+void trabalhoJogo::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
+        lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador1)));
         GC.incluirJogador1(jogador1);
     }
-void Fase::tempAdicionaChao(Chao* chao){
-    temp_lista_ents.push_back(static_cast<Entidade*>(chao));
+void trabalhoJogo::Fases::Fase::adicionaChao(Entidades::Chao* chao){
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
     GC.incluirChao(chao);
 }
-void Fase::gravitar() {
-    list<Entidade*>::iterator it;
+void trabalhoJogo::Fases::Fase::gravitar() {
     float dt = Tempo::getSegundos();
-    for (it = temp_lista_ents.begin(); it != temp_lista_ents.end(); it++)
-    {
-        /*
-        if ((*it)->sofreGravidade()) {
-            float gravidadeMax = 1800.f;
-            float aceleracao = 1200.f;
-            velocidade.y += aceleracao*dt;
-            if(velocidade.y > gravidadeMax)
-                velocidade.y = gravidadeMax;
-            getFig()->move({0,velocidade.y*dt});
-        }
-        */
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
         (*it)->gravitar(dt);
-    }
 }
 
-void Fase::mover() {
-    list<Entidade*>::iterator it;
-    for (it = temp_lista_ents.begin(); it != temp_lista_ents.end(); it++) {
+void trabalhoJogo::Fases::Fase::mover() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
         (*it)->mover();
-    }
+
 }
 
-void Fase::desenhar() {
-    list<Entidade*>::iterator it;
-    for (it = temp_lista_ents.begin(); it != temp_lista_ents.end(); it++) {
+void trabalhoJogo::Fases::Fase::desenhar() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
         (*it)->desenhar();
-    }
 }
 
-void Fase::executar() {
+void trabalhoJogo::Fases::Fase::executar() {
     Event evento;
     bool jogando = true;
     while (jogando) {
@@ -108,54 +81,51 @@ void Fase::executar() {
     }
 }
 
-void Fase::destruirEntidade(Entidade* pE) {
+void trabalhoJogo::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
     if (pE == NULL) {
         std::cerr << "Nulidade em Fase::destruirEntidade" << std::endl;
         return;
     }
-    std::cerr << "delete: " << pE << std::endl;
+    // std::cout << "delete: " << pE << std::endl;
     delete (pE->getFig()); // Sprite
     delete pE; // Entidade
 }
 
-void Fase::criarAranhaGigante() {
-    AranhaGigante* pAranha;
+void trabalhoJogo::Fases::Fase::criarAranhaGigante() {
+    Entidades::Personagens::AranhaGigante* pAranha;
     sf::Sprite* pSprite;
 
     pSprite = new sf::Sprite;
     pSprite->setTexture(pGG->getTexAranhaGigante());
 
-    pAranha = new AranhaGigante;
+    pAranha = new Entidades::Personagens::AranhaGigante;
     pAranha->atribuirSprite(pSprite);
+    pAranha->setDinamico(true);
 
-    std::cerr << "aranha: " << pAranha << "\t"
-              << "sprite: " << pSprite << "\t"
-              << "getFig: " << pAranha->getFig() << std::endl;
-    //incluir na lista de entidades
-    temp_lista_ents.push_back(static_cast<Entidade*>(pAranha)); // FAZER DELETE DEPOIS
-    GC.incluirInimigo(static_cast<Inimigo*>(pAranha));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pAranha));
+    GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pAranha));
 }
 
-void Fase::criarOlhoVoador() {
+void trabalhoJogo::Fases::Fase::criarOlhoVoador() {
 
 }
 
-void Fase::criarBruxa() {
+void trabalhoJogo::Fases::Fase::criarBruxa() {
 
 }
 
-void Fase::criarPlataforma() {
+void trabalhoJogo::Fases::Fase::criarPlataforma() {
 
 }
 
-void Fase::criarCogumelo() {
+void trabalhoJogo::Fases::Fase::criarCogumelo() {
 
 }
 
-void Fase::criarObstDificil() {
+void trabalhoJogo::Fases::Fase::criarObstDificil() {
 
 }
 
-void Fase::criarCenarios() {
+void trabalhoJogo::Fases::Fase::criarCenarios() {
 
 }

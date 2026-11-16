@@ -3,18 +3,22 @@
 #include "Entidade.h"
 
 // Chão será formado por várias
-class Chao : public Entidade
-{
-private:
-    float largura;
-    float altura;
-public:
-    Chao();
-    ~Chao();
-    void inicializaChao(sf::Sprite * chao);
-    void tamanhoChao();
-    void gravitar(const float dt);
-    void mover() {}
-    void executar();
-    void salvar();
-};
+namespace trabalhoJogo{
+    namespace Entidades{
+        class Chao : public Entidade
+        {
+        private:
+            float largura;
+            float altura;
+        public:
+            Chao();
+            ~Chao();
+            void inicializaChao(sf::Sprite * chao);
+            void tamanhoChao();
+            void gravitar(const float dt);
+            void mover();
+            void executar();
+            void salvar();
+        };
+    }
+}

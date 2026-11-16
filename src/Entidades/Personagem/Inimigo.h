@@ -2,17 +2,22 @@
 
 #include"Personagem.h"
 
-class Jogador;
+namespace trabalhoJogo{
+    namespace Entidades{
+        namespace Personagens{
+            class Jogador;
+            class Inimigo:public Personagem {
+            protected:
+                int agresividade;
 
-class Inimigo:public Personagem {
-protected:
-    int agresividade;
-
-public:
-    Inimigo();
-    virtual ~Inimigo();
-    virtual void executar() = 0;
-    virtual void salvar() = 0;
-    virtual void mover() = 0;
-    virtual void danificar(Jogador*pJog) = 0;
-};
+            public:
+                Inimigo();
+                virtual ~Inimigo();
+                virtual void executar() = 0;
+                virtual void salvar() = 0;
+                virtual void mover() = 0;
+                virtual void danificar(Jogador*pJog) = 0;
+            };
+        }
+    }
+}

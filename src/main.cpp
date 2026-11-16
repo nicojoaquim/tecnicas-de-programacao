@@ -2,6 +2,6 @@
 
 int main ()
 {
-    Jogo jogo;
+    trabalhoJogo::Jogo jogo;
     return 0;
 }

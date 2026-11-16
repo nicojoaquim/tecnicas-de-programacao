@@ -12,7 +12,8 @@ using sf::RenderWindow;
 #define CHAO "assets/imagens/Retro-Lines-16x16/Environment.png"
 #define INIMIGOS "assets/imagens/Retro-Lines-16x16/Enemies.png"
 
-GerenciadorGrafico::GerenciadorGrafico():
+
+trabalhoJogo::Gerenciador::GerenciadorGrafico::GerenciadorGrafico():
     janela(),
     imgJogador(),
     imgChao(),
@@ -28,11 +29,11 @@ GerenciadorGrafico::GerenciadorGrafico():
     inicializarTexturas();
 }
 
-GerenciadorGrafico::~GerenciadorGrafico(){
+trabalhoJogo::Gerenciador::GerenciadorGrafico::~GerenciadorGrafico(){
 
 }
 
-void GerenciadorGrafico::desenharEnte(Ente *pE)
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::desenharEnte(Ente *pE)
 {
     if (pE == NULL) {
         std::cerr << "Nulidade em GG::desenharEnte" << std::endl;
@@ -42,21 +43,21 @@ void GerenciadorGrafico::desenharEnte(Ente *pE)
     }
 }
 
-void GerenciadorGrafico::desenharTexto(const sf::Text& texto){
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::desenharTexto(const sf::Text& texto){
     janela.draw(texto);
 }
 
-const bool GerenciadorGrafico::aberto() const {
+const bool trabalhoJogo::Gerenciador::GerenciadorGrafico::aberto() const {
     if(janela.isOpen())
         return true;
     return false;
 }
 
-void GerenciadorGrafico::renderizar(){
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::renderizar(){
     janela.display();
 }
 
-void GerenciadorGrafico::limpar(){
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::limpar(){
     janela.clear();
 }
 /*
@@ -74,15 +75,15 @@ void GerenciadorGrafico::executar()
 }
 */
 
-bool GerenciadorGrafico::getEvento(sf::Event& evento) {
+bool trabalhoJogo::Gerenciador::GerenciadorGrafico::getEvento(sf::Event& evento) {
     return janela.pollEvent(evento);
 }
 
-void GerenciadorGrafico::fechar() {
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::fechar() {
     janela.close();
 }
 
-void GerenciadorGrafico::inicializarImagens() {
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::inicializarImagens() {
     if (!imgJogador.loadFromFile(JOGADOR))
         std::cerr << "Falha ao abrir " << JOGADOR << std::endl;
 
@@ -93,7 +94,7 @@ void GerenciadorGrafico::inicializarImagens() {
         std::cerr << "Falha ao abrir " << INIMIGOS << std::endl;
 }
 
-void GerenciadorGrafico::inicializarTexturas() {
+void trabalhoJogo::Gerenciador::GerenciadorGrafico::inicializarTexturas() {
     if (!texAranhaGigante.loadFromImage(getImgInimigos(), sf::IntRect(3, 184, 12, 8))) {
         std::cerr << "Erro ao carregar em GG::inicializarTexturas" << std::endl;
         return;
@@ -101,14 +102,14 @@ void GerenciadorGrafico::inicializarTexturas() {
     texAranhaGigante.setSmooth(false); // Serve para continuar pixelada quando esticada
 }
 
-const sf::Image GerenciadorGrafico::getImgJogador() const {
+const sf::Image& trabalhoJogo::Gerenciador::GerenciadorGrafico::getImgJogador() const {
     return imgJogador;
 }
 
-const sf::Image GerenciadorGrafico::getImgChao() const {
+const sf::Image& trabalhoJogo::Gerenciador::GerenciadorGrafico::getImgChao() const {
     return imgChao;
 }
 
-const sf::Image GerenciadorGrafico::getImgInimigos() const {
+const sf::Image& trabalhoJogo::Gerenciador::GerenciadorGrafico::getImgInimigos() const {
     return imgInimigos;
 }

@@ -2,30 +2,31 @@
 
 #include <SFML/Graphics.hpp>
 #include "organiza.h"
+namespace trabalhoJogo{
+    namespace Gerenciador{
+        class GerenciadorGrafico;
+    }
+    class Ente
+    {
+    protected:
+        int id;
+        static Gerenciador::GerenciadorGrafico* pGG;
+        sf::Sprite* pFig;
+        // sf::Sprite possui coordenadas
 
-class GerenciadorGrafico;
+    public:
+        Ente();
+        virtual ~Ente();
+        virtual void executar() = 0;
 
-class Ente
-{
-protected:
-    int id;
-    static GerenciadorGrafico* pGG;
-    sf::Sprite* pFig;
-    // sf::Sprite possui coordenadas
+        static void setGG(Gerenciador::GerenciadorGrafico* pG);
 
-public:
-    Ente();
-    virtual ~Ente();
-    virtual void executar() = 0;
+        void desenhar();
 
-    static void setGG(GerenciadorGrafico* pG);
+        void setId(int idO);
+        int getId();
 
-    void desenhar();
-
-    void setId(int idO);
-    int getId();
-
-    void setFig(sf::Sprite * Fig);
-    sf::Sprite* getFig();
-};
-
+        void setFig(sf::Sprite * Fig);
+        sf::Sprite* getFig();
+    };
+}
