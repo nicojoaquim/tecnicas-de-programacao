@@ -3,7 +3,7 @@
 #include "Inimigo.h"
 
 
-namespace trabalhoJogo{
+namespace CMD{
     namespace Entidades{
         namespace Personagens{
             class AranhaGigante:public Inimigo{

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "organiza.h"
-namespace trabalhoJogo{
+namespace CMD{
     namespace Gerenciador{
         class GerenciadorGrafico;
     }

@@ -1,21 +1,21 @@
 #include "Cogumelo.h"
 
-trabalhoJogo::Entidades::Obstaculos::Cogumelo::Cogumelo():
+CMD::Entidades::Obstaculos::Cogumelo::Cogumelo():
     Obstaculo(),
     largura(-1)
 {
 }
 
-trabalhoJogo::Entidades::Obstaculos::Cogumelo::~Cogumelo()
+CMD::Entidades::Obstaculos::Cogumelo::~Cogumelo()
 {
 }
 
-void trabalhoJogo::Entidades::Obstaculos::Cogumelo::executar()
+void CMD::Entidades::Obstaculos::Cogumelo::executar()
 {
 }
 
-void trabalhoJogo::Entidades::Obstaculos::Cogumelo::obstaculizar(Personagens::Jogador *p)
+void CMD::Entidades::Obstaculos::Cogumelo::obstaculizar(Personagens::Jogador *p)
 {
 }
 
-void trabalhoJogo::Entidades::Obstaculos::Cogumelo::gravitar(const float dt) {}
+void CMD::Entidades::Obstaculos::Cogumelo::gravitar(const float dt) {}

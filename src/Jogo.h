@@ -10,7 +10,7 @@
 // #include "Fases/Fase.h"
 
 // Usado para telaAtual
-namespace trabalhoJogo{
+namespace CMD{
     enum Tela {
         MENU, FASE1, FASE2
     };

@@ -2,7 +2,7 @@
 #include "Ente.h"
 #include"organiza.h"
 //#include "Gerenciador/Janela.h"
-namespace trabalhoJogo{
+namespace CMD{
     class Jogo;
     class GerenciadorGrafico;
     //baseando no menu do site terminal root

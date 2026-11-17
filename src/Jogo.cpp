@@ -12,7 +12,7 @@ using sf::Vector2f;
 using sf::Event;
 using sf::Keyboard;
 
-trabalhoJogo::Jogo::Jogo():
+CMD::Jogo::Jogo():
     telaAtual(MENU),
     GG(),
     jogador1(),
@@ -60,7 +60,7 @@ trabalhoJogo::Jogo::Jogo():
     executar();
 }
 
-trabalhoJogo::Jogo::~Jogo()
+CMD::Jogo::~Jogo()
 {}
 /*
 void Jogo::preparar()
@@ -86,7 +86,7 @@ void Jogo::desenhar()
     GG.renderizar(); // Final
 }
 */
-void trabalhoJogo::Jogo::telaInicial()
+void CMD::Jogo::telaInicial()
 {
     Event evento;
     int ativo = 1;
@@ -118,7 +118,7 @@ void Jogo::gravidade(){
 }
 */
 
-void trabalhoJogo::Jogo::executar()
+void CMD::Jogo::executar()
 {
     while (GG.aberto())
     {
@@ -127,7 +127,7 @@ void trabalhoJogo::Jogo::executar()
         }
         else if (telaAtual == FASE1) {
             std::cout << "Fase 1" << std::endl;
-            trabalhoJogo::Fases::MemoriaRam fase1;
+            CMD::Fases::MemoriaRam fase1;
             fase1.adicionaJog1(&jogador1);
             fase1.adicionaChao(&chao);
             fase1.executar();

@@ -4,7 +4,7 @@
 #include <list>
 #include <set>
 
-namespace trabalhoJogo
+namespace CMD
 {
     namespace Entidades
     {

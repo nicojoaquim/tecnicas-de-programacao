@@ -5,7 +5,7 @@
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
 #define GATO "assets/imagens/blanche100x100.png"
 
-namespace trabalhoJogo{
+namespace CMD{
     class Ente;
     namespace Gerenciador{
         class GerenciadorGrafico

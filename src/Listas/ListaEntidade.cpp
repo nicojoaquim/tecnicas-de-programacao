@@ -1,22 +1,22 @@
 #include "ListaEntidade.h"
 
-trabalhoJogo::Listas::ListaEntidade::ListaEntidade(){
+CMD::Listas::ListaEntidade::ListaEntidade(){
 
 }
-trabalhoJogo::Listas::ListaEntidade::~ListaEntidade(){
+CMD::Listas::ListaEntidade::~ListaEntidade(){
 
 }
-void trabalhoJogo::Listas::ListaEntidade::incluir(trabalhoJogo::Entidades::Entidade* pE){
+void CMD::Listas::ListaEntidade::incluir(CMD::Entidades::Entidade* pE){
     LEs.incluir(pE);
 }
-void trabalhoJogo::Listas::ListaEntidade::percorrer(){
+void CMD::Listas::ListaEntidade::percorrer(){
     LEs.percorrer();
 }
-trabalhoJogo::Listas::Lista<trabalhoJogo::Entidades::Entidade>::Iterador 
-trabalhoJogo::Listas::ListaEntidade::inicio(){
+CMD::Listas::Lista<CMD::Entidades::Entidade>::Iterador
+CMD::Listas::ListaEntidade::inicio(){
     return LEs.inicio();
  }
- trabalhoJogo::Listas::Lista<trabalhoJogo::Entidades::Entidade>::Iterador 
-trabalhoJogo::Listas::ListaEntidade::fim(){
+ CMD::Listas::Lista<CMD::Entidades::Entidade>::Iterador
+CMD::Listas::ListaEntidade::fim(){
     return LEs.fim();
  }

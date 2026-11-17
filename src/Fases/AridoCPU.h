@@ -4,7 +4,7 @@
 
 #include "../Entidades/Personagem/Bruxa.h"
 #include "../Entidades/Projetil.h"
-namespace trabalhoJogo{
+namespace CMD{
     namespace Fases{
         class AridoCPU : public Fase
         {

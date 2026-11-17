@@ -11,17 +11,17 @@ Entidade::Entidade(bool gravidade):
 {
 }*/
 
-trabalhoJogo::Entidades::Entidade::Entidade():
+CMD::Entidades::Entidade::Entidade():
     buffer(std::cout),
     dinamico(false)
 {
 }
 
-trabalhoJogo::Entidades::Entidade::~Entidade()
+CMD::Entidades::Entidade::~Entidade()
 {
 }
 
-void trabalhoJogo::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
+void CMD::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
     if (Fig == NULL) {
         std::cerr << "Nulidade em atribuirSprite" << std::endl;
         return;
@@ -34,7 +34,7 @@ void trabalhoJogo::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
     setPosicao(getPosicao()+centro);
 }
 
-void trabalhoJogo::Entidades::Entidade::salvarDataBuffer(){
+void CMD::Entidades::Entidade::salvarDataBuffer(){
     buffer << getX() << " " << getY();
 }
 /*
@@ -42,7 +42,7 @@ const bool Entidade::sofreGravidade() const {
     return sofre_gravidade;
 }
 */
-const Vector2f trabalhoJogo::Entidades::Entidade::getPosicao() const {
+const Vector2f CMD::Entidades::Entidade::getPosicao() const {
     if (pFig != NULL)
         return pFig->getPosition();
     else {
@@ -51,26 +51,26 @@ const Vector2f trabalhoJogo::Entidades::Entidade::getPosicao() const {
     }
 }
 
-const float trabalhoJogo::Entidades::Entidade::getX() const {
+const float CMD::Entidades::Entidade::getX() const {
     return Entidade::getPosicao().x;
 }
 
-const float trabalhoJogo::Entidades::Entidade::getY() const {
+const float CMD::Entidades::Entidade::getY() const {
     return Entidade::getPosicao().y;
 }
 
-void trabalhoJogo::Entidades::Entidade::setPosicao(const Vector2f posicao) {
+void CMD::Entidades::Entidade::setPosicao(const Vector2f posicao) {
     if (pFig != NULL)
         pFig->setPosition(posicao);
 }
 
-void trabalhoJogo::Entidades::Entidade::setPosicaoEsper(const Vector2f posicao){
+void CMD::Entidades::Entidade::setPosicaoEsper(const Vector2f posicao){
     Vector2f centro(getLargura(),getAltura());
     if (pFig != NULL)
         pFig->setPosition(posicao + centro/2.f);
 }
 
-const Vector2f trabalhoJogo::Entidades::Entidade::getTamanho() const {
+const Vector2f CMD::Entidades::Entidade::getTamanho() const {
     if (pFig != NULL)
         // TODO ver se getSize() == getGlobalBounds().width e .height
         // Estava em atribuirSprite:
@@ -83,17 +83,17 @@ const Vector2f trabalhoJogo::Entidades::Entidade::getTamanho() const {
     }
 }
 
-const float trabalhoJogo::Entidades::Entidade::getLargura() const {
+const float CMD::Entidades::Entidade::getLargura() const {
     return getTamanho().x;
 }
 
-const float trabalhoJogo::Entidades::Entidade::getAltura() const {
+const float CMD::Entidades::Entidade::getAltura() const {
     return getTamanho().y;
 }
-void trabalhoJogo::Entidades::Entidade::setDinamico(bool dim){
+void CMD::Entidades::Entidade::setDinamico(bool dim){
     dinamico = dim;
 }
-const bool trabalhoJogo::Entidades::Entidade::getDinamico() const{
+const bool CMD::Entidades::Entidade::getDinamico() const{
     return dinamico;
 }
 // Pode colocar sobrecarga de operador aqui para mudar posição da entidade

@@ -3,7 +3,7 @@
 #include "Entidade.h"
 
 // Chão será formado por várias
-namespace trabalhoJogo{
+namespace CMD{
     namespace Entidades{
         class Chao : public Entidade
         {

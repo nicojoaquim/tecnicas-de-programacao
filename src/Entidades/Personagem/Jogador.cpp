@@ -7,16 +7,16 @@ using sf::Vector2f;
 using std::cerr;
 using std::endl;
 
-trabalhoJogo::Entidades::Personagens::Jogador::Jogador():Personagem(),pontos(0)
+CMD::Entidades::Personagens::Jogador::Jogador():Personagem(),pontos(0)
 {
 }
 
-trabalhoJogo::Entidades::Personagens::Jogador::~Jogador()
+CMD::Entidades::Personagens::Jogador::~Jogador()
 {
 }
 
 //baseado na colisão de Hilze Vonck
-bool trabalhoJogo::Entidades::Personagens::Jogador::colidir(Personagens::Inimigo* pIn){
+bool CMD::Entidades::Personagens::Jogador::colidir(Personagens::Inimigo* pIn){
     if (pIn == NULL) {
         cerr << "Inimigo nulo" << endl;
         return false;
@@ -44,14 +44,14 @@ bool trabalhoJogo::Entidades::Personagens::Jogador::colidir(Personagens::Inimigo
     return false;
 }
 
-void trabalhoJogo::Entidades::Personagens::Jogador::executar(){
+void CMD::Entidades::Personagens::Jogador::executar(){
 
 }
-void trabalhoJogo::Entidades::Personagens::Jogador::salvar(){
+void CMD::Entidades::Personagens::Jogador::salvar(){
 
 }
 
-void trabalhoJogo::Entidades::Personagens::Jogador::mover(){
+void CMD::Entidades::Personagens::Jogador::mover(){
     Vector2f movimento = {0, 0}; // Vector2<float>
 
     if (Keyboard::isKeyPressed(Keyboard::Up)){

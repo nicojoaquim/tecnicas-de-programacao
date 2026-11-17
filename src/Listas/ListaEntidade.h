@@ -2,7 +2,7 @@
 
 #include"lista.h"
 
-namespace trabalhoJogo
+namespace CMD
 {
     namespace Entidades
     {

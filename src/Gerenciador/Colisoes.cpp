@@ -19,7 +19,7 @@ using std::list;
 
 using sf::Vector2f;
 
-trabalhoJogo::Gerenciador::GerenciadorColisoes::GerenciadorColisoes():
+CMD::Gerenciador::GerenciadorColisoes::GerenciadorColisoes():
     LIs(),
     LOs(),
     LPs(),
@@ -36,7 +36,7 @@ trabalhoJogo::Gerenciador::GerenciadorColisoes::GerenciadorColisoes():
     LCs.clear();
 }
 
-trabalhoJogo::Gerenciador::GerenciadorColisoes::~GerenciadorColisoes() {
+CMD::Gerenciador::GerenciadorColisoes::~GerenciadorColisoes() {
     pJog1 = NULL;
     LIs.clear();
     LOs.clear();
@@ -44,33 +44,33 @@ trabalhoJogo::Gerenciador::GerenciadorColisoes::~GerenciadorColisoes() {
     LCs.clear();
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::incluirJogador1(Entidades::Personagens::Jogador* pPrimeiro){
+void CMD::Gerenciador::GerenciadorColisoes::incluirJogador1(Entidades::Personagens::Jogador* pPrimeiro){
     if(pPrimeiro != NULL)
         pJog1 = pPrimeiro;
 
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
+void CMD::Gerenciador::GerenciadorColisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
     if(pi != NULL)
         LIs.push_back(pi);
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::incluirObstaculo(Entidades::Obstaculo* po) {
+void CMD::Gerenciador::GerenciadorColisoes::incluirObstaculo(Entidades::Obstaculo* po) {
     if(po != NULL)
         LOs.push_back(po);
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::incluirProjetil(Entidades::Projetil* pj) {
+void CMD::Gerenciador::GerenciadorColisoes::incluirProjetil(Entidades::Projetil* pj) {
     if(pj != NULL)
         LPs.insert(pj);
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::incluirChao(Entidades::Chao* pc) {
+void CMD::Gerenciador::GerenciadorColisoes::incluirChao(Entidades::Chao* pc) {
     if(pc != NULL)
         LCs.push_back(pc);
 }
 
-const bool trabalhoJogo::Gerenciador::GerenciadorColisoes::verificarColisao(Entidades::Entidade* p1, Entidades::Entidade* p2)
+const bool CMD::Gerenciador::GerenciadorColisoes::verificarColisao(Entidades::Entidade* p1, Entidades::Entidade* p2)
 {
     if (p1 == NULL || p2 == NULL) {
         std::cerr << "Nulidade em GC::verificarColisao" << std::endl;
@@ -91,7 +91,7 @@ const bool trabalhoJogo::Gerenciador::GerenciadorColisoes::verificarColisao(Enti
     return (internox < 0.0f && internoy < 0.0f);
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoJogsInimigo() {
+void CMD::Gerenciador::GerenciadorColisoes::tratarColisaoJogsInimigo() {
     if (LIs.empty()) {
         std::cout << "tentativa de acessar vetor de inimigo vazio" << std::endl;
         return;
@@ -110,16 +110,16 @@ void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoJogsInimigo() 
     }
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoJogsObstaculo() {
+void CMD::Gerenciador::GerenciadorColisoes::tratarColisaoJogsObstaculo() {
 
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoJogsProjetil() {
+void CMD::Gerenciador::GerenciadorColisoes::tratarColisaoJogsProjetil() {
 
 }
 
 // baseado em https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoJogsChao() {
+void CMD::Gerenciador::GerenciadorColisoes::tratarColisaoJogsChao() {
     if (LCs.empty()) {
         std::cout << "tentativa de acessar lista de chao vazia" << std::endl;
         return;
@@ -144,7 +144,7 @@ void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoJogsChao() {
     }
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoChaoInimigo(){
+void CMD::Gerenciador::GerenciadorColisoes::tratarColisaoChaoInimigo(){
     if(LCs.empty() || LIs.empty()){
         std::cout << "tentativa de acessar lista de chao ou vetor de inimigo vazio" << std::endl;
         return;
@@ -168,14 +168,14 @@ void trabalhoJogo::Gerenciador::GerenciadorColisoes::tratarColisaoChaoInimigo(){
             (*itIs)->setVy(0);}
     }
 }
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::executar()
+void CMD::Gerenciador::GerenciadorColisoes::executar()
 {
     colisaoJogsInimigo();
     colisaoJogsChao();
     colisaoChaoInimigo();
 }
 
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::colisaoJogsInimigo(){
+void CMD::Gerenciador::GerenciadorColisoes::colisaoJogsInimigo(){
     for (itIs = LIs.begin(); itIs != LIs.end(); itIs++) {
         if (verificarColisao(
                 static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(pJog1)),
@@ -185,7 +185,7 @@ void trabalhoJogo::Gerenciador::GerenciadorColisoes::colisaoJogsInimigo(){
         }
     }
 }
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::colisaoJogsChao(){
+void CMD::Gerenciador::GerenciadorColisoes::colisaoJogsChao(){
     for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
         if (verificarColisao(
                 static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(pJog1)),
@@ -195,7 +195,7 @@ void trabalhoJogo::Gerenciador::GerenciadorColisoes::colisaoJogsChao(){
         }
     }
 }
-void trabalhoJogo::Gerenciador::GerenciadorColisoes::colisaoChaoInimigo(){
+void CMD::Gerenciador::GerenciadorColisoes::colisaoChaoInimigo(){
     for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
         for (itIs = LIs.begin(); itIs != LIs.end(); itIs++)
             if (verificarColisao(

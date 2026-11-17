@@ -1,9 +1,9 @@
 #include"Inimigo.h"
-trabalhoJogo::Entidades::Personagens::Inimigo::Inimigo():Personagem(),agresividade(1)
+CMD::Entidades::Personagens::Inimigo::Inimigo():Personagem(),agresividade(1)
 {
 
 }
-trabalhoJogo::Entidades::Personagens::Inimigo::~Inimigo(){
+CMD::Entidades::Personagens::Inimigo::~Inimigo(){
 
 }
 /*

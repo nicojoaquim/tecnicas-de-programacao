@@ -1,7 +1,7 @@
 #pragma once
 
 #include"Inimigo.h"
-namespace trabalhoJogo{
+namespace CMD{
     namespace Entidades{
         namespace Personagens{
             class OlhoVoador:public Inimigo{
