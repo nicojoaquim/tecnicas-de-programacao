@@ -86,6 +86,8 @@ void Jogo::desenhar()
     GG.renderizar(); // Final
 }
 */
+
+// MOVER PARA Menu::executar()
 void CMD::Jogo::telaInicial()
 {
     Event evento;
@@ -108,7 +110,8 @@ void CMD::Jogo::telaInicial()
     // Temporário
     if (ativo == 0)
         telaAtual = FASE1;
-    Tempo::restartRelogio();
+
+    Gerenciador::Tempo::reiniciarRelogio();
 }
 /*
 void Jogo::gravidade(){
