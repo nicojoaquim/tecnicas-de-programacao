@@ -1,16 +1,26 @@
 #pragma once
 
 #include <SFML/System.hpp>
-namespace CMD{
-    class Tempo
-    {
-    private:
-        static sf::Clock relogio;
 
-    public:
-        Tempo();
-        ~Tempo();
-        static void restartRelogio();
-        static const float getSegundos();
-    };
+// Tempo é uma classe singleton
+
+namespace CMD
+{
+    namespace Gerenciador
+    {
+        class Tempo
+        {
+        public:
+            static Tempo* getInstancia();
+            static void reiniciarRelogio();
+            static const float getSegundos();
+
+        private:
+            Tempo();
+            ~Tempo();
+            static Tempo* pInstancia;
+            static sf::Clock relogio;
+            static sf::Time tempo;
+        };
+    }
 }
