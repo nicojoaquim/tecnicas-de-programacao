@@ -22,7 +22,7 @@ namespace CMD
     class Fase: public Ente
     {
     protected:
-        Gerenciador::GerenciadorColisoes GC;
+        Gerenciador::Colisoes GC;
         Listas::ListaEntidade lista_ents;
         // sf::Texture texture;
         // sf::Sprite sprite;

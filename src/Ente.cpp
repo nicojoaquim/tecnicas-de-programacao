@@ -6,7 +6,7 @@ using sf::Sprite;
 
 using std::cerr;
 using std::endl;
-CMD::Gerenciador::GerenciadorGrafico* CMD::Ente::pGG(NULL);
+CMD::Gerenciador::Grafico* CMD::Ente::pGG(NULL);
 
 CMD::Ente::Ente():id(0)
 {
@@ -29,7 +29,7 @@ void CMD::Ente::desenhar() {
     pGG->desenharEnte(static_cast<Ente*>(this));
 }
 
-void CMD::Ente::setGG(CMD::Gerenciador::GerenciadorGrafico* pG)
+void CMD::Ente::setGG(CMD::Gerenciador::Grafico* pG)
 {
     pGG = pG;
 }

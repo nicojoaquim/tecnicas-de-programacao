@@ -20,7 +20,7 @@ namespace CMD
     }
     namespace Gerenciador
     {
-        class GerenciadorColisoes
+        class Colisoes
         {
         private:
             std::vector<Entidades::Personagens::Inimigo*> LIs;
@@ -38,8 +38,8 @@ namespace CMD
             float internoy; // ||
 
         public:
-            GerenciadorColisoes();
-            ~GerenciadorColisoes();
+            Colisoes();
+            ~Colisoes();
             void incluirInimigo(Entidades::Personagens::Inimigo* pi);
             void incluirObstaculo(Entidades::Obstaculo* po);
             void incluirProjetil(Entidades::Projetil* pj);

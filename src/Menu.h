@@ -4,7 +4,7 @@
 //#include "Gerenciador/Janela.h"
 namespace CMD{
     class Jogo;
-    class GerenciadorGrafico;
+    class Grafico;
     //baseando no menu do site terminal root
     class Menu: public Ente
     {

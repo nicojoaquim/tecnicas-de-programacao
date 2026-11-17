@@ -4,13 +4,13 @@
 #include "organiza.h"
 namespace CMD{
     namespace Gerenciador{
-        class GerenciadorGrafico;
+        class Grafico;
     }
     class Ente
     {
     protected:
         int id;
-        static Gerenciador::GerenciadorGrafico* pGG;
+        static Gerenciador::Grafico* pGG;
         sf::Sprite* pFig;
         // sf::Sprite possui coordenadas
 
@@ -19,7 +19,7 @@ namespace CMD{
         virtual ~Ente();
         virtual void executar() = 0;
 
-        static void setGG(Gerenciador::GerenciadorGrafico* pG);
+        static void setGG(Gerenciador::Grafico* pG);
 
         void desenhar();
 

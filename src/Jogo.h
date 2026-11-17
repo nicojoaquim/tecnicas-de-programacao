@@ -19,7 +19,7 @@ namespace CMD{
     {
     private:
         Tela telaAtual;
-        Gerenciador::GerenciadorGrafico GG;
+        Gerenciador::Grafico GG;
         Entidades::Personagens::Jogador jogador1;
 
         Menu menu;
