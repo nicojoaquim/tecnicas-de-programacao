@@ -8,7 +8,7 @@
 namespace CMD{
     class Ente;
     namespace Gerenciador{
-        class GerenciadorGrafico
+        class Grafico
         {
         private:
             sf::RenderWindow janela;
@@ -21,8 +21,8 @@ namespace CMD{
             // sf::Texture tex...;
 
         public:
-            GerenciadorGrafico();
-            ~GerenciadorGrafico();
+            Grafico();
+            ~Grafico();
 
             void desenharEnte(Ente* pE);
             void desenharTexto(const sf::Text & texto);
