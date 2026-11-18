@@ -14,8 +14,8 @@ namespace CMD{
             ~Projetil();
             const sf::Vector2f getV() const;
             void setV(const sf::Vector2f velocidade);
-            void gravitar(const float dt);
-            void mover() {}
+            void gravitar();
+            void mover();
             void executar();
             void salvar();
         };

@@ -3,13 +3,15 @@
 #include "Inimigo.h"
 
 
-namespace CMD{
-    namespace Entidades{
-        namespace Personagens{
-            class AranhaGigante:public Inimigo{
+namespace CMD {
+    namespace Entidades {
+        namespace Personagens {
+            class AranhaGigante: public Inimigo
+            {
             private:
                 float raio;
                 bool indoParaFrente;
+                bool mudou_direcao;
             public:
                 AranhaGigante();
                 ~AranhaGigante();

@@ -2,15 +2,21 @@
 
 #include <SFML/Graphics.hpp>
 #include "organiza.h"
-namespace CMD{
-    namespace Gerenciador{
+
+namespace CMD
+{
+    namespace Gerenciador
+    {
         class Grafico;
+        class Tempo;
     }
+
     class Ente
     {
     protected:
         int id;
         static Gerenciador::Grafico* pGG;
+        Gerenciador::Tempo* pGT;
         sf::Sprite* pFig;
         // sf::Sprite possui coordenadas
 

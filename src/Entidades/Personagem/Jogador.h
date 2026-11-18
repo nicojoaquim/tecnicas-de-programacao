@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Personagem.h"
-namespace CMD{
-    namespace Entidades{
-        namespace Personagens{
+
+namespace CMD
+{
+    namespace Entidades {
+        namespace Personagens {
             class Inimigo;
             class Jogador:public Personagem
             {
@@ -15,7 +17,7 @@ namespace CMD{
                 bool colidir(Personagens::Inimigo* pIn);
                 void executar();
                 void salvar();
-                void mover();
+                void mover(); // Sobrecarga do método de Entidade: mover(Vector2f)
             };
         }
     }

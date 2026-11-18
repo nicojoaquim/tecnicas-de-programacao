@@ -17,5 +17,3 @@ void CMD::Entidades::Obstaculos::Plataforma::executar()
 void CMD::Entidades::Obstaculos::Plataforma::obstaculizar(Personagens::Jogador *p)
 {
 }
-
-void CMD::Entidades::Obstaculos::Plataforma::gravitar(const float dt) {}

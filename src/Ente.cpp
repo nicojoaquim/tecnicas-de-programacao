@@ -8,10 +8,13 @@ using std::cerr;
 using std::endl;
 CMD::Gerenciador::Grafico* CMD::Ente::pGG(NULL);
 
-CMD::Ente::Ente():id(0)
+CMD::Ente::Ente():
+    id(0),
+    pGT()
 {
     pFig = NULL;
 }
+
 CMD::Ente::~Ente()
 {
     pFig = NULL;

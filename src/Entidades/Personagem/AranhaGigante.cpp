@@ -5,39 +5,58 @@ using sf::Vector2f;
 using sf::Vector2u;
 using sf::Keyboard;
 
-CMD::Entidades::Personagens::AranhaGigante::AranhaGigante():Inimigo(),raio(1),indoParaFrente(1){
-
+CMD::Entidades::Personagens::AranhaGigante::AranhaGigante():
+    Inimigo(),
+    raio(true),
+    indoParaFrente(true)
+{
 }
 
 CMD::Entidades::Personagens::AranhaGigante::~AranhaGigante(){
 
 }
-void CMD::Entidades::Personagens::AranhaGigante::executar(){
 
+void CMD::Entidades::Personagens::AranhaGigante::executar(){
+    gravitar();
+    mover();
+
+    if (mudou_direcao) {
+        mudou_direcao = false;
+        getFig()->scale(-1.f, 1.f);
+    }
 }
+
 void CMD::Entidades::Personagens::AranhaGigante::salvar(){
     salvarDataBuffer();
 }
+
 void CMD::Entidades::Personagens::AranhaGigante::mover(){
-    float movimento = 0; // Vector2<float>
-    Vector2u  janela = pGG->getJanela().getSize();
+    Vector2f movimento = {0.f, 0.f};
+    //Vector2u janela = pGG->getTamanhoJanela();
 
-    if (indoParaFrente){
-        movimento+= 0.5;
-        if(pFig->getGlobalBounds().left + pFig->getGlobalBounds().width> janela.x )
-            indoParaFrente=0;
+    if (indoParaFrente) {
+        movimento.x += 0.5;
+        //if(pFig->getGlobalBounds().left + pFig->getGlobalBounds().width > janela.x ) {
+        if (getLargura()/2 + getX() >= pGG->getTamanhoJanela().x) {
+            indoParaFrente = false;
+            mudou_direcao = true;
+        }
     }
-    else{
-        movimento -= 0.5;
-        if(pFig->getGlobalBounds().left <0 )
-            indoParaFrente=1;
+    else {
+        movimento.x -= 0.5;
+        //if(pFig->getGlobalBounds().left < 0 ) {
+        if (getX() <= 0) {
+            indoParaFrente = true;
+            mudou_direcao = true;
+        }
     }
 
-    if (movimento != 0)
-        movimento *= (float) 0.7071067811865475244; // 1/sqrt(2)
+    //if (movimento != 0)
+        //movimento *= (float) 0.7071067811865475244; // 1/sqrt(2)
 
-    pFig->move(movimento,0);
+    Entidade::mover(movimento);
 }
+
 void CMD::Entidades::Personagens::AranhaGigante::danificar(Jogador* pJog){
 
 }

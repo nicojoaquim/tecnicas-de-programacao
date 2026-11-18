@@ -20,7 +20,8 @@ CMD::Gerenciador::Grafico::Grafico():
     imgInimigos()
 {
     VideoMode video_mode = VideoMode::getDesktopMode();
-    int estilo_janela = sf::Style::Close; // Barra de título e botão de fechar
+    //int estilo_janela = sf::Style::Close; // Barra de título e botão de fechar
+    int estilo_janela = sf::Style::Default;
     janela.create(video_mode, "Jogo", estilo_janela);
     janela.clear(Color::Black);
     janela.display();
@@ -112,4 +113,12 @@ const sf::Image& CMD::Gerenciador::Grafico::getImgChao() const {
 
 const sf::Image& CMD::Gerenciador::Grafico::getImgInimigos() const {
     return imgInimigos;
+}
+
+const sf::Vector2u CMD::Gerenciador::Grafico::getTamanhoJanela() const {
+    return janela.getSize();
+}
+
+sf::RenderWindow& CMD::Gerenciador::Grafico::getJanela() {
+    return janela;
 }
