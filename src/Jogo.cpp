@@ -1,7 +1,7 @@
 #include "Jogo.h"
 
 #include "Fases/MemoriaRAM.h"
-#include "Gerenciador/Tempo.h"
+#include "Gerenciador/Tempo.h" // TEMP, mover telaInicial() para Menu
 
 // Uso para debug/erros
 #include "organiza.h"
@@ -42,7 +42,8 @@ CMD::Jogo::Jogo():
     // teste.atribuirSprite(&sprite2);
     // teste.setPosicaoEsper({105.f, 105.f});
     chao.inicializaChao(&sprite3);
-    chao.setPosicaoEsper({0.f,600.f});
+    //chao.setPosicaoEsper({0.f,600.f});
+    chao.getFig()->setPosition({chao.getLargura()/2, chao.getAltura()/2+600.f});
     //teste.setPosicao(Vector2f(105.f,105.f));
 
     if (!font.loadFromFile(FONTE)) {
@@ -86,6 +87,8 @@ void Jogo::desenhar()
     GG.renderizar(); // Final
 }
 */
+
+// MOVER PARA Menu::executar()
 void CMD::Jogo::telaInicial()
 {
     Event evento;
@@ -108,7 +111,8 @@ void CMD::Jogo::telaInicial()
     // Temporário
     if (ativo == 0)
         telaAtual = FASE1;
-    Tempo::restartRelogio();
+
+    //Gerenciador::Tempo::reiniciarRelogio();
 }
 /*
 void Jogo::gravidade(){

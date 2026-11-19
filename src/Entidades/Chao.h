@@ -15,8 +15,6 @@ namespace CMD{
             ~Chao();
             void inicializaChao(sf::Sprite * chao);
             void tamanhoChao();
-            void gravitar(const float dt);
-            void mover();
             void executar();
             void salvar();
         };
