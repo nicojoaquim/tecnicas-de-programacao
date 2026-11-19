@@ -26,6 +26,8 @@ namespace CMD
         Gerenciador::Colisoes GC;
         Listas::ListaEntidade lista_ents;
         Tilemap tilemap;
+        const int maxAranhasGicantes;
+        const int maxPlataformas;
         // sf::Texture texture;
         // sf::Sprite sprite;
         // Jogador* pJog1; Fase(Jogador* jogador1): pJog1(jogador1)

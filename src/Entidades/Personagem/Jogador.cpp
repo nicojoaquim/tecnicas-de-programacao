@@ -62,26 +62,47 @@ void CMD::Entidades::Personagens::Jogador::salvar() {
 void CMD::Entidades::Personagens::Jogador::mover() {
     sf::Vector2f dv(0, 0);
     float dt = Gerenciador::Tempo::getSegundos();
-
-    if (esta_no_chao) {
-        if (Keyboard::isKeyPressed(Keyboard::Up)) {
-            velocidade.y -= 1000.;
+    if (esta_no_chao && Keyboard::isKeyPressed(Keyboard::Up)) {
+            velocidade.y -= 600.;
             esta_no_chao = false;
         }
+
         if (Keyboard::isKeyPressed(Keyboard::Left))
             dv.x -= 800.;
         if (Keyboard::isKeyPressed(Keyboard::Right))
             dv.x += 800.;
+        velocidade += dv;
+        if(esta_no_chao){
+            velocidade.x *= 0.85f; 
+            
+            if (std::abs(velocidade.x) > 400.f) {
+                
+                if(velocidade.x > 0)
+                    velocidade.x = 400.f;
+                else
+                    velocidade.x = -400.f;
+                }
+                
+                if (std::abs(velocidade.x) < 1.f) 
+                        velocidade.x = 0.f;
+        }
+        else {
+            velocidade.x *= 0.98f;
+        
+            if (std::abs(velocidade.x) > 500.f) {
+                if(velocidade.x > 0)
+                        velocidade.x = 500.f;
+                else
+                    velocidade.x = -500.f;
 
-        velocidade.x *= 0.3f;
-        if (velocidade.x < 1.f)
-            velocidade.x = 0;
-    }
-    else {
-        velocidade.x *= 0.9993f;
-    }
-
-    velocidade += dv;
+            }
+        }
+    //     velocidade.x *= 0.3f;
+    //     if (velocidade.x < 1.f)
+    //         velocidade.x = 0;
+    // else {
+    //     velocidade.x *= 0.9993f;
+    // }
 
     //if (dv.x != 0 && dv.y != 0)
         //dv *= (float) 0.7071067811865475244; // 1/sqrt(2)

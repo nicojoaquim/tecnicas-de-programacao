@@ -25,8 +25,8 @@ void CMD::Entidades::Personagens::Personagem::setEstaNoChao(bool no_chao) {
 
 // baseado em https://gafferongames.com/post/integration_basics/
 void CMD::Entidades::Personagens::Personagem::gravitar() {
-    if (esta_no_chao)
-      return;
+    /*if (esta_no_chao)
+      return;*/
 
     float dt = Gerenciador::Tempo::getSegundos(); // s
     float velocidade_max = 1200.f; // pixel/s
@@ -37,5 +37,8 @@ void CMD::Entidades::Personagens::Personagem::gravitar() {
     if(velocidade.y > velocidade_max)
         velocidade.y = velocidade_max;
 
-    //getFig()->move({0,velocidade.y*dt});
+    getFig()->move({0,velocidade.y*dt});
 }
+const int CMD::Entidades::Personagens::Personagem::getNumVida() const
+{ 
+    return num_vida; } 

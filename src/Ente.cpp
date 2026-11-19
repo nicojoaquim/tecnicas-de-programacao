@@ -1,5 +1,6 @@
 #include "Ente.h"
 #include "Gerenciador/Grafico.h"
+#include "Gerenciador/tempo.h"
 #include "organiza.h"
 
 using sf::Sprite;

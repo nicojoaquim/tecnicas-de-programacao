@@ -22,7 +22,7 @@ namespace CMD
                 virtual void executar() = 0;
                 virtual void salvar() = 0;
                 virtual void mover() = 0; // Sobrecarga do método de Entidade: mover(Vector2f)
-                const int getNumVida() const { return num_vida; } // TEMP para Fase em Jogo
+                const int getNumVida() const ;// TEMP para Fase em Jogo
             };
         }
     }

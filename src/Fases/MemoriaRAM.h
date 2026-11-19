@@ -11,6 +11,7 @@ namespace CMD{
     {
     private:
         const int maxOlhosVoadores;
+        const int maxCogumelos;
         void criarInimigos();
         void criarObst();
 

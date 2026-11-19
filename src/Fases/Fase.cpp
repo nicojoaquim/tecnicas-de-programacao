@@ -19,7 +19,9 @@ CMD::Fases::Fase::Fase():
     Ente(),
     GC(),
     lista_ents(),
-    tilemap()
+    tilemap(),
+    maxAranhasGicantes(4),
+    maxPlataformas(4)
 {
     tilemap.calcularTileSize(pGG->getTamanhoJanela());
 
@@ -130,7 +132,7 @@ void CMD::Fases::Fase::criarAranhaGigante() {
     // tile_size/escala = tamanho_atual/1
     float escala = tilemap.getTileSize() / pAranha->getLargura();
     pAranha->getFig()->setScale(escala, escala);
-    pAranha->getFig()->scale(-5,5);
+    pAranha->getFig()->scale(5,5);
 }
 
 void CMD::Fases::Fase::criarOlhoVoador() {
