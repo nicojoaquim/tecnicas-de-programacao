@@ -29,9 +29,3 @@ void CMD::Entidades::Chao::executar(){
 void CMD::Entidades::Chao::salvar(){
 
 }
-void CMD::Entidades::Chao::mover(){
-
-}
-void CMD::Entidades::Chao::gravitar(const float dt){
-
-}

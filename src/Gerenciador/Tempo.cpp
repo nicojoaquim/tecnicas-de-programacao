@@ -2,10 +2,9 @@
 
 using namespace CMD::Gerenciador;
 
-// static, devemos declarar
-Tempo* Tempo::pInstancia = NULL;
+Tempo* Tempo::pInstancia(NULL);
 sf::Clock Tempo::relogio;
-sf::Time Tempo::tempo;
+sf::Time Tempo::tempo(sf::Time::Zero);
 
 Tempo* Tempo::getInstancia() {
     if (pInstancia == NULL)
@@ -19,10 +18,14 @@ Tempo::Tempo() {
 Tempo::~Tempo() {
 }
 
-void Tempo::reiniciarRelogio(){
+void Tempo::reiniciarRelogio() {
     tempo = relogio.restart();
 }
 
-const float Tempo::getSegundos(){
+const float Tempo::getSegundos() {
     return tempo.asSeconds();
 }
+
+// const sf::Int64 Tempo::getMicrosegundos() {
+//     return tempo.asMicroseconds();
+// }

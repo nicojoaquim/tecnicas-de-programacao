@@ -5,7 +5,8 @@
 #define FONTE "assets/fontes/monogram/monogram-extended.ttf"
 #define GATO "assets/imagens/blanche100x100.png"
 
-namespace CMD{
+namespace CMD
+{
     class Ente;
     namespace Gerenciador{
         class Grafico
@@ -32,12 +33,12 @@ namespace CMD{
             bool getEvento(sf::Event& evento);
             void fechar();
 
-            sf::RenderWindow & getJanela() { return janela; }
+            const sf::Vector2u getTamanhoJanela() const;
+            sf::RenderWindow & getJanela();
 
             const sf::Image& getImgJogador() const;
             const sf::Image& getImgChao() const;
             const sf::Image& getImgInimigos() const;
-
             // Para desenhar corretamente, passamos por referência
             // https://www.sfml-dev.org/tutorials/2.6/graphics/sprite/#the-white-square-problem
             const sf::Texture& getTexAranhaGigante() const { return texAranhaGigante; }

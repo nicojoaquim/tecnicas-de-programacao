@@ -18,4 +18,8 @@ void CMD::Entidades::Projetil::salvar(){
 
 }
 
-void CMD::Entidades::Projetil::gravitar(const float dt) {}
+void CMD::Entidades::Projetil::gravitar() {
+}
+
+void CMD::Entidades::Projetil::mover() {
+}

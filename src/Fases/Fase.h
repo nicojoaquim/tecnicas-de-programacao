@@ -4,6 +4,7 @@
 #include "../Entidades/Entidade.h"
 #include "../Listas/ListaEntidade.h"
 #include "../Gerenciador/Colisoes.h"
+#include "../Tilemap.h"
 
 namespace CMD
 {
@@ -24,6 +25,9 @@ namespace CMD
     protected:
         Gerenciador::Colisoes GC;
         Listas::ListaEntidade lista_ents;
+        Tilemap tilemap;
+        const int maxAranhasGicantes;
+        const int maxPlataformas;
         // sf::Texture texture;
         // sf::Sprite sprite;
         // Jogador* pJog1; Fase(Jogador* jogador1): pJog1(jogador1)
@@ -42,8 +46,9 @@ namespace CMD
         // virtual void desenhar() = 0;
         // virtual void gravitar() = 0;
         // virtual void mover() = 0;
-        void gravitar();
-        void mover();
+        //void gravitar();
+        //void mover();
+        void executarEntidades();
         void desenhar();
 
         void criarAranhaGigante();

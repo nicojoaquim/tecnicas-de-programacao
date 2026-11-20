@@ -4,12 +4,6 @@
 
 using sf::Vector2f;
 using sf::Sprite;
-/*
-Entidade::Entidade(bool gravidade):
-    buffer(std::cout),
-    sofre_gravidade(gravidade)
-{
-}*/
 
 CMD::Entidades::Entidade::Entidade():
     buffer(std::cout),
@@ -62,12 +56,8 @@ const float CMD::Entidades::Entidade::getY() const {
 void CMD::Entidades::Entidade::setPosicao(const Vector2f posicao) {
     if (pFig != NULL)
         pFig->setPosition(posicao);
-}
-
-void CMD::Entidades::Entidade::setPosicaoEsper(const Vector2f posicao){
-    Vector2f centro(getLargura(),getAltura());
-    if (pFig != NULL)
-        pFig->setPosition(posicao + centro/2.f);
+    else
+        std::cerr << "Erro: Figura inexistente em setPosicao" << std::endl;
 }
 
 const Vector2f CMD::Entidades::Entidade::getTamanho() const {
@@ -90,14 +80,18 @@ const float CMD::Entidades::Entidade::getLargura() const {
 const float CMD::Entidades::Entidade::getAltura() const {
     return getTamanho().y;
 }
-void CMD::Entidades::Entidade::setDinamico(bool dim){
+void CMD::Entidades::Entidade::setDinamico(bool dim) {
     dinamico = dim;
 }
-const bool CMD::Entidades::Entidade::getDinamico() const{
+const bool CMD::Entidades::Entidade::getDinamico() const {
     return dinamico;
 }
-// Pode colocar sobrecarga de operador aqui para mudar posição da entidade
-// Entidade e;
-// e.setPosicao(Vector2f(1.f, 2.f));
-// e += Vector2f(2.f, 3.f);
-// e.getPosicao(); // (3., 5.)
+
+void CMD::Entidades::Entidade::mover(sf::Vector2f movimento) {
+    pFig->move(movimento.x, movimento.y);
+}
+
+//sf::Vector2f& CMD::Entidades::Entidade::operator+=(sf::Vector2f& movimento) {
+//    setPosicao(getPosicao()+movimento);
+//    return this->getPosicao();
+//}

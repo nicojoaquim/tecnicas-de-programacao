@@ -127,19 +127,20 @@ void CMD::Gerenciador::Colisoes::tratarColisaoJogsChao() {
 
     if(internox > internoy) {
         if (dx > 0)
-            pJog1->getFig()->setPosition(pJog1->getX()-internox,pJog1->getY());//um jeito dinâmico de expilir o jogador
+            pJog1->setPosicao({pJog1->getX()-internox,pJog1->getY()});//um jeito dinâmico de expilir o jogador
         else
-            pJog1->getFig()->setPosition(pJog1->getX()+internox,pJog1->getY());
+            pJog1->setPosicao({pJog1->getX()+internox,pJog1->getY()});
     }
     else {
         if (dy > 0)
-            pJog1->getFig()->setPosition(pJog1->getX(),pJog1->getY()-internoy);
+            pJog1->setPosicao({pJog1->getX(),pJog1->getY()-internoy});
         else {
-            pJog1->getFig()->setPosition({
+            pJog1->setPosicao({
                 pJog1->getX(),
                 (*itCs)->getY() - ((*itCs)->getAltura() + pJog1->getAltura())/2.f
             });
             pJog1->setVy(0); //para o jogador não ficar quicando ou atravessar o chão
+            pJog1->setEstaNoChao(true);
         }
     }
 }

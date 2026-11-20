@@ -2,7 +2,8 @@
 
 CMD::Fases::MemoriaRam::MemoriaRam():
     Fase(),
-    maxOlhosVoadores(1)
+    maxOlhosVoadores(1),
+    maxCogumelos(4)
 {
     //lista_ents.limpar();
     criarInimigos();

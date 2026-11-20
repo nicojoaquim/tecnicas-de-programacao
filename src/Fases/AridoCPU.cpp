@@ -2,7 +2,8 @@
 
 CMD::Fases::AridoCPU::AridoCPU():
     Fase(),
-    maxBruxas(1)
+    maxBruxas(1),
+    maxAboboras(4)
 {
     criarInimigos();
     criarObst();

@@ -13,8 +13,6 @@ namespace CMD{
                 ~Plataforma();
                 void executar();
                 void obstaculizar(Personagens::Jogador* p);
-                void gravitar(const float dt);
-                void mover() {}
             };
         }
     }

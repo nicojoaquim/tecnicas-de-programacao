@@ -17,5 +17,3 @@ void CMD::Entidades::Obstaculos::Cogumelo::executar()
 void CMD::Entidades::Obstaculos::Cogumelo::obstaculizar(Personagens::Jogador *p)
 {
 }
-
-void CMD::Entidades::Obstaculos::Cogumelo::gravitar(const float dt) {}

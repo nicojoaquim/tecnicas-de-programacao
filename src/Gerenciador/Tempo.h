@@ -14,6 +14,7 @@ namespace CMD
             static Tempo* getInstancia();
             static void reiniciarRelogio();
             static const float getSegundos();
+            // static const sf::Int64 getMicrosegundos();
 
         private:
             Tempo();

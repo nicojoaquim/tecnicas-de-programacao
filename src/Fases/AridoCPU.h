@@ -10,7 +10,7 @@ namespace CMD{
         {
         private:
             const int maxBruxas;
-
+            const int maxAboboras;
         public:
             AridoCPU();
             ~AridoCPU();
