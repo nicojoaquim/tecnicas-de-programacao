@@ -2,6 +2,7 @@
 
 #include "Inimigo.h"
 #include "../../Gerenciador/Tempo.h"
+#include "../../Gerenciador/Grafico.h"
 
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath> // std::abs e trigonométricas
@@ -11,7 +12,16 @@ using sf::Vector2f;
 using std::cerr;
 using std::endl;
 
-CMD::Entidades::Personagens::Jogador::Jogador():Personagem(),pontos(0)
+CMD::Entidades::Personagens::Jogador::Jogador():
+    Jogador(1, sf::String(""))
+{
+}
+
+CMD::Entidades::Personagens::Jogador::Jogador(int jogadorX, sf::String texto):
+    Personagem(),
+    pontos(0),
+    jogador(jogadorX),
+    nome(texto, pGG->getFonte(), 20)
 {
 }
 
@@ -73,22 +83,22 @@ void CMD::Entidades::Personagens::Jogador::mover() {
             dv.x += 800.;
         velocidade += dv;
         if(esta_no_chao){
-            velocidade.x *= 0.85f; 
-            
+            velocidade.x *= 0.85f;
+
             if (std::abs(velocidade.x) > 400.f) {
-                
+
                 if(velocidade.x > 0)
                     velocidade.x = 400.f;
                 else
                     velocidade.x = -400.f;
                 }
-                
-                if (std::abs(velocidade.x) < 1.f) 
+
+                if (std::abs(velocidade.x) < 1.f)
                         velocidade.x = 0.f;
         }
         else {
             velocidade.x *= 0.98f;
-        
+
             if (std::abs(velocidade.x) > 500.f) {
                 if(velocidade.x > 0)
                         velocidade.x = 500.f;

@@ -2,6 +2,8 @@
 
 #include "Personagem.h"
 
+#include <SFML/Graphics/Text.hpp>
+
 namespace CMD
 {
     namespace Entidades {
@@ -11,8 +13,11 @@ namespace CMD
             {
             protected:
                 int pontos;
+                int jogador;
+                sf::Text nome;
             public:
                 Jogador();
+                Jogador(int jogadorX, sf::String texto);
                 ~Jogador();
                 bool colidir(Personagens::Inimigo* pIn);
                 void executar();

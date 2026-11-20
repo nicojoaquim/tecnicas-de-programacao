@@ -34,7 +34,7 @@ CMD::Jogo::Jogo():
     }
     cout << "Success to load texture" << endl;
     texture.setSmooth(true);
-    sprite.setTexture(texture);
+    sprite.setTexture(GG.getTexJogador1());
     sprite2.setTexture(texture);
     sprite3.setTexture(texture);
     sprite2.setPosition(100,100);
