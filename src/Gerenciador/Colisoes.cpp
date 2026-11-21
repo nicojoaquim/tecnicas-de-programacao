@@ -25,6 +25,7 @@ CMD::Gerenciador::Colisoes::Colisoes():
     LPs(),
     LCs(),
     pJog1(NULL),
+    pJog2(NULL),
     dx(0),
     dy(0),
     internox(0),
@@ -44,10 +45,16 @@ CMD::Gerenciador::Colisoes::~Colisoes() {
     LCs.clear();
 }
 
-void CMD::Gerenciador::Colisoes::incluirJogador1(Entidades::Personagens::Jogador* pPrimeiro){
-    if(pPrimeiro != NULL)
-        pJog1 = pPrimeiro;
+void CMD::Gerenciador::Colisoes::incluirJogador(Entidades::Personagens::Jogador* pJ) {
+    if (pJ == NULL) {
+        std::cerr << "Nulidade em GC::incluirJogador()" << std::endl;
+        return;
+    }
 
+    if (pJog1 == NULL)
+        pJog1 = pJ;
+    else
+        pJog2 = pJ;
 }
 
 void CMD::Gerenciador::Colisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {

@@ -17,16 +17,19 @@ CMD::Entidades::Personagens::Jogador::Jogador():
 {
 }
 
-CMD::Entidades::Personagens::Jogador::Jogador(int jogadorX, sf::String texto):
+CMD::Entidades::Personagens::Jogador::Jogador(int jogadorX, sf::String str):
     Personagem(),
     pontos(0),
     jogador(jogadorX),
-    nome(texto, pGG->getFonte(), 20)
+    nome()
 {
+    // Não dá para inicializar o sprite aqui, pois esta construtora
+    // é chamada antes de inicializar o ponteiro pGG para os Entes
 }
 
 CMD::Entidades::Personagens::Jogador::~Jogador()
 {
+    delete getFig();
 }
 
 //baseado na colisão de Hilze Vonck
@@ -72,41 +75,43 @@ void CMD::Entidades::Personagens::Jogador::salvar() {
 void CMD::Entidades::Personagens::Jogador::mover() {
     sf::Vector2f dv(0, 0);
     float dt = Gerenciador::Tempo::getSegundos();
+    //float direcao_ante_vx = velocidade.x;
+
     if (esta_no_chao && Keyboard::isKeyPressed(Keyboard::Up)) {
             velocidade.y -= 600.;
             esta_no_chao = false;
-        }
+    }
 
-        if (Keyboard::isKeyPressed(Keyboard::Left))
-            dv.x -= 800.;
-        if (Keyboard::isKeyPressed(Keyboard::Right))
-            dv.x += 800.;
-        velocidade += dv;
-        if(esta_no_chao){
-            velocidade.x *= 0.85f;
+    if (Keyboard::isKeyPressed(Keyboard::Left))
+        dv.x -= 800.;
+    if (Keyboard::isKeyPressed(Keyboard::Right))
+        dv.x += 800.;
+    velocidade += dv;
+    if(esta_no_chao){
+        velocidade.x *= 0.85f;
 
-            if (std::abs(velocidade.x) > 400.f) {
+        if (std::abs(velocidade.x) > 400.f) {
 
-                if(velocidade.x > 0)
-                    velocidade.x = 400.f;
-                else
-                    velocidade.x = -400.f;
-                }
-
-                if (std::abs(velocidade.x) < 1.f)
-                        velocidade.x = 0.f;
-        }
-        else {
-            velocidade.x *= 0.98f;
-
-            if (std::abs(velocidade.x) > 500.f) {
-                if(velocidade.x > 0)
-                        velocidade.x = 500.f;
-                else
-                    velocidade.x = -500.f;
-
+            if(velocidade.x > 0)
+                velocidade.x = 400.f;
+            else
+                velocidade.x = -400.f;
             }
+
+            if (std::abs(velocidade.x) < 1.f)
+                    velocidade.x = 0.f;
+    }
+    else {
+        velocidade.x *= 0.98f;
+
+        if (std::abs(velocidade.x) > 500.f) {
+            if(velocidade.x > 0)
+                    velocidade.x = 500.f;
+            else
+                velocidade.x = -500.f;
+
         }
+    }
     //     velocidade.x *= 0.3f;
     //     if (velocidade.x < 1.f)
     //         velocidade.x = 0;
@@ -114,11 +119,18 @@ void CMD::Entidades::Personagens::Jogador::mover() {
     //     velocidade.x *= 0.9993f;
     // }
 
-    //if (dv.x != 0 && dv.y != 0)
-        //dv *= (float) 0.7071067811865475244; // 1/sqrt(2)
-    //if (dv.x != 0 && velocidade.y < 0)
-        //dv.x *= cos(atan(velocidade.y/(float)velocidade.x));
-
     Entidade::mover(velocidade*dt);
     //std::cout << velocidade.x << "\t" << velocidade.y << "\t"<< std::endl;
+}
+
+void CMD::Entidades::Personagens::Jogador::carregarSprite() {
+    sf::Sprite* pSprite = new sf::Sprite;
+
+    if (jogador == 1)
+        pSprite->setTexture(pGG->getTexJogador1());
+    else
+        pSprite->setTexture(pGG->getTexJogador2());
+
+    atribuirSprite(pSprite);
+    getFig()->setScale(2, 2);
 }
