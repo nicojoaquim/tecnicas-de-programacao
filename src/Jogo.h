@@ -7,10 +7,9 @@
 #include "Entidades/Chao.h"//temporario
 #include "Menu.h"
 #include "Fases/Fase.h"
-// #include "Fases/Fase.h"
 
-// Usado para telaAtual
-namespace CMD{
+namespace CMD
+{
     enum Tela {
         MENU, FASE1, FASE2
     };
@@ -21,24 +20,15 @@ namespace CMD{
         Tela telaAtual;
         Gerenciador::Grafico GG;
         Entidades::Personagens::Jogador jogador1;
+        Entidades::Personagens::Jogador jogador2;
 
-        Menu menu;
-        Entidades::Chao chao;
-        // Entidades::Personagens::AranhaGigante teste;
         sf::Texture texture;
         sf::Sprite sprite;
-        sf::Sprite sprite2;
-        sf::Sprite sprite3;
-        sf::Font font;
-        sf::Text text;
-        sf::Text text2;
 
     public:
         Jogo();
         ~Jogo();
         void executar();
-        void telaInicial(); // Loop de execução do menu
-        // void preparar(); // Mudanças no jogo que ocorrem a cada frame
-        // void desenhar(); // Desenho do novo frame
+        void setProximaTela(Tela tela);
     };
 }

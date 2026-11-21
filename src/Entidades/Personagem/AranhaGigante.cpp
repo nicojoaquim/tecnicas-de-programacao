@@ -10,10 +10,14 @@ CMD::Entidades::Personagens::AranhaGigante::AranhaGigante():
     raio(true),
     indoParaFrente(true)
 {
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexAranhaGigante());
+    atribuirSprite(pSprite);
+    getFig()->scale(4, 4);
 }
 
-CMD::Entidades::Personagens::AranhaGigante::~AranhaGigante(){
-
+CMD::Entidades::Personagens::AranhaGigante::~AranhaGigante() {
+    delete getFig();
 }
 
 void CMD::Entidades::Personagens::AranhaGigante::executar(){

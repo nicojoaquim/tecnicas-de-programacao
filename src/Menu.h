@@ -1,16 +1,19 @@
 #pragma once
+
 #include "Ente.h"
-#include"organiza.h"
-//#include "Gerenciador/Janela.h"
-namespace CMD{
+#include "organiza.h"
+
+namespace CMD
+{
     class Jogo;
-    class Grafico;
+    //class Grafico;
+
     //baseando no menu do site terminal root
     class Menu: public Ente
     {
     private:
-        Jogo* pJog;
-        sf::Font fontM;
+        Jogo* pJogo;
+        const sf::Font fonte;
         std::vector<const char*> opcoes;
         std::vector<sf::Vector2f> coordes;
         std::vector<sf::Text> texts;
@@ -19,9 +22,9 @@ namespace CMD{
         sf::Vector2f mouseCoorde;
 
     public:
-        Menu();
+        Menu(Jogo* pJ);
         ~Menu();
-        void tratarEvento(const sf::Event& evento, int& ativo);
+        void tratarClique(const sf::Event& evento, bool& ativo);
         void desenha();
         void executar();
         void setMousePosi(sf::Vector2i mou);
