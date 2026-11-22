@@ -36,29 +36,29 @@ CMD::Fases::Fase::~Fase(){
         if((*it)->getDinamico())
             destruirEntidade(*it);
 }
-void CMD::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
-        lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador1)));
-        GC.incluirJogador1(jogador1);
-    }
+
+void CMD::Fases::Fase::incluirJogador(Entidades::Personagens::Jogador* jogador) {
+    if (jogador == NULL)
+        return;
+
+    if (pJog1 == NULL)
+        pJog1 = jogador;
+    else
+        pJog2 = jogador;
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador)));
+    GC.incluirJogador(jogador);
+
+    const float escala = 2 * tilemap.getTileSize() / (float) jogador->getAltura();
+    jogador->getFig()->setScale(escala, escala);
+
+    jogador->setPosicao(tilemap.getCentroTile({tilemap.getLargura()/2, tilemap.getAltura()/2}));
+}
+
 void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
     lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
     GC.incluirChao(chao);
 }
-
-//void CMD::Fases::Fase::gravitar() {
-//    float dt = Tempo::getSegundos();
-//    Listas::Lista<Entidades::Entidade>::Iterador it;
-//    for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
-//        (*it)->gravitar(dt);
-//}
-//
-//void CMD::Fases::Fase::mover() {
-//    Listas::Lista<Entidades::Entidade>::Iterador it;
-//    for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
-//        (*it)->mover();
-//    }
-//
-//}
 
 void CMD::Fases::Fase::executarEntidades() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
@@ -110,51 +110,72 @@ void CMD::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
         std::cerr << "Nulidade em Fase::destruirEntidade" << std::endl;
         return;
     }
-    // std::cout << "delete: " << pE << std::endl;
-    delete (pE->getFig()); // Sprite
     delete pE; // Entidade
 }
 
-void CMD::Fases::Fase::criarAranhaGigante() {
+void CMD::Fases::Fase::criarAranhaGigante(sf::Vector2u pos) {
     Entidades::Personagens::AranhaGigante* pAranha;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexAranhaGigante());
-
     pAranha = new Entidades::Personagens::AranhaGigante;
-    pAranha->atribuirSprite(pSprite);
     pAranha->setDinamico(true);
 
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pAranha));
     GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pAranha));
 
     // tile_size/escala = tamanho_atual/1
+    // n.º de tile que ocupa no comprimento máximo está implementada na própria classe, 4*escala
     float escala = tilemap.getTileSize() / pAranha->getLargura();
-    pAranha->getFig()->setScale(escala, escala);
-    pAranha->getFig()->scale(5,5);
+    pAranha->getFig()->scale(escala, escala);
+
+    //pAranha->setPosicao(pos); TILEMAP VAI FAZER ISSO
+    tilemap.incluir(ARANHA, pos);
 }
 
-void CMD::Fases::Fase::criarOlhoVoador() {
-
-}
-
-void CMD::Fases::Fase::criarBruxa() {
-
-}
-
-void CMD::Fases::Fase::criarPlataforma() {
+void CMD::Fases::Fase::criarOlhoVoador(sf::Vector2u pos) {
 
 }
 
-void CMD::Fases::Fase::criarCogumelo() {
+void CMD::Fases::Fase::criarBruxa(sf::Vector2u pos) {
 
 }
 
-void CMD::Fases::Fase::criarObstDificil() {
+void CMD::Fases::Fase::criarPlataforma(sf::Vector2u pos) {
 
 }
 
-void CMD::Fases::Fase::criarCenarios() {
+void CMD::Fases::Fase::criarAbobora(sf::Vector2u pos) {
 
+}
+
+void CMD::Fases::Fase::criarCogumelo(sf::Vector2u pos) {
+
+}
+
+void CMD::Fases::Fase::criarCenario() {
+    const float tam_tile = tilemap.getTileSize();
+    const float escala = 1 * tam_tile / 16;
+    sf::Vector2u pos;
+    Tile tipo;
+    Entidades::Chao* pChao;
+
+    for (pos.x = 0; pos.x < tilemap.getLargura(); pos.x++) {
+        for (pos.y = 0; pos.y < tilemap.getAltura(); pos.y++) {
+            tipo = tilemap.getTile(pos);
+            if (tipo == VAZIO)
+                continue;
+            else if (tipo >= RAM0 && tipo <= CPU11) {
+                // Criar chão a partir da posição no tilemap
+                pChao = new Entidades::Chao(tipo);
+                pChao->getFig()->setScale(escala, escala);
+                pChao->setPosicao(tilemap.getCentroTile(pos));
+                // Incluir chão na lista de entidades
+                lista_ents.incluir(static_cast<Entidades::Entidade*>(pChao));
+                GC.incluirChao(pChao);
+            }
+            else {
+                std::cerr << "Nenhum tipo além de chão implementado em Fase::criarCenario"
+                          << ", " << tipo
+                          << std::endl;
+            }
+        }
+    }
 }

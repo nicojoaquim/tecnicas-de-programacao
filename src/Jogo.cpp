@@ -16,122 +16,29 @@ CMD::Jogo::Jogo():
     telaAtual(MENU),
     GG(),
     jogador1(),
-    menu(),
-    chao(),
-    // teste(),
-    texture(),
-    sprite(),
-    sprite2(),
-    font(),
-    text(),
-    text2(L"ç texto acima",font,100)
+    jogador2()
 {
     Ente::setGG(&GG);
-
-    if (!texture.loadFromFile(GATO)) {
-        cerr << "Error loading texture: " << GATO << endl;
-        exit(1);
-    }
-    cout << "Success to load texture" << endl;
-    texture.setSmooth(true);
-    sprite.setTexture(texture);
-    sprite2.setTexture(texture);
-    sprite3.setTexture(texture);
-    sprite2.setPosition(100,100);
-    jogador1.atribuirSprite(&sprite);
-    // teste.atribuirSprite(&sprite2);
-    // teste.setPosicaoEsper({105.f, 105.f});
-    chao.inicializaChao(&sprite3);
-    //chao.setPosicaoEsper({0.f,600.f});
-    chao.getFig()->setPosition({chao.getLargura()/2, chao.getAltura()/2+600.f});
-    //teste.setPosicao(Vector2f(105.f,105.f));
-
-    if (!font.loadFromFile(FONTE)) {
-        cerr << "Error loading font: " << FONTE << endl;
-        exit(1);
-    }
-    cout << "Success to load font" << endl;
-
-    text.setFont(font);
-    text.setString(L"Olá texto embaixo"); // L"" necessário para á
-    text.setCharacterSize(100);
-
-    text2.setPosition(Vector2f(0.f, 100.f));
-
+    jogador1.carregarSprite();
     executar();
 }
 
 CMD::Jogo::~Jogo()
 {}
-/*
-void Jogo::preparar()
-{
-    //GG.executar(); // Eventos
-    jogador1.mover();
-    teste.mover();
-    GC.executar();
-}
-
-void Jogo::desenhar()
-{
-    GG.limpar(); // Início
-
-    GG.desenharTexto(text);
-    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&jogador1))));// jogador
-    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
-    jogador1.desenhar();
-    teste.desenhar();
-    chao.desenhar();
-    GG.desenharTexto(text2);
-
-    GG.renderizar(); // Final
-}
-*/
-
-// MOVER PARA Menu::executar()
-void CMD::Jogo::telaInicial()
-{
-    Event evento;
-    int ativo = 1;
-    while (ativo) {
-        GG.limpar();
-        while (GG.getEvento(evento)) {
-            if ((evento.type == Event::Closed)
-                || (evento.type == Event::KeyPressed && evento.key.code == Keyboard::Escape))
-            {
-                GG.fechar();
-                return;
-            }
-
-            menu.tratarEvento(evento, ativo);
-        }
-        menu.desenha();
-        GG.renderizar();
-    }
-    // Temporário
-    if (ativo == 0)
-        telaAtual = FASE1;
-}
-/*
-void Jogo::gravidade(){
-    float dt = Personagem::getSegundos();
-    jogador1.gravitar(dt);
-    teste.gravitar(dt);
-}
-*/
 
 void CMD::Jogo::executar()
 {
     while (GG.aberto())
     {
         if (telaAtual == MENU) {
-            telaInicial();
+            Menu menu(this);
+            menu.executar();
         }
         else if (telaAtual == FASE1) {
             std::cout << "Fase 1" << std::endl;
             CMD::Fases::MemoriaRam fase1;
-            fase1.adicionaJog1(&jogador1);
-            fase1.adicionaChao(&chao);
+            fase1.incluirJogador(&jogador1);
+            //fase1.incluirJogador(&jogador2);
             fase1.executar();
             if (jogador1.getNumVida() > 0) {
                 // Próxima fase
@@ -143,9 +50,12 @@ void CMD::Jogo::executar()
             }
         }
         else if (telaAtual == FASE2) {
-            // telaTeste();
             std::cout << "Fase 2" << std::endl;
             GG.fechar();
         }
     }
+}
+
+void CMD::Jogo::setProximaTela(CMD::Tela tela) {
+    telaAtual = tela;
 }

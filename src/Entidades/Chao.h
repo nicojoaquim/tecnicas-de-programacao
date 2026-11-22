@@ -2,21 +2,26 @@
 
 #include "Entidade.h"
 
-// Chão será formado por várias
-namespace CMD{
-    namespace Entidades{
+#include "../Tilemap.h"
+#include <SFML/Graphics/Texture.hpp>
+
+namespace CMD {
+    namespace Entidades {
         class Chao : public Entidade
         {
         private:
+            const Tile tipo;
             float largura;
             float altura;
         public:
-            Chao();
+            Chao(Tile t);
             ~Chao();
             void inicializaChao(sf::Sprite * chao);
             void tamanhoChao();
             void executar();
             void salvar();
+        private:
+            const sf::Texture& getTex() const; // Pega a textura correta de acordo com atributo tipo
         };
     }
 }

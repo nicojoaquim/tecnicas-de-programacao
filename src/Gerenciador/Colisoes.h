@@ -28,6 +28,7 @@ namespace CMD
             std::set<Entidades::Projetil*> LPs;
             std::list<Entidades::Chao*> LCs;
             Entidades::Personagens::Jogador* pJog1;
+            Entidades::Personagens::Jogador* pJog2;
             std::vector<Entidades::Personagens::Inimigo*>::iterator itIs;
             std::list<Entidades::Obstaculo*>::iterator itOs;
             std::set<Entidades::Projetil*>::iterator itPs;
@@ -44,7 +45,7 @@ namespace CMD
             void incluirObstaculo(Entidades::Obstaculo* po);
             void incluirProjetil(Entidades::Projetil* pj);
             void incluirChao(Entidades::Chao* pc);
-            void incluirJogador1(Entidades::Personagens::Jogador* pPrimeiro);
+            void incluirJogador(Entidades::Personagens::Jogador* pJ);
             void executar();
 
         private:
