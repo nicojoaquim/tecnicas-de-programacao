@@ -1,9 +1,10 @@
-#include"Chao.h"
-#include<SFML/Window.hpp>
-#include"Personagem/Personagem.h"
-#include"Obstaculo/Obstaculo.h"
-#include"Projetil.h"
-#include"organiza.h"
+#include "Chao.h"
+#include "Personagem/Personagem.h"
+#include "Obstaculo/Obstaculo.h"
+#include "Projetil.h"
+#include <SFML/Window.hpp>
+#include "../organiza.h"
+
 CMD::Entidades::Chao::Chao():largura(0),altura(0){
 
 }

@@ -5,7 +5,7 @@
 #include "../../Gerenciador/Grafico.h"
 
 #include <SFML/Window/Keyboard.hpp>
-#include"organiza.h"
+// #include"organiza.h"
 
 using sf::Keyboard;
 using sf::Vector2f;
@@ -79,7 +79,7 @@ bool CMD::Entidades::Personagens::Jogador::colidir(Personagens::Inimigo* pIn) {
                     velocidade.x = 0.f;
                 pIn->danificar(this);
             }
-        } 
+        }
         else {
             if (dy > 0.f) {
                 setPosicao({ getX(), getY() - intery });

@@ -2,8 +2,9 @@
 #include "../Projetil.h"
 #include "../../Gerenciador/Grafico.h"
 #include "../../Gerenciador/Tempo.h"
-#include"Jogador.h"
-#include"organiza.h"
+#include "Jogador.h"
+// #include "../../organiza.h"
+#include <cmath>
 
 using sf::Vector2f;
 using sf::Vector2u;
@@ -25,7 +26,7 @@ CMD::Entidades::Personagens::Bruxa::Bruxa():
     // Define a primeira posição alvo aleatória assim que ela nasce
     Vector2u tam = pGG->getTamanhoJanela();
     posicaoAlvo = Vector2f(
-        rand() % (tam.x - 100) + 50.f, 
+        rand() % (tam.x - 100) + 50.f,
         rand() % (tam.y - 200) + 50.f
     );
 }
@@ -50,28 +51,28 @@ void CMD::Entidades::Personagens::Bruxa::mover() {
     if (!estaSeMovendo) {
         tempoParada += dt;
         Entidade::mover({0.f, -deslocamentoGravidade});
-        
+
 
         if (tempoParada >= tempoParaMover) {
             estaSeMovendo = true;
-            
+
             Vector2u tam = pGG->getTamanhoJanela();
             posicaoAlvo = Vector2f(
-                rand() % (tam.x - 100) + 50.f, 
+                rand() % (tam.x - 100) + 50.f,
                 rand() % (tam.y - 200) + 50.f
             );
 
             if (posicaoAlvo.x < getX()) {
-                getFig()->setScale(-1.f, 1.f); 
+                getFig()->setScale(-1.f, 1.f);
             } else {
-                getFig()->setScale(1.f, 1.f);  
+                getFig()->setScale(1.f, 1.f);
             }
         }
-    } 
+    }
     else {
         Vector2f posicaoAtual = getPosicao();
         Vector2f direcao = posicaoAlvo - posicaoAtual;
-        
+
         // Lembrando que em GA precisa fazer raiz da soma dos quadrados das coordenadas
         float distancia = std::sqrt(direcao.x * direcao.x + direcao.y * direcao.y);
 
@@ -80,7 +81,7 @@ void CMD::Entidades::Personagens::Bruxa::mover() {
             tempoParada = 0.f;
             Entidade::mover({0.f, -deslocamentoGravidade});
             tempoParaMover = 1.5f + (rand() % 20) / 10.f; // Entre 1.5s e 3.5s
-        } 
+        }
         else {
             const float distanciaMovida = std::min(distancia, velocidadeBruxa * dt);
             Vector2f deslocamento = (direcao / distancia) * distanciaMovida;
@@ -144,6 +145,7 @@ void CMD::Entidades::Personagens::Bruxa::setAlvos(Jogador* pJog1,
     jogador1 = pJog1;
     jogador2 = pJog2;
 }
+
 void CMD::Entidades::Personagens::Bruxa::tapaMagico(Jogador* pJog){
     if (pJog != NULL)
         pJog->receberDanoDeInimigo(forca * agresividade, getPosicao());

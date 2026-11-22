@@ -1,8 +1,8 @@
-#include"Projetil.h"
+#include "Projetil.h"
 #include "Personagem/Jogador.h"
 #include "../Gerenciador/Tempo.h"
 #include "../Gerenciador/Grafico.h"
-#include"organiza.h"
+#include "../organiza.h"
 
 CMD::Entidades::Projetil::Projetil():Entidade(),ativo(false){
 

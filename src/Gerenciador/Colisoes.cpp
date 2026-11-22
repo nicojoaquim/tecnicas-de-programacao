@@ -12,7 +12,7 @@
 
 #include "../organiza.h"
 
-#include"organiza.h"
+#include <cmath>
 using std::abs;
 
 using std::vector;
@@ -190,8 +190,8 @@ void CMD::Gerenciador::Colisoes::executar()
         if (pJog1 != NULL && pJog1->getNumVida() > 0)
             pJog1->setEstaNoChao(false);
        if (pJog2 != NULL && pJog2->getNumVida() > 0)
-            pJog2->setEstaNoChao(false); 
-    
+            pJog2->setEstaNoChao(false);
+
     colisaoJogsInimigo();
     colisaoJogsObstaculo();
     colisaoJogsProjetil();

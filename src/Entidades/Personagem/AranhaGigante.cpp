@@ -3,7 +3,7 @@
 #include "../../Gerenciador/Grafico.h"
 #include "../../Gerenciador/Tempo.h"
 #include"Jogador.h"
-#include"organiza.h"
+// #include"organiza.h"
 using sf::Vector2f;
 using sf::Vector2u;
 using sf::Keyboard;

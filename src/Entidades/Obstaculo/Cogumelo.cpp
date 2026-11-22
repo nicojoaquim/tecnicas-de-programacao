@@ -1,7 +1,7 @@
 #include "Cogumelo.h"
 #include "../Personagem/Jogador.h"
 #include "../../Gerenciador/Tempo.h"
-#include"organiza.h"
+#include "../../organiza.h"
 
 CMD::Entidades::Obstaculos::Cogumelo::Cogumelo():
     Obstaculo(),
@@ -39,7 +39,7 @@ void CMD::Entidades::Obstaculos::Cogumelo::obstaculizar(Personagens::Jogador *p)
         std::cerr << "Jogador  nulo" << std::endl;
         return;
     }
-    
+
     const float dx = p->getX() - getX();
     const float dy = p->getY() - getY();
     const float interx =
@@ -63,7 +63,7 @@ void CMD::Entidades::Obstaculos::Cogumelo::obstaculizar(Personagens::Jogador *p)
                 p->setPosicao({ p->getX() + interx, p->getY() });
             }
             velocidade.x = 0.f;
-        } 
+        }
         else {
             if (dy < 0.f) {
                 p->setPosicao({ p->getX(), p->getY() - intery });

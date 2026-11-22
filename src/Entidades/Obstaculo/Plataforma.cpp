@@ -2,7 +2,8 @@
 #include "../Personagem/Jogador.h"
 #include "../../Gerenciador/Tempo.h"
 #include "../../Gerenciador/Grafico.h"
-#include"organiza.h"
+#include "../../organiza.h"
+
 CMD::Entidades::Obstaculos::Plataforma::Plataforma():
     Obstaculo(),
     altura(-1),
@@ -28,7 +29,7 @@ void CMD::Entidades::Obstaculos::Plataforma::obstaculizar(Personagens::Jogador *
         std::cerr << "Jogador  nulo" << std::endl;
         return;
     }
-    
+
     const float dx = p->getX() - getX();
     const float dy = p->getY() - getY();
     const float interx =
@@ -44,7 +45,7 @@ void CMD::Entidades::Obstaculos::Plataforma::obstaculizar(Personagens::Jogador *
                 p->setPosicao({ p->getX() + interx, p->getY() });
             }
             velocidade.x = 0.f;
-        } 
+        }
         else {
             if (dy < 0.f) {
                 p->setPosicao({ p->getX(), p->getY() - intery });

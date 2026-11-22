@@ -1,8 +1,8 @@
 #include "OlhoVoador.h"
 #include "../../Gerenciador/Grafico.h"
-#include "../../Gerenciador/tempo.h"
-#include"Jogador.h"
-#include"organiza.h"
+#include "../../Gerenciador/Tempo.h"
+#include "Jogador.h"
+#include "../../organiza.h"
 
 using sf::Vector2f;
 using sf::Vector2u;
@@ -52,11 +52,11 @@ void CMD::Entidades::Personagens::OlhoVoador::mover(){
     );
     const float xAtual = limites.left;
     float direcao = 0;
-    if (indoParaFrente) 
+    if (indoParaFrente)
         direcao = 1.f;
-     else 
+    else
         direcao = -1.f;
-    
+
     float xDesejado = xAtual + direcao * velocidade.x * dt;
     if (xDesejado >= limiteDireito) {
         movimento.x = limiteDireito - xAtual;
