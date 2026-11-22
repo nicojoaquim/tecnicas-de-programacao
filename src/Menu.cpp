@@ -11,7 +11,8 @@ CMD::Menu::Menu():
     tams(),
     mousePosi({0,0}),
     mouseCoorde({0,0}),
-    numeroJogadores(1)
+    numeroJogadores(1),
+    faseInicial(1)
 {
     if (!fontM.loadFromFile(FONTE)) {
         std::cerr << "Error loading font: " << FONTE << std::endl;
@@ -19,9 +20,23 @@ CMD::Menu::Menu():
     }
     std::cout << "Success to load font" << std::endl;
 
-    opcoes = {"Caos Magico Digital","- Realidade em Colapso","Um Jogador","Dois Jogadores"};
-    coordes = {{155,-90},{155,15},{550,250},{550,350}};
-    tams = {150,125,100,100};
+    opcoes = {
+        "Caos Magico Digital",
+        "- Realidade em Colapso",
+        "1 Jogador - Fase 1",
+        "1 Jogador - Fase 2",
+        "2 Jogadores - Fase 1",
+        "2 Jogadores - Fase 2"
+    };
+    coordes = {
+        {155,-90},
+        {155,15},
+        {450,250},
+        {450,350},
+        {450,450},
+        {450,550}
+    };
+    tams = {150,125,75,75,75,75};
     texts.resize(opcoes.size());
     for(size_t i = 0;i < texts.size();i++){
         texts[i].setFont(fontM);
@@ -42,10 +57,22 @@ void CMD::Menu::tratarEvento(const sf::Event& evento, int& ativo){
         mousePosi = {evento.mouseButton.x,evento.mouseButton.y};
         if(textoMouse(texts[2])) {
             numeroJogadores = 1;
+            faseInicial = 1;
             ativo = 0;
         }
         else if(textoMouse(texts[3])) {
+            numeroJogadores = 1;
+            faseInicial = 2;
+            ativo = 0;
+        }
+        else if(textoMouse(texts[4])) {
             numeroJogadores = 2;
+            faseInicial = 1;
+            ativo = 0;
+        }
+        else if(textoMouse(texts[5])) {
+            numeroJogadores = 2;
+            faseInicial = 2;
             ativo = 0;
         }
     }
@@ -72,6 +99,9 @@ sf::Vector2f CMD::Menu::getMouseCoorde(){
 }
 int CMD::Menu::getNumeroJogadores() const{
     return numeroJogadores;
+}
+int CMD::Menu::getFaseInicial() const{
+    return faseInicial;
 }
 void CMD::Menu::coordenadaMouse(){
     mousePosi = sf::Mouse::getPosition(pGG->getJanela());

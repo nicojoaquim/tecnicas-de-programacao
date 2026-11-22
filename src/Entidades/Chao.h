@@ -8,6 +8,10 @@ namespace CMD{
         namespace Personagens{
             class Personagem;
         }
+        class Projetil;
+        namespace Obstaculos{
+            class Obstaculo;
+        }
         class Chao : public Entidade
         {
         private:
@@ -21,6 +25,8 @@ namespace CMD{
             void executar();
             void salvar();
             void impedirQuedaPSG(Personagens::Personagem* pP);
+            void impedirQuedaOBS(Obstaculos::Obstaculo* pO);
+            void impedirQuedaPJT(Projetil* pPj);
         };
     }
 }

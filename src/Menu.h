@@ -18,6 +18,7 @@ namespace CMD{
         sf::Vector2i mousePosi;
         sf::Vector2f mouseCoorde;
         int numeroJogadores;
+        int faseInicial;
 
     public:
         Menu();
@@ -30,6 +31,7 @@ namespace CMD{
         void setMouseCoorde(sf::Vector2f mou);
         sf::Vector2f getMouseCoorde();
         int getNumeroJogadores() const;
+        int getFaseInicial() const;
         void coordenadaMouse();
         bool textoMouse(sf::Text& texto);
     };

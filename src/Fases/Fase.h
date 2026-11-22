@@ -26,6 +26,8 @@ namespace CMD
         Gerenciador::Colisoes GC;
         Listas::ListaEntidade lista_ents;
         Tilemap tilemap;
+        Entidades::Personagens::Jogador* pJog1;
+        Entidades::Personagens::Jogador* pJog2;
         const int maxAranhasGicantes;
         const int maxPlataformas;
         // sf::Texture texture;
@@ -51,6 +53,8 @@ namespace CMD
         //void mover();
         void executarEntidades();
         void desenhar();
+        void removerInimigosMortos();
+        void atualizarAlvosBruxas();
 
         void criarAranhaGigante();
         void criarOlhoVoador();

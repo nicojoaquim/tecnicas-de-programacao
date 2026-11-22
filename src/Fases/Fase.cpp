@@ -3,12 +3,14 @@
 #include "../Gerenciador/Tempo.h"
 #include "../Entidades/Entidade.h"
 #include "../Entidades/Personagem/Jogador.h"
+#include "../Entidades/Personagem/Inimigo.h"
 #include "../Entidades/Chao.h"
 #include "../Tilemap.h"
 
 #include "../Entidades/Personagem/AranhaGigante.h"
 #include "../Entidades/Personagem/OlhoVoador.h"
 #include "../Entidades/Personagem/Bruxa.h"
+#include "../Entidades/Projetil.h"
 
 #include "../Entidades/Obstaculo/Plataforma.h"
 #include "../Entidades/Obstaculo/Cogumelo.h"
@@ -26,6 +28,8 @@ CMD::Fases::Fase::Fase():
     GC(),
     lista_ents(),
     tilemap(),
+    pJog1(NULL),
+    pJog2(NULL),
     maxAranhasGicantes(4),
     maxPlataformas(4)
 {
@@ -43,12 +47,16 @@ CMD::Fases::Fase::~Fase(){
             destruirEntidade(*it);
 }
 void CMD::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
+        pJog1 = jogador1;
         lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador1)));
         GC.incluirJogador1(jogador1);
+        atualizarAlvosBruxas();
     }
 void CMD::Fases::Fase::adicionaJog2(Entidades::Personagens::Jogador* jogador2){
+        pJog2 = jogador2;
         lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador2)));
         GC.incluirJogador2(jogador2);
+        atualizarAlvosBruxas();
     }
 void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
     lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
@@ -73,14 +81,56 @@ void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
 void CMD::Fases::Fase::executarEntidades() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
     for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+        Entidades::Personagens::Personagem* personagem =
+            dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+        if (personagem != NULL && personagem->getNumVida() <= 0)
+            continue;
         (*it)->executar();
+    }
+}
+
+void CMD::Fases::Fase::atualizarAlvosBruxas() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        Entidades::Personagens::Bruxa* bruxa =
+            dynamic_cast<Entidades::Personagens::Bruxa*>(*it);
+        if (bruxa != NULL)
+            bruxa->setAlvos(pJog1, pJog2);
     }
 }
 
 void CMD::Fases::Fase::desenhar() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
-    for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
+    for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+        Entidades::Projetil* projetil =
+            dynamic_cast<Entidades::Projetil*>(*it);
+        if (projetil != NULL && !projetil->estaAtivo())
+            continue;
+        Entidades::Personagens::Personagem* personagem =
+            dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+        if (personagem != NULL && personagem->getNumVida() <= 0)
+            continue;
         (*it)->desenhar();
+    }
+}
+
+void CMD::Fases::Fase::removerInimigosMortos() {
+    bool removeuInimigo;
+    do {
+        removeuInimigo = false;
+        Listas::Lista<Entidades::Entidade>::Iterador it;
+        for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+            Entidades::Personagens::Inimigo* inimigo =
+                dynamic_cast<Entidades::Personagens::Inimigo*>(*it);
+            if (inimigo != NULL && inimigo->getNumVida() <= 0) {
+                GC.removerInimigo(inimigo);
+                lista_ents.remover(*it);
+                destruirEntidade(inimigo);
+                removeuInimigo = true;
+                break;
+            }
+        }
+    } while (removeuInimigo);
 }
 
 // Mudar para virtual
@@ -110,6 +160,9 @@ void CMD::Fases::Fase::executar() {
         pGG->limpar();
         executarEntidades();
         GC.executar();
+        removerInimigosMortos();
+        if (GC.todosJogadoresMortos() || GC.todosInimigosMortos())
+            return;
         desenhar();
         pGG->renderizar();
     }
@@ -172,6 +225,7 @@ void CMD::Fases::Fase::criarOlhoVoador() {
 
 void CMD::Fases::Fase::criarBruxa() {
     Entidades::Personagens::Bruxa* pBruxa;
+    Entidades::Projetil* pProjetil;
     sf::Sprite* pSprite;
 
     pSprite = new sf::Sprite;
@@ -184,10 +238,23 @@ void CMD::Fases::Fase::criarBruxa() {
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pBruxa));
     GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pBruxa));
 
+    sf::Sprite* pSpriteProjetil = new sf::Sprite;
+    pSpriteProjetil->setTexture(pGG->getTexProjetil());
+    pProjetil = new Entidades::Projetil;
+    pProjetil->atribuirSprite(pSpriteProjetil);
+    pProjetil->setDinamico(true);
+    pBruxa->setProjetil(pProjetil);
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pProjetil));
+    GC.incluirProjetil(pProjetil);
+
     // tile_size/escala = tamanho_atual/1
     float escala = tilemap.getTileSize() / pBruxa->getLargura();
     pBruxa->getFig()->setScale(escala, escala);
     pBruxa->getFig()->scale(5,5);
+
+    const float escalaProjetil = tilemap.getTileSize() / 16.f;
+    pProjetil->getFig()->setScale(escalaProjetil, escalaProjetil);
+    pProjetil->setPosicao(pBruxa->getPosicao());
 }
 
 void CMD::Fases::Fase::criarPlataforma() {
@@ -208,6 +275,20 @@ void CMD::Fases::Fase::criarPlataforma() {
     float escala = tilemap.getTileSize() / pPlataforma->getLargura();
     pPlataforma->getFig()->setScale(escala, escala);
     pPlataforma->getFig()->scale(5,5);
+    pPlataforma->getFig()->setPosition(500,500);//temporario
+
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        Entidades::Personagens::AranhaGigante* aranha =
+            dynamic_cast<Entidades::Personagens::AranhaGigante*>(*it);
+        if (aranha != NULL) {
+            aranha->setPosicao({
+                pPlataforma->getX(),
+                pPlataforma->getY()
+                    - (pPlataforma->getAltura() + aranha->getAltura()) / 2.f
+            });
+        }
+    }
 }
 
 void CMD::Fases::Fase::criarCogumelo() {
@@ -228,6 +309,7 @@ void CMD::Fases::Fase::criarCogumelo() {
     float escala = tilemap.getTileSize() / pCogumelo->getLargura();
     pCogumelo->getFig()->setScale(escala, escala);
     pCogumelo->getFig()->scale(5,5);
+    pCogumelo->getFig()->setPosition(500,500);//temporario
 }
 
 void CMD::Fases::Fase::criarAbobora() {
@@ -248,6 +330,8 @@ void CMD::Fases::Fase::criarAbobora() {
     float escala = tilemap.getTileSize() / pAbobora->getLargura();
     pAbobora->getFig()->setScale(escala, escala);
     pAbobora->getFig()->scale(5,5);
+    
+    pAbobora->getFig()->setPosition(600,500);//temporario
 }
 
 void CMD::Fases::Fase::criarCenarios() {

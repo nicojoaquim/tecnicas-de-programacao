@@ -4,13 +4,15 @@
 #include "../Entidades/Personagem/Personagem.h"
 #include "../Entidades/Personagem/Jogador.h"
 #include "../Entidades/Personagem/Inimigo.h"
+#include "../Entidades/Personagem/AranhaGigante.h"
 #include "../Entidades/Chao.h"
-// Projétil
+#include "../Entidades/Projetil.h"
 #include "../Entidades/Obstaculo/Obstaculo.h"
+#include "../Entidades/Obstaculo/Plataforma.h"
 
 #include "../organiza.h"
 
-#include <cmath>
+#include"organiza.h"
 using std::abs;
 
 using std::vector;
@@ -49,6 +51,35 @@ void CMD::Gerenciador::Colisoes::incluirJogador2(Entidades::Personagens::Jogador
     if(jogador != NULL)
         pJog2 = jogador;
 }
+void CMD::Gerenciador::Colisoes::removerInimigo(
+    Entidades::Personagens::Inimigo* inimigo) {
+    LIs.erase(std::remove(LIs.begin(), LIs.end(), inimigo), LIs.end());
+}
+
+bool CMD::Gerenciador::Colisoes::todosJogadoresMortos() const {
+    bool temJogador = false;
+    if (pJog1 != NULL) {
+        temJogador = true;
+        if (pJog1->getNumVida() > 0)
+            return false;
+    }
+    if (pJog2 != NULL) {
+        temJogador = true;
+        if (pJog2->getNumVida() > 0)
+            return false;
+    }
+    return temJogador;
+}
+
+bool CMD::Gerenciador::Colisoes::todosInimigosMortos() const {
+    for (std::vector<Entidades::Personagens::Inimigo*>::const_iterator it = LIs.begin();
+         it != LIs.end(); ++it) {
+        if (*it != NULL && (*it)->getNumVida() > 0)
+            return false;
+    }
+    return true;
+}
+
 void CMD::Gerenciador::Colisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
     if(pi != NULL)
         LIs.push_back(pi);
@@ -95,9 +126,9 @@ void CMD::Gerenciador::Colisoes::tratarColisaoJogsInimigo() {
         std::cout << "tentativa de acessar vetor de inimigo vazio" << std::endl;
         return;
     }
-    if (pJog1 != NULL && verificarColisao(pJog1, *itIs))
+    if (pJog1 != NULL)
         pJog1->colidir(*itIs);
-    if (pJog2 != NULL && verificarColisao(pJog2, *itIs))
+    if (pJog2 != NULL)
         pJog2->colidir(*itIs);
 }
 
@@ -106,14 +137,19 @@ void CMD::Gerenciador::Colisoes::tratarColisaoJogsObstaculo() {
         std::cout << "tentativa de acessar lista de objetos vazia" << std::endl;
         return;
     }
-    if (pJog1 != NULL && verificarColisao(pJog1, *itOs))
+    if (pJog1 != NULL )
         (*itOs)->obstaculizar(pJog1);
-    if (pJog2 != NULL && verificarColisao(pJog2, *itOs))
+    if (pJog2 != NULL)
         (*itOs)->obstaculizar(pJog2);
 }
 
 void CMD::Gerenciador::Colisoes::tratarColisaoJogsProjetil() {
-
+    if (LPs.empty())
+        return;
+    if(pJog1 != NULL)
+        (*itPs)->perfurar(pJog1);
+    if(pJog2 != NULL)
+        (*itPs)->perfurar(pJog2);
 }
 
 
@@ -128,49 +164,142 @@ void CMD::Gerenciador::Colisoes::tratarColisaoJogsChao(
         (*itCs)->impedirQuedaPSG(jogador);
 }
 
-void CMD::Gerenciador::Colisoes::tratarColisaoChaoInimigo(){
+void CMD::Gerenciador::Colisoes::tratarColisaoInimigoChao(){
     if(LCs.empty() || LIs.empty()){
         std::cout << "tentativa de acessar lista de chao ou vetor de inimigo vazio" << std::endl;
         return;
     }
     (*itCs)->impedirQuedaPSG(*itIs);
 }
+
+void CMD::Gerenciador::Colisoes::tratarColisaoObstaculoChao(){
+    if (LCs.empty() || LOs.empty())
+        return;
+
+    (*itCs)->impedirQuedaOBS(*itOs);
+}
+
+void CMD::Gerenciador::Colisoes::tratarColisaoProjetilChao(){
+    if (LCs.empty() || LPs.empty())
+        return;
+    (*itPs)->desativar();
+}
+
 void CMD::Gerenciador::Colisoes::executar()
 {
-        if (pJog1 != NULL)
+        if (pJog1 != NULL && pJog1->getNumVida() > 0)
             pJog1->setEstaNoChao(false);
-       if (pJog2 != NULL)
+       if (pJog2 != NULL && pJog2->getNumVida() > 0)
             pJog2->setEstaNoChao(false); 
     
     colisaoJogsInimigo();
+    colisaoJogsObstaculo();
+    colisaoJogsProjetil();
     colisaoJogsChao();
+    colisaoObstaculoChao();
+    colisaoProjetilChao();
+    colisaoAranhaPlataforma();
     colisaoChaoInimigo();
 }
 
 void CMD::Gerenciador::Colisoes::colisaoJogsInimigo(){
         for (itIs = LIs.begin(); itIs != LIs.end(); itIs++) {
-            if (verificarColisao(pJog1, *itIs)
-                || verificarColisao(pJog2, *itIs))
+            if (*itIs == NULL || (*itIs)->getNumVida() <= 0)
+                continue;
+            if (pJog1 != NULL && pJog1->getNumVida() > 0
+                && verificarColisao(pJog1, *itIs))
+                tratarColisaoJogsInimigo();
+            if ((*itIs)->getNumVida() > 0
+                && pJog2 != NULL && pJog2->getNumVida() > 0
+                && verificarColisao(pJog2, *itIs))
                 tratarColisaoJogsInimigo();
         }
 }
 
 void CMD::Gerenciador::Colisoes::colisaoJogsChao(){
         for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
-            if (verificarColisao(pJog1, *itCs))
+            if (pJog1 != NULL && pJog1->getNumVida() > 0
+                && verificarColisao(pJog1, *itCs))
                 tratarColisaoJogsChao(pJog1);
-            if (verificarColisao(pJog2, *itCs))
+            if (pJog2 != NULL && pJog2->getNumVida() > 0
+                && verificarColisao(pJog2, *itCs))
                 tratarColisaoJogsChao(pJog2);
         }
 }
+
+void CMD::Gerenciador::Colisoes::colisaoJogsObstaculo(){
+    for (itOs = LOs.begin(); itOs != LOs.end(); ++itOs) {
+        if (pJog1 != NULL && pJog1->getNumVida() > 0 && verificarColisao(pJog1, *itOs)) {
+            (*itOs)->obstaculizar(pJog1);
+        }
+        if (pJog2 != NULL && pJog2->getNumVida() > 0 && verificarColisao(pJog2, *itOs)) {
+            (*itOs)->obstaculizar(pJog2);
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoJogsProjetil(){
+    for (itPs = LPs.begin(); itPs != LPs.end(); ++itPs) {
+        if (!(*itPs)->estaAtivo())
+            continue;
+        if (pJog1 != NULL && pJog1->getNumVida() > 0
+            && verificarColisao(pJog1, *itPs)) {
+            tratarColisaoJogsProjetil();
+        }
+        if ((*itPs)->estaAtivo() && pJog2 != NULL && pJog2->getNumVida() > 0
+            && verificarColisao(pJog2, *itPs)) {
+            tratarColisaoJogsProjetil();
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoObstaculoChao(){
+    for (itOs = LOs.begin(); itOs != LOs.end(); ++itOs) {
+        for (itCs = LCs.begin(); itCs != LCs.end(); ++itCs) {
+            if (verificarColisao(*itOs, *itCs))
+                tratarColisaoObstaculoChao();
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoProjetilChao(){
+    for (itPs = LPs.begin(); itPs != LPs.end(); ++itPs) {
+        for (itCs = LCs.begin(); itCs != LCs.end(); ++itCs) {
+            if ((*itPs)->estaAtivo() && verificarColisao(*itPs, *itCs))
+                tratarColisaoProjetilChao();
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoAranhaPlataforma(){
+    for (itIs = LIs.begin(); itIs != LIs.end(); ++itIs) {
+        Entidades::Personagens::AranhaGigante* aranha =
+            dynamic_cast<Entidades::Personagens::AranhaGigante*>(*itIs);//precisa ser dinamico
+        if (aranha == NULL || aranha->getNumVida() <= 0)
+            continue;
+
+        bool apoiada = false;
+        for (itOs = LOs.begin(); itOs != LOs.end(); ++itOs) {
+            Entidades::Obstaculos::Plataforma* plataforma =
+                dynamic_cast<Entidades::Obstaculos::Plataforma*>(*itOs);
+            if (plataforma != NULL && aranha->colidirPlataforma(plataforma)) {
+                apoiada = true;
+                break;
+            }
+        }
+        if (!apoiada)
+            aranha->perderPlataforma();
+    }
+}
+
 void CMD::Gerenciador::Colisoes::colisaoChaoInimigo(){
     for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
         for (itIs = LIs.begin(); itIs != LIs.end(); itIs++)
-            if (verificarColisao(
+            if ((*itIs)->getNumVida() > 0 && verificarColisao(
                     static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(*itIs)),
                     static_cast<Entidades::Entidade*>((*itCs))))
             {
-                tratarColisaoChaoInimigo();
+                tratarColisaoInimigoChao();
             }
     }
 }

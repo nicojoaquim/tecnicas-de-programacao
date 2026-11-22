@@ -2,11 +2,14 @@
 
 #include "../organiza.h"
 
+#include "../Gerenciador/Tempo.h"
+#include "../Gerenciador/Grafico.h"
 using sf::Vector2f;
 using sf::Sprite;
 
 CMD::Entidades::Entidade::Entidade():
     buffer(std::cout),
+    velocidade({0,0}),
     dinamico(false)
 {
 }
@@ -52,7 +55,18 @@ const float CMD::Entidades::Entidade::getX() const {
 const float CMD::Entidades::Entidade::getY() const {
     return Entidade::getPosicao().y;
 }
-
+void CMD::Entidades::Entidade::setVy(float y) {
+    velocidade.y = y;
+}
+void CMD::Entidades::Entidade::setVx(float x) {
+    velocidade.x = x;
+}
+const sf::Vector2f CMD::Entidades::Entidade::getV() const{
+    return velocidade;
+}
+void CMD::Entidades::Entidade::setV(const sf::Vector2f v){
+    velocidade = v;
+}
 void CMD::Entidades::Entidade::setPosicao(const Vector2f posicao) {
     if (pFig != NULL)
         pFig->setPosition(posicao);
@@ -90,7 +104,22 @@ const bool CMD::Entidades::Entidade::getDinamico() const {
 void CMD::Entidades::Entidade::mover(sf::Vector2f movimento) {
     pFig->move(movimento.x, movimento.y);
 }
+// baseado em https://gafferongames.com/post/integration_basics/
+void CMD::Entidades::Entidade::gravitar() {
+    /*if (esta_no_chao)
+      return;*/
 
+    float dt = Gerenciador::Tempo::getSegundos(); // s
+    float velocidade_max = 1200.f; // pixel/s
+    float aceleracao = 1200.f; // pixel/s²
+
+    velocidade.y += aceleracao*dt;
+
+    if(velocidade.y > velocidade_max)
+        velocidade.y = velocidade_max;
+
+    getFig()->move({0,velocidade.y*dt});
+}
 //sf::Vector2f& CMD::Entidades::Entidade::operator+=(sf::Vector2f& movimento) {
 //    setPosicao(getPosicao()+movimento);
 //    return this->getPosicao();

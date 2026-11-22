@@ -16,6 +16,8 @@ namespace CMD
                 int jogador;
                 sf::Text nome;
                 bool recuando;
+                bool pegajoso;
+                float tempoInvulneravel;
             public:
                 Jogador();
                 Jogador(int jogadorX, sf::String texto = "");
@@ -25,6 +27,13 @@ namespace CMD
                 void executar();
                 void salvar();
                 void mover(); // Sobrecarga do método de Entidade: mover(Vector2f)
+                void setPegajoso(bool estado);
+                void receberDanoDeInimigo(int dano,
+                    const sf::Vector2f posicaoInimigo);
+                void reiniciar();
+                int & operator++();
+            private:
+                void esmagar(Personagens::Inimigo* pIn);
             };
         }
     }

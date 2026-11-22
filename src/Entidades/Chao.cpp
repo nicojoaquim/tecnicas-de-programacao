@@ -1,8 +1,9 @@
 #include"Chao.h"
 #include<SFML/Window.hpp>
 #include"Personagem/Personagem.h"
-#include<algorithm>
-#include<cmath>
+#include"Obstaculo/Obstaculo.h"
+#include"Projetil.h"
+#include"organiza.h"
 CMD::Entidades::Chao::Chao():largura(0),altura(0){
 
 }
@@ -67,18 +68,22 @@ void CMD::Entidades::Chao::impedirQuedaPSG(Personagens::Personagem* pP){
         return;
     }
 
-    float dx = getX() - pP->getX();
-    float dy = getY() - pP->getY();
-    float interx = std::abs(dx) - (pP->getLargura()/2 + getLargura()/2) ;
-    float intery = std::abs(dy) - (pP->getAltura()/2 + getAltura()/2);
-    if(interx > intery) {
-        if (dx > 0)
-            pP->setPosicao({pP->getX()+interx,pP->getY()});
+    const float dx = pP->getX() - getX();
+    const float dy = pP->getY() - getY();
+    const float interx =
+        (pP->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery =
+        (pP->getAltura() + getAltura()) / 2.f - std::abs(dy);
+    if (interx <= 0.f || intery <= 0.f)
+        return;
+
+    if (interx < intery) {
+        if (dx < 0.f)
+            pP->setPosicao({ pP->getX() - interx, pP->getY() });
         else
-            pP->setPosicao({pP->getX()-interx,pP->getY()});
-    }
-    else {
-        if (dy > 0) {
+            pP->setPosicao({ pP->getX() + interx, pP->getY() });
+    } else {
+        if (dy < 0.f) {
             pP->setPosicao({
                 pP->getX(),
                 getY() - (getAltura() + pP->getAltura())/2.f
@@ -93,6 +98,80 @@ void CMD::Entidades::Chao::impedirQuedaPSG(Personagens::Personagem* pP){
             });
             pP->setVy(0);
             pP->setEstaNoChao(false);
+        }
+    }
+}
+void CMD::Entidades::Chao::impedirQuedaOBS(Obstaculos::Obstaculo* pO){
+    if(pO == NULL){
+        std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
+        return;
+    }
+
+    const float dx = pO->getX() - getX();
+    const float dy = pO->getY() - getY();
+    const float interx =
+        (pO->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery =
+        (pO->getAltura() + getAltura()) / 2.f - std::abs(dy);
+    if (interx <= 0.f || intery <= 0.f)
+        return;
+
+    if (interx < intery) {
+        if (dx < 0.f)
+            pO->setPosicao({ pO->getX() - interx, pO->getY() });
+        else
+            pO->setPosicao({ pO->getX() + interx, pO->getY() });
+    } else {
+        if (dy < 0.f) {
+            pO->setPosicao({
+                pO->getX(),
+                getY() - (getAltura() + pO->getAltura())/2.f
+            });
+            pO->setVy(0);
+        }
+        else {
+            pO->setPosicao({
+                pO->getX(),
+                getY() + (getAltura() + pO->getAltura())/2.f
+            });
+            pO->setVy(0);
+        }
+    }
+}
+void CMD::Entidades::Chao::impedirQuedaPJT(Projetil* pPj){
+    if(pPj == NULL){
+        std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
+        return;
+    }
+
+    const float dx = pPj->getX() - getX();
+    const float dy = pPj->getY() - getY();
+    const float interx =
+        (pPj->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery =
+        (pPj->getAltura() + getAltura()) / 2.f - std::abs(dy);
+    if (interx <= 0.f || intery <= 0.f)
+        return;
+
+    if (interx < intery) {
+        if (dx < 0.f)
+            pPj->setPosicao({ pPj->getX() - interx, pPj->getY() });
+        else
+            pPj->setPosicao({ pPj->getX() + interx, pPj->getY() });
+    } else {
+        if (dy < 0.f) {
+            pPj->setPosicao({
+                pPj->getX(),
+                getY() - (getAltura() + pPj->getAltura())/2.f
+            });
+            pPj->setVy(0);
+        }
+        else {
+            pPj->setPosicao({
+                pPj->getX(),
+                getY() + (getAltura() + pPj->getAltura())/2.f
+            });
+            pPj->setVy(0);
         }
     }
 }

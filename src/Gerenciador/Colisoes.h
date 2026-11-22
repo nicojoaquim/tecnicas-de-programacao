@@ -18,6 +18,11 @@ namespace CMD
         {
             class Jogador;
             class Inimigo;
+            class AranhaGigante;
+        }
+        namespace Obstaculos
+        {
+            class Plataforma;
         }
         class Chao;
     }
@@ -45,17 +50,27 @@ namespace CMD
             void incluirChao(Entidades::Chao* pc);
             void incluirJogador1(Entidades::Personagens::Jogador* jogador);
             void incluirJogador2(Entidades::Personagens::Jogador* jogador);
+            void removerInimigo(Entidades::Personagens::Inimigo* inimigo);
+            bool todosJogadoresMortos() const;
+            bool todosInimigosMortos() const;
             void executar();
 
         private:
             void colisaoJogsInimigo();
+            void colisaoJogsObstaculo();
+            void colisaoJogsProjetil();
             void colisaoJogsChao();
+            void colisaoObstaculoChao();
+            void colisaoProjetilChao();
             void colisaoChaoInimigo();
+            void colisaoAranhaPlataforma();
             void tratarColisaoJogsInimigo();
             void tratarColisaoJogsObstaculo();
             void tratarColisaoJogsProjetil();
-            void tratarColisaoJogsChao(Entidades::Personagens::Jogador* jogador);
-            void tratarColisaoChaoInimigo();
+            void tratarColisaoJogsChao(Entidades::Personagens::Jogador* jogador);//aqui tá com passagem de paremetro porque por algum motivo se não tem isso para algum jogador pular é preciso que algum pule
+            void tratarColisaoInimigoChao();
+            void tratarColisaoObstaculoChao();
+            void tratarColisaoProjetilChao();
             const bool verificarColisao(Entidades::Entidade* p1, Entidades::Entidade* p2);
         };
     }

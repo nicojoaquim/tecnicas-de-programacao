@@ -1,44 +1,46 @@
 #include"Abobora.h"
 #include "../Personagem/Jogador.h"
+#include "../../Gerenciador/Grafico.h"
+#include "../../Gerenciador/Tempo.h"
+#include"organiza.h"
 CMD::Entidades::Obstaculos::Abobora::Abobora():
-Obstaculo(),
-largura(2){
+    Obstaculo(), 
+    tempoCor(0.f),
+    largura(2){
 
 }
 CMD::Entidades::Obstaculos::Abobora::~Abobora(){
 
 }
 void CMD::Entidades::Obstaculos::Abobora::executar(){
-
+    gravitar();
+    acao();
 }
-void CMD::Entidades::Obstaculos::Abobora::obstaculizar(Personagens::Jogador* p){
-    if (p== NULL) {
-        std::cerr << "Jogador  nulo" << std::endl;
-        return;
-    }
+void CMD::Entidades::Obstaculos::Abobora::obstaculizar(Personagens::Jogador* p) {
+    if (p == NULL) return;
     
-    float dx = getX() - p->getX();
-    float dy = getY() - p->getY();
-    float interx = std::abs(dx) - (p->getLargura()/2 + getLargura()/2) ;
-    float intery = std::abs(dy) - (p->getAltura()/2 + getAltura()/2);
+    const float dx = p->getX() - getX();
+    const float dy = p->getY() - getY();
+    const float interx = (p->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery = (p->getAltura() + getAltura()) / 2.f - std::abs(dy);
 
-    if(interx < 0.0f && intery < 0.0f)
-    {
-        if (interx > intery) {
-        if (dx > 0)
-            getFig()->setPosition(p->getX()+interx,p->getY());
-        else
-            getFig()->setPosition(p->getX()-interx,p->getY());
-    }
-    else {
-        if(dy>0)
-            getFig()->setPosition(p->getX(),p->getY()+intery);
-        else
-            getFig()->setPosition(p->getX(),p->getY()-intery);
-    }
+    if (interx > 0.f && intery > 0.f) {
+        p->setPegajoso(true);
     }
 }
 
 void  CMD::Entidades::Obstaculos::Abobora::salvar(){
 
+}
+void CMD::Entidades::Obstaculos::Abobora::acao() {
+    float dt = Gerenciador::Tempo::getSegundos();
+    tempoCor += dt;
+
+    // Fica mudando de cor que nem um seno
+    float intensidade = (std::sin(tempoCor * 3.0f) + 1.0f) * 127.5f;
+    
+    if (getFig() != NULL) {
+        // Escolhi o vermelho porque achei mais com cara de malefico
+        getFig()->setColor(sf::Color(255, static_cast<sf::Uint8>(intensidade), 0));
+    }
 }

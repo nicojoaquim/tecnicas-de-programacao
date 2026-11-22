@@ -20,8 +20,8 @@ namespace CMD
             Lista<Entidades::Entidade>::Iterador inicio();
             Lista<Entidades::Entidade>::Iterador fim();
             void incluir(Entidades::Entidade* pE);
+            bool remover(Entidades::Entidade* pE);
             void percorrer();
-            void executar(); // TODO implementar
         };
     }
 }

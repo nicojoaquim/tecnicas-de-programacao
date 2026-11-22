@@ -111,8 +111,11 @@ void CMD::Jogo::telaInicial()
         GG.renderizar();
     }
     // Temporário
-    if (ativo == 0)
-        telaAtual = FASE1;
+    if (ativo == 0) {
+        jogador1.reiniciar();
+        jogador2.reiniciar();
+        telaAtual = menu.getFaseInicial() == 1 ? FASE1 : FASE2;
+    }
 }
 /*
 void Jogo::gravidade(){
@@ -151,7 +154,8 @@ void CMD::Jogo::executar()
             );
             fase1.adicionaChao(&chao);
             fase1.executar();
-            if (jogador1.getNumVida() > 0) {
+            if (jogador1.getNumVida() > 0
+                || (menu.getNumeroJogadores() == 2 && jogador2.getNumVida() > 0)) {
                 // Próxima fase
                 telaAtual = FASE2;
             }
@@ -181,7 +185,8 @@ void CMD::Jogo::executar()
             );
             fase2.adicionaChao(&chao);
             fase2.executar();
-            GG.fechar();
+            if (GG.aberto())
+                telaAtual = MENU;
         }
     }
 }

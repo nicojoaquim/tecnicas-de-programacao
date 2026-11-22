@@ -19,6 +19,8 @@ namespace CMD{
                 void salvar();
                 void mover();
                 void danificar(Jogador*pJog);
+            private:
+                void investidaO(Jogador*pJog);
             };
         }
     }

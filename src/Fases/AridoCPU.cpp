@@ -14,11 +14,17 @@ CMD::Fases::AridoCPU::~AridoCPU()
 
 void CMD::Fases::AridoCPU::executar()
 {
-    ;
+    Fase::executar();
 }
 
 void CMD::Fases::AridoCPU::criarInimigos()
-{}
+{
+    criarAranhaGigante();
+    criarBruxa();
+}
 
 void CMD::Fases::AridoCPU::criarObst()
-{}
+{
+    criarPlataforma();
+    criarCogumelo();
+}

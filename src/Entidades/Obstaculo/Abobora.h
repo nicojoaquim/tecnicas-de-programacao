@@ -8,6 +8,7 @@ namespace CMD{
             {
             private:
                 int largura;
+                float tempoCor;
 
             public:
                 Abobora();
@@ -15,6 +16,7 @@ namespace CMD{
                 void executar();
                 void obstaculizar(Personagens::Jogador* p);
                 void salvar();
+                void acao();
             };
         }
     }

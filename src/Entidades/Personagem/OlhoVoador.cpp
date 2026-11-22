@@ -1,6 +1,7 @@
 #include "OlhoVoador.h"
 #include "../../Gerenciador/Grafico.h"
 #include "../../Gerenciador/tempo.h"
+#include"Jogador.h"
 #include"organiza.h"
 
 using sf::Vector2f;
@@ -13,6 +14,7 @@ mudou_direcao(false),
 tempoSen(0),
 yBase(0),
 yBaseInicializada(false){
+    agresividade = 2;
     velocidade.x = 160.f;
 
 }
@@ -21,6 +23,7 @@ CMD::Entidades::Personagens::OlhoVoador::~OlhoVoador(){
 
 }
 void CMD::Entidades::Personagens::OlhoVoador::executar(){
+    gravitar();
     mover();
     if (mudou_direcao) {
         mudou_direcao = false;
@@ -87,7 +90,15 @@ void CMD::Entidades::Personagens::OlhoVoador::mover(){
     movimento.y = yDestino - getY();
 
     Entidade::mover(movimento);
+    velocidade.y =0;
 }
 void CMD::Entidades::Personagens::OlhoVoador::danificar(Jogador* pJog){
-
+    investidaO(pJog);
+}
+void CMD::Entidades::Personagens::OlhoVoador::investidaO(Jogador* pJog){
+    if (pJog != NULL)
+        pJog->receberDanoDeInimigo(
+            agresividade + tamanho * 2,
+            getPosicao()
+        );
 }
