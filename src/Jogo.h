@@ -21,12 +21,14 @@ namespace CMD{
         Tela telaAtual;
         Gerenciador::Grafico GG;
         Entidades::Personagens::Jogador jogador1;
+        Entidades::Personagens::Jogador jogador2;
 
         Menu menu;
         Entidades::Chao chao;
         // Entidades::Personagens::AranhaGigante teste;
         sf::Texture texture;
         sf::Sprite sprite;
+        sf::Sprite spriteJog2;
         sf::Sprite sprite2;
         sf::Sprite sprite3;
         sf::Font font;

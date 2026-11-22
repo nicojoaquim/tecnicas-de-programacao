@@ -10,7 +10,8 @@ CMD::Menu::Menu():
     texts(),
     tams(),
     mousePosi({0,0}),
-    mouseCoorde({0,0})
+    mouseCoorde({0,0}),
+    numeroJogadores(1)
 {
     if (!fontM.loadFromFile(FONTE)) {
         std::cerr << "Error loading font: " << FONTE << std::endl;
@@ -18,10 +19,10 @@ CMD::Menu::Menu():
     }
     std::cout << "Success to load font" << std::endl;
 
-    opcoes = {"Jogo","Jogar","Rankim"};
-    coordes = {{530,-100},{550,250},{550,350}};
-    tams = {200,100,100};
-    texts.resize(2);
+    opcoes = {"Caos Magico Digital","- Realidade em Colapso","Um Jogador","Dois Jogadores"};
+    coordes = {{155,-90},{155,15},{550,250},{550,350}};
+    tams = {150,125,100,100};
+    texts.resize(opcoes.size());
     for(size_t i = 0;i < texts.size();i++){
         texts[i].setFont(fontM);
         texts[i].setOutlineColor(sf::Color::White);
@@ -39,8 +40,14 @@ void CMD::Menu::executar(){
 void CMD::Menu::tratarEvento(const sf::Event& evento, int& ativo){
     if(evento.type == sf::Event::MouseButtonPressed && evento.mouseButton.button == sf::Mouse::Left){
         mousePosi = {evento.mouseButton.x,evento.mouseButton.y};
-        if(textoMouse(texts[1]))
+        if(textoMouse(texts[2])) {
+            numeroJogadores = 1;
             ativo = 0;
+        }
+        else if(textoMouse(texts[3])) {
+            numeroJogadores = 2;
+            ativo = 0;
+        }
     }
 }
 void CMD::Menu::desenha(){
@@ -62,6 +69,9 @@ void CMD::Menu::setMouseCoorde(sf::Vector2f mou){
 }
 sf::Vector2f CMD::Menu::getMouseCoorde(){
     return mouseCoorde;
+}
+int CMD::Menu::getNumeroJogadores() const{
+    return numeroJogadores;
 }
 void CMD::Menu::coordenadaMouse(){
     mousePosi = sf::Mouse::getPosition(pGG->getJanela());

@@ -17,6 +17,7 @@ namespace CMD{
         std::vector<std::size_t>tams;
         sf::Vector2i mousePosi;
         sf::Vector2f mouseCoorde;
+        int numeroJogadores;
 
     public:
         Menu();
@@ -28,6 +29,7 @@ namespace CMD{
         sf::Vector2i getMousePosi();
         void setMouseCoorde(sf::Vector2f mou);
         sf::Vector2f getMouseCoorde();
+        int getNumeroJogadores() const;
         void coordenadaMouse();
         bool textoMouse(sf::Text& texto);
     };

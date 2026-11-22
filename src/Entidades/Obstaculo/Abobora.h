@@ -1,0 +1,21 @@
+#pragma once
+#include"organiza.h"
+#include"Obstaculo.h"
+namespace CMD{
+    namespace Entidades{
+        namespace Obstaculos{
+            class Abobora : public Obstaculo
+            {
+            private:
+                int largura;
+
+            public:
+                Abobora();
+                ~Abobora();
+                void executar();
+                void obstaculizar(Personagens::Jogador* p);
+                void salvar();
+            };
+        }
+    }
+}

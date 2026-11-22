@@ -2,6 +2,7 @@
 
 #include "Inimigo.h"
 #include "../../Gerenciador/Tempo.h"
+#include "../../Gerenciador/Grafico.h"
 
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath> // std::abs e trigonométricas
@@ -11,7 +12,32 @@ using sf::Vector2f;
 using std::cerr;
 using std::endl;
 
-CMD::Entidades::Personagens::Jogador::Jogador():Personagem(),pontos(0)
+CMD::Entidades::Personagens::Jogador::Jogador():
+    Jogador(1, sf::String(""))
+{
+}
+
+CMD::Entidades::Personagens::Jogador::Jogador(int jogadorX, sf::String texto):
+    Personagem(),
+    pontos(0),
+    jogador(jogadorX),
+    nome(),
+    recuando(false)
+{
+    nome.setString(texto);
+    if (pGG != NULL)
+        nome.setFont(pGG->getFonte());
+}
+
+CMD::Entidades::Personagens::Jogador::Jogador(
+    int jogadorX,
+    const sf::Font& fonte,
+    sf::String texto):
+    Personagem(),
+    pontos(0),
+    jogador(jogadorX),
+    nome(texto, fonte, 20),
+    recuando(false)
 {
 }
 
@@ -19,34 +45,34 @@ CMD::Entidades::Personagens::Jogador::~Jogador()
 {
 }
 
+
 //baseado na colisão de Hilze Vonck
 bool CMD::Entidades::Personagens::Jogador::colidir(Personagens::Inimigo* pIn) {
     if (pIn == NULL) {
         cerr << "Inimigo nulo" << endl;
         return false;
     }
-    /*
-    float dx = std::abs(pIn->getX() - this->getX());
-    float dy = std::abs(pIn->getY() - this->getY());
-    float interx = dx - (this->getLargura()/2 + pIn->getLargura()/2) ;
-    float intery = dy - (this->getAltura()/2 + pIn->getAltura()/2);
+    float dx = pIn->getX() - getX();
+    float dy = pIn->getY() - getY();
+    float interx = std::abs(dx) - (getLargura()/2 + pIn->getLargura()/2) ;
+    float intery = std::abs(dy) - (getAltura()/2 + pIn->getAltura()/2);
 
     if(interx < 0.0f && intery < 0.0f)
     {
-        if(interx > intery){
-            if(dx > 0)
-                this->getFig()->move({-1.0f,0.0f});
-            else
-                this->getFig()->move({1.0f,0.0f});
-            }
-        else {
-            if(dy>0)
-                this->getFig()->move({0.0f,-1.0f});
-            else
-                this->getFig()->move({0.0f,1.0f});
-        }
+        if (interx > intery) {
+        if (dx > 0)
+            getFig()->setPosition(getX()+interx,getY());
+        else
+            getFig()->setPosition(getX()-interx,getY());
+    }
+    else {
+        if(dy>0)
+            getFig()->setPosition(getX(),getY()+intery);
+        else
+            getFig()->setPosition(getX(),getY()-intery);
+    }
         return true;
-    }*/
+    }
     return false;
 }
 
@@ -62,33 +88,46 @@ void CMD::Entidades::Personagens::Jogador::salvar() {
 void CMD::Entidades::Personagens::Jogador::mover() {
     sf::Vector2f dv(0, 0);
     float dt = Gerenciador::Tempo::getSegundos();
-    if (esta_no_chao && Keyboard::isKeyPressed(Keyboard::Up)) {
+    const Keyboard::Key teclaPular = jogador == 1 ? Keyboard::Up : Keyboard::W;
+    const Keyboard::Key teclaEsquerda = jogador == 1 ? Keyboard::Left : Keyboard::A;
+    const Keyboard::Key teclaDireita = jogador == 1 ? Keyboard::Right : Keyboard::D;
+    if (esta_no_chao && Keyboard::isKeyPressed(teclaPular)) {
             velocidade.y -= 600.;
             esta_no_chao = false;
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::Left))
+        if (Keyboard::isKeyPressed(teclaEsquerda)){
             dv.x -= 800.;
-        if (Keyboard::isKeyPressed(Keyboard::Right))
+            if(!recuando){
+                recuando = true;
+                getFig()->setScale(-1,1);
+            }
+        }
+        if (Keyboard::isKeyPressed(teclaDireita)){
             dv.x += 800.;
+            if(recuando){
+                recuando = false;
+                getFig()->setScale(1,1);
+            }
+        }
         velocidade += dv;
         if(esta_no_chao){
-            velocidade.x *= 0.85f; 
-            
+            velocidade.x *= 0.85f;
+
             if (std::abs(velocidade.x) > 400.f) {
-                
+
                 if(velocidade.x > 0)
                     velocidade.x = 400.f;
                 else
                     velocidade.x = -400.f;
                 }
-                
-                if (std::abs(velocidade.x) < 1.f) 
+
+                if (std::abs(velocidade.x) < 1.f)
                         velocidade.x = 0.f;
         }
         else {
             velocidade.x *= 0.98f;
-        
+
             if (std::abs(velocidade.x) > 500.f) {
                 if(velocidade.x > 0)
                         velocidade.x = 500.f;

@@ -7,6 +7,12 @@
 #include "../Tilemap.h"
 
 #include "../Entidades/Personagem/AranhaGigante.h"
+#include "../Entidades/Personagem/OlhoVoador.h"
+#include "../Entidades/Personagem/Bruxa.h"
+
+#include "../Entidades/Obstaculo/Plataforma.h"
+#include "../Entidades/Obstaculo/Cogumelo.h"
+#include "../Entidades/Obstaculo/Abobora.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window.hpp>
@@ -39,6 +45,10 @@ CMD::Fases::Fase::~Fase(){
 void CMD::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
         lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador1)));
         GC.incluirJogador1(jogador1);
+    }
+void CMD::Fases::Fase::adicionaJog2(Entidades::Personagens::Jogador* jogador2){
+        lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador2)));
+        GC.incluirJogador2(jogador2);
     }
 void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
     lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
@@ -136,23 +146,108 @@ void CMD::Fases::Fase::criarAranhaGigante() {
 }
 
 void CMD::Fases::Fase::criarOlhoVoador() {
+    Entidades::Personagens::OlhoVoador* pOlho;
+    sf::Sprite* pSprite;
 
+    pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexOlhoVoador());
+
+    pOlho = new Entidades::Personagens::OlhoVoador;
+    pOlho->atribuirSprite(pSprite);
+    pOlho->setDinamico(true);
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pOlho));
+    GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pOlho));
+
+    // tile_size/escala = tamanho_atual/1
+    float escala = tilemap.getTileSize() / pOlho->getLargura();
+    pOlho->getFig()->setScale(escala, escala);
+    const sf::Vector2u tamanhoJanela = pGG->getTamanhoJanela();
+    pOlho->getFig()->setPosition(
+        tamanhoJanela.x / 2.f,
+        tamanhoJanela.y / 3.f
+    );
+    pOlho->getFig()->scale(5,5);
 }
 
 void CMD::Fases::Fase::criarBruxa() {
+    Entidades::Personagens::Bruxa* pBruxa;
+    sf::Sprite* pSprite;
 
+    pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexBruxa());
+
+    pBruxa = new Entidades::Personagens::Bruxa;
+    pBruxa->atribuirSprite(pSprite);
+    pBruxa->setDinamico(true);
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pBruxa));
+    GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pBruxa));
+
+    // tile_size/escala = tamanho_atual/1
+    float escala = tilemap.getTileSize() / pBruxa->getLargura();
+    pBruxa->getFig()->setScale(escala, escala);
+    pBruxa->getFig()->scale(5,5);
 }
 
 void CMD::Fases::Fase::criarPlataforma() {
+    Entidades::Obstaculos::Plataforma* pPlataforma;
+    sf::Sprite* pSprite;
 
+    pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexPlataforma());
+
+    pPlataforma = new Entidades::Obstaculos::Plataforma;
+    pPlataforma->atribuirSprite(pSprite);
+    pPlataforma->setDinamico(true);
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pPlataforma));
+    GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataforma));
+
+    // tile_size/escala = tamanho_atual/1
+    float escala = tilemap.getTileSize() / pPlataforma->getLargura();
+    pPlataforma->getFig()->setScale(escala, escala);
+    pPlataforma->getFig()->scale(5,5);
 }
 
 void CMD::Fases::Fase::criarCogumelo() {
+   Entidades::Obstaculos::Cogumelo* pCogumelo;
+    sf::Sprite* pSprite;
 
+    pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexCogumelo());
+
+    pCogumelo = new Entidades::Obstaculos::Cogumelo;
+    pCogumelo->atribuirSprite(pSprite);
+    pCogumelo->setDinamico(true);
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pCogumelo));
+    GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pCogumelo));
+
+    // tile_size/escala = tamanho_atual/1
+    float escala = tilemap.getTileSize() / pCogumelo->getLargura();
+    pCogumelo->getFig()->setScale(escala, escala);
+    pCogumelo->getFig()->scale(5,5);
 }
 
-void CMD::Fases::Fase::criarObstDificil() {
+void CMD::Fases::Fase::criarAbobora() {
+    Entidades::Obstaculos::Abobora* pAbobora;
+    sf::Sprite* pSprite;
 
+    pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexAbobora());
+
+    pAbobora = new Entidades::Obstaculos::Abobora;
+    pAbobora->atribuirSprite(pSprite);
+    pAbobora->setDinamico(true);
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pAbobora));
+    GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pAbobora));
+
+    // tile_size/escala = tamanho_atual/1
+    float escala = tilemap.getTileSize() / pAbobora->getLargura();
+    pAbobora->getFig()->setScale(escala, escala);
+    pAbobora->getFig()->scale(5,5);
 }
 
 void CMD::Fases::Fase::criarCenarios() {

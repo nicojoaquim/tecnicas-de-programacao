@@ -38,6 +38,7 @@ namespace CMD
         virtual void executar(); // Polimorfismo
         void adicionaChao(Entidades::Chao* chao);
         void adicionaJog1(Entidades::Personagens::Jogador* joagdor1);
+        void adicionaJog2(Entidades::Personagens::Jogador* jogador2);
 
     protected:
         virtual void criarInimigos() = 0;
@@ -56,7 +57,7 @@ namespace CMD
         void criarBruxa();
         void criarPlataforma();
         void criarCogumelo();
-        void criarObstDificil();//mudar nome depois
+        void criarAbobora();//mudar nome depois
 
         void destruirEntidade(Entidades::Entidade* pE);
     };

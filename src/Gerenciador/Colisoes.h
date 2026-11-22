@@ -9,8 +9,11 @@ namespace CMD
     namespace Entidades
     {
         class Entidade;
-        class Obstaculo;
         class Projetil;
+        namespace Obstaculos
+        {
+            class Obstaculo;
+        }
         namespace Personagens
         {
             class Jogador;
@@ -24,27 +27,24 @@ namespace CMD
         {
         private:
             std::vector<Entidades::Personagens::Inimigo*> LIs;
-            std::list<Entidades::Obstaculo*> LOs;
+            std::list<Entidades::Obstaculos::Obstaculo*> LOs;
             std::set<Entidades::Projetil*> LPs;
             std::list<Entidades::Chao*> LCs;
             Entidades::Personagens::Jogador* pJog1;
+            Entidades::Personagens::Jogador* pJog2;
             std::vector<Entidades::Personagens::Inimigo*>::iterator itIs;
-            std::list<Entidades::Obstaculo*>::iterator itOs;
+            std::list<Entidades::Obstaculos::Obstaculo*>::iterator itOs;
             std::set<Entidades::Projetil*>::iterator itPs;
             std::list<Entidades::Chao*>::iterator itCs;
-            float dx;
-            float dy;
-            float internox; // Usado entre funções, sempre atribuir antes de usar
-            float internoy; // ||
-
         public:
             Colisoes();
             ~Colisoes();
             void incluirInimigo(Entidades::Personagens::Inimigo* pi);
-            void incluirObstaculo(Entidades::Obstaculo* po);
+            void incluirObstaculo(Entidades::Obstaculos::Obstaculo* po);
             void incluirProjetil(Entidades::Projetil* pj);
             void incluirChao(Entidades::Chao* pc);
-            void incluirJogador1(Entidades::Personagens::Jogador* pPrimeiro);
+            void incluirJogador1(Entidades::Personagens::Jogador* jogador);
+            void incluirJogador2(Entidades::Personagens::Jogador* jogador);
             void executar();
 
         private:
@@ -54,7 +54,7 @@ namespace CMD
             void tratarColisaoJogsInimigo();
             void tratarColisaoJogsObstaculo();
             void tratarColisaoJogsProjetil();
-            void tratarColisaoJogsChao();
+            void tratarColisaoJogsChao(Entidades::Personagens::Jogador* jogador);
             void tratarColisaoChaoInimigo();
             const bool verificarColisao(Entidades::Entidade* p1, Entidades::Entidade* p2);
         };

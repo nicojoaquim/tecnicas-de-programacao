@@ -7,13 +7,14 @@ namespace CMD{
             class Cogumelo : public Obstaculo
             {
             private:
-                int largura;
+                short int densidade;
 
             public:
                 Cogumelo();
                 ~Cogumelo();
                 void executar();
                 void obstaculizar(Personagens::Jogador* p);
+                void salvar();
             };
         }
     }

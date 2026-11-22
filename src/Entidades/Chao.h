@@ -5,6 +5,9 @@
 // Chão será formado por várias
 namespace CMD{
     namespace Entidades{
+        namespace Personagens{
+            class Personagem;
+        }
         class Chao : public Entidade
         {
         private:
@@ -17,6 +20,7 @@ namespace CMD{
             void tamanhoChao();
             void executar();
             void salvar();
+            void impedirQuedaPSG(Personagens::Personagem* pP);
         };
     }
 }

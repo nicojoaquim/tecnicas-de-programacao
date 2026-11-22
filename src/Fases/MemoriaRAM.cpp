@@ -39,7 +39,11 @@ void MemoriaRam::desenhar()
 void CMD::Fases::MemoriaRam::criarInimigos()
 {
     criarAranhaGigante();
+    criarOlhoVoador();
 }
 
 void CMD::Fases::MemoriaRam::criarObst()
-{}
+{
+    criarAbobora();
+    criarPlataforma();
+}
