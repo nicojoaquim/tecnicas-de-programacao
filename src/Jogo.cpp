@@ -1,30 +1,34 @@
 #include "Jogo.h"
 
 #include "Fases/MemoriaRAM.h"
-#include "Gerenciador/Tempo.h" // TEMP, mover telaInicial() para Menu
+#include"Fases/AridoCPU.h"
+#include "Gerenciador/Tempo.h"
+
+using sf::Vector2f;
+using sf::Event;
+using sf::Keyboard;
 
 // Uso para debug/erros
 #include "organiza.h"
 using std::cout;
 using std::endl;
 using std::cerr;
-using sf::Vector2f;
-using sf::Event;
-using sf::Keyboard;
 
 CMD::Jogo::Jogo():
     telaAtual(MENU),
     GG(),
     jogador1(),
-    jogador2()
+    jogador2(),
+    dois_jogadores(false)
 {
     Ente::setGG(&GG);
     jogador1.carregarSprite();
+    jogador2.carregarSprite();
     executar();
 }
 
-CMD::Jogo::~Jogo()
-{}
+CMD::Jogo::~Jogo() {
+}
 
 void CMD::Jogo::executar()
 {
@@ -32,30 +36,71 @@ void CMD::Jogo::executar()
     {
         if (telaAtual == MENU) {
             Menu menu(this);
+            // Loop do menu
             menu.executar();
+            // Saiu do loop
+            jogador1.reiniciar();
+            jogador2.reiniciar();
         }
         else if (telaAtual == FASE1) {
             std::cout << "Fase 1" << std::endl;
             CMD::Fases::MemoriaRam fase1;
+            // Mudar linhas para Fase
+            // const sf::Vector2u tamanhoJanela = GG.getTamanhoJanela();
+            // jogador1.getFig()->setPosition(tamanhoJanela.x / 3.f, tamanhoJanela.y / 3.f);
+            // if (menu.getNumeroJogadores() == 2) {
+            //     jogador2.getFig()->setPosition(
+            //         tamanhoJanela.x * 2.f / 3.f,
+            //         tamanhoJanela.y / 3.f
+            //     );
+            //     fase1.adicionaJog2(&jogador2);
+            // }
             fase1.incluirJogador(&jogador1);
-            //fase1.incluirJogador(&jogador2);
+            if (dois_jogadores)
+                fase1.incluirJogador(&jogador2);
+
+            // Loop da Fase
             fase1.executar();
-            if (jogador1.getNumVida() > 0) {
+
+            if (jogador1.getNumVida() > 0
+                || (dois_jogadores && jogador2.getNumVida() > 0)) {
                 // Próxima fase
                 telaAtual = FASE2;
             }
             else {
-                // Jogador perdeu
+                // Jogadores perderam
                 telaAtual = MENU;
             }
         }
         else if (telaAtual == FASE2) {
             std::cout << "Fase 2" << std::endl;
-            GG.fechar();
+            CMD::Fases::AridoCPU fase2;
+            fase2.incluirJogador(&jogador1);
+            const sf::Vector2u tamanhoJanela = GG.getTamanhoJanela();
+            jogador1.getFig()->setPosition(tamanhoJanela.x / 3.f, tamanhoJanela.y / 3.f);
+            if (dois_jogadores) {
+                jogador2.getFig()->setPosition(
+                    tamanhoJanela.x * 2.f / 3.f,
+                    tamanhoJanela.y / 3.f
+                );
+                fase2.incluirJogador(&jogador2);
+            }
+            // chao.inicializaChao(&sprite3);
+            // chao.getFig()->setPosition(
+            //     tamanhoJanela.x / 2.f,
+            //     tamanhoJanela.y - chao.getAltura() / 2.f
+            // );
+            // fase2.adicionaChao(&chao);
+            fase2.executar();
+            telaAtual = MENU;
         }
     }
 }
 
 void CMD::Jogo::setProximaTela(CMD::Tela tela) {
     telaAtual = tela;
+}
+
+void CMD::Jogo::setDoisJogadores(bool dois) {
+    dois_jogadores = dois;
 }

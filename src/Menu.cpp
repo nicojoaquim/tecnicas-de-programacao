@@ -1,4 +1,4 @@
-#include"Menu.h"
+#include "Menu.h"
 
 #include "Jogo.h"
 #include "Gerenciador/Grafico.h"
@@ -17,11 +17,24 @@ CMD::Menu::Menu(Jogo* pJ):
     mousePosi({0,0}),
     mouseCoorde({0,0})
 {
-    //fonte.loadFromFile(FONTE);
-    opcoes = {"Jogo","Jogar","Rankim"};
-    coordes = {{530,-100},{550,250},{550,350}};
-    tams = {200,100,100};
-    texts.resize(2);
+    opcoes = {
+        "Caos Magico Digital",
+        "- Realidade em Colapso",
+        "1 Jogador - Fase 1",
+        "1 Jogador - Fase 2",
+        "2 Jogadores - Fase 1",
+        "2 Jogadores - Fase 2"
+    };
+    coordes = {
+        {155,-90},
+        {155,15},
+        {450,250},
+        {450,350},
+        {450,450},
+        {450,550}
+    };
+    tams = {150,125,75,75,75,75};
+    texts.resize(opcoes.size());
     for(size_t i = 0;i < texts.size();i++){
         texts[i].setFont(fonte);
         texts[i].setOutlineColor(sf::Color::White);
@@ -32,7 +45,6 @@ CMD::Menu::Menu(Jogo* pJ):
 }
 
 CMD::Menu::~Menu(){
-
 }
 
 void CMD::Menu::executar() {
@@ -49,7 +61,7 @@ void CMD::Menu::executar() {
                 return;
             }
             if (evento.type == sf::Event::MouseButtonPressed
-                     && evento.mouseButton.button == sf::Mouse::Left)
+                && evento.mouseButton.button == sf::Mouse::Left)
             {
                 tratarClique(evento, ativo);
             }
@@ -59,13 +71,31 @@ void CMD::Menu::executar() {
     }
 }
 
-void CMD::Menu::tratarClique(const sf::Event& evento, bool& ativo) {
-    mousePosi = sf::Vector2i(evento.mouseButton.x, evento.mouseButton.y);
-    if (textoMouse(texts[1])) {
-        ativo = false;
+void CMD::Menu::tratarClique(const sf::Event& evento, bool& ativo){
+    mousePosi = {evento.mouseButton.x,evento.mouseButton.y};
+
+    if(textoMouse(texts[2])) {
+        pJogo->setDoisJogadores(false);
         pJogo->setProximaTela(FASE1);
+        ativo = false;
+    }
+    else if(textoMouse(texts[3])) {
+        pJogo->setDoisJogadores(false);
+        pJogo->setProximaTela(FASE1);
+        ativo = false;
+    }
+    else if(textoMouse(texts[4])) {
+        pJogo->setDoisJogadores(true);
+        pJogo->setProximaTela(FASE2);
+        ativo = false;
+    }
+    else if(textoMouse(texts[5])) {
+        pJogo->setDoisJogadores(true);
+        pJogo->setProximaTela(FASE2);
+        ativo = false;
     }
 }
+
 void CMD::Menu::desenha(){
     if(pGG == NULL){
         std::cerr << "Nulidade do gerenciador gráfico no menu" << std::endl;
@@ -97,7 +127,5 @@ void CMD::Menu::coordenadaMouse(){
 }
 
 bool CMD::Menu::textoMouse(sf::Text& texto){
-    if(texto.getGlobalBounds().contains(pGG->getJanela().mapPixelToCoords(mousePosi)))
-        return true;
-    return false;
+    return (texto.getGlobalBounds().contains(pGG->getJanela().mapPixelToCoords(mousePosi)));
 }

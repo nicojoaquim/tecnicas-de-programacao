@@ -2,7 +2,12 @@
 
 #include "../Tilemap.h"
 #include "../Gerenciador/Grafico.h"
-#include<SFML/Window.hpp>
+#include "Personagem/Personagem.h"
+#include "Obstaculo/Obstaculo.h"
+#include "Projetil.h"
+#include "../organiza.h"
+
+#include <SFML/Window.hpp>
 
 CMD::Entidades::Chao::Chao(Tile t = VAZIO):
     tipo(t),
@@ -17,10 +22,10 @@ CMD::Entidades::Chao::Chao(Tile t = VAZIO):
 }
 
 CMD::Entidades::Chao::~Chao() {
-    if (tipo != VAZIO)
+    if (tipo != VAZIO && getFig() != NULL)
         delete getFig();
 }
-
+/*
 void CMD::Entidades::Chao::inicializaChao(sf::Sprite* chao){
     if(chao == NULL){
         std::cerr << "nulidade em inicializar chao" << std::endl;
@@ -35,11 +40,40 @@ void CMD::Entidades::Chao::tamanhoChao(){
         std::cerr << "nulidade em tamanho chao" << std::endl;
         return;
     }
-    largura = sf::VideoMode::getDesktopMode().width/getLargura();
-    altura = sf::VideoMode::getDesktopMode().height/getAltura();
-    pFig->setScale({largura,altura});
-}
+    const sf::Texture* textura = pFig->getTexture();
+    if(textura == NULL){
+        std::cerr << "textura inexistente em tamanho chao" << std::endl;
+        return;
+    }
 
+    const sf::VideoMode modoVideo = sf::VideoMode::getDesktopMode();
+    const sf::Vector2u tamanhoJanela(modoVideo.width, modoVideo.height);
+    const sf::Vector2u tamanhoTile = textura->getSize();
+    if(tamanhoJanela.x == 0 || tamanhoJanela.y == 0
+        || tamanhoTile.x == 0 || tamanhoTile.y == 0){
+        std::cerr << "dimensao invalida em tamanho chao" << std::endl;
+        return;
+    }
+
+    const float tamanhoTileTela = std::min(
+        tamanhoJanela.x / 80.f,
+        tamanhoJanela.y / 45.f
+    );
+    const int quantidadeTiles = static_cast<int>(
+        std::ceil(tamanhoJanela.x / tamanhoTileTela)
+    );
+    const int quantidadeLinhas = 10;
+    pFig->setTextureRect(sf::IntRect( 0, 0,
+        quantidadeTiles * static_cast<int>(tamanhoTile.x),
+        quantidadeLinhas * static_cast<int>(tamanhoTile.y)));
+
+    const sf::FloatRect area = pFig->getLocalBounds();
+    pFig->setOrigin(area.width / 2.f, area.height / 2.f);
+    largura = tamanhoTileTela / static_cast<float>(tamanhoTile.x);
+    altura = tamanhoTileTela / static_cast<float>(tamanhoTile.y);
+    pFig->setScale(largura, altura);
+}
+*/
 void CMD::Entidades::Chao::executar() {
 
 }
@@ -58,29 +92,120 @@ const sf::Texture& CMD::Entidades::Chao::getTex() const {
     std::cerr << "Tipo de tile de chão inválido em Chao::getTex(): "
               << tipo << std::endl;
     return pGG->getTexPlataforma();
+}
 
-//    if (tipo == RAM0) return pGG->getTexAmbienteRAM(0);
-//    else if (tipo == RAM1) return pGG->getTexAmbienteRAM(1);
-//    else if (tipo == RAM2) return pGG->getTexAmbienteRAM(2);
-//    else if (tipo == RAM3) return pGG->getTexAmbienteRAM(3);
-//    else if (tipo == RAM4) return pGG->getTexAmbienteRAM(4);
-//    else if (tipo == RAM5) return pGG->getTexAmbienteRAM(5);
-//    else if (tipo == RAM6) return pGG->getTexAmbienteRAM(6);
-//    else if (tipo == RAM7) return pGG->getTexAmbienteRAM(7);
-//    else if (tipo == RAM8) return pGG->getTexAmbienteRAM(8);
-//    else if (tipo == RAM9) return pGG->getTexAmbienteRAM(9);
-//    else if (tipo == RAM10) return pGG->getTexAmbienteRAM(10);
-//    else if (tipo == RAM11) return pGG->getTexAmbienteRAM(11);
-//    else if (tipo == CPU0) return pGG->getTexAmbienteCPU(0);
-//    else if (tipo == CPU1) return pGG->getTexAmbienteCPU(1);
-//    else if (tipo == CPU2) return pGG->getTexAmbienteCPU(2);
-//    else if (tipo == CPU3) return pGG->getTexAmbienteCPU(3);
-//    else if (tipo == CPU4) return pGG->getTexAmbienteCPU(4);
-//    else if (tipo == CPU5) return pGG->getTexAmbienteCPU(5);
-//    else if (tipo == CPU6) return pGG->getTexAmbienteCPU(6);
-//    else if (tipo == CPU7) return pGG->getTexAmbienteCPU(7);
-//    else if (tipo == CPU8) return pGG->getTexAmbienteCPU(8);
-//    else if (tipo == CPU9) return pGG->getTexAmbienteCPU(9);
-//    else if (tipo == CPU10) return pGG->getTexAmbienteCPU(10);
-//    else if (tipo == CPU11) return pGG->getTexAmbienteCPU(11);
+void CMD::Entidades::Chao::impedirQuedaPSG(Personagens::Personagem* pP){
+    if(pP == NULL){
+        std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
+        return;
+    }
+
+    const float dx = pP->getX() - getX();
+    const float dy = pP->getY() - getY();
+    const float interx =
+        (pP->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery =
+        (pP->getAltura() + getAltura()) / 2.f - std::abs(dy);
+    if (interx <= 0.f || intery <= 0.f)
+        return;
+
+    if (interx < intery) {
+        if (dx < 0.f)
+            pP->setPosicao({ pP->getX() - interx, pP->getY() });
+        else
+            pP->setPosicao({ pP->getX() + interx, pP->getY() });
+    } else {
+        if (dy < 0.f) {
+            pP->setPosicao({
+                pP->getX(),
+                getY() - (getAltura() + pP->getAltura())/2.f
+            });
+            pP->setVy(0);
+            pP->setEstaNoChao(true);
+        }
+        else {
+            pP->setPosicao({
+                pP->getX(),
+                getY() + (getAltura() + pP->getAltura())/2.f
+            });
+            pP->setVy(0);
+            pP->setEstaNoChao(false);
+        }
+    }
+}
+
+void CMD::Entidades::Chao::impedirQuedaOBS(Obstaculos::Obstaculo* pO){
+    if(pO == NULL){
+        std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
+        return;
+    }
+
+    const float dx = pO->getX() - getX();
+    const float dy = pO->getY() - getY();
+    const float interx =
+        (pO->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery =
+        (pO->getAltura() + getAltura()) / 2.f - std::abs(dy);
+    if (interx <= 0.f || intery <= 0.f)
+        return;
+
+    if (interx < intery) {
+        if (dx < 0.f)
+            pO->setPosicao({ pO->getX() - interx, pO->getY() });
+        else
+            pO->setPosicao({ pO->getX() + interx, pO->getY() });
+    } else {
+        if (dy < 0.f) {
+            pO->setPosicao({
+                pO->getX(),
+                getY() - (getAltura() + pO->getAltura())/2.f
+            });
+            pO->setVy(0);
+        }
+        else {
+            pO->setPosicao({
+                pO->getX(),
+                getY() + (getAltura() + pO->getAltura())/2.f
+            });
+            pO->setVy(0);
+        }
+    }
+}
+
+void CMD::Entidades::Chao::impedirQuedaPJT(Projetil* pPj){
+    if(pPj == NULL){
+        std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
+        return;
+    }
+
+    const float dx = pPj->getX() - getX();
+    const float dy = pPj->getY() - getY();
+    const float interx =
+        (pPj->getLargura() + getLargura()) / 2.f - std::abs(dx);
+    const float intery =
+        (pPj->getAltura() + getAltura()) / 2.f - std::abs(dy);
+    if (interx <= 0.f || intery <= 0.f)
+        return;
+
+    if (interx < intery) {
+        if (dx < 0.f)
+            pPj->setPosicao({ pPj->getX() - interx, pPj->getY() });
+        else
+            pPj->setPosicao({ pPj->getX() + interx, pPj->getY() });
+    } else {
+        if (dy < 0.f) {
+            pPj->setPosicao({
+                pPj->getX(),
+                getY() - (getAltura() + pPj->getAltura())/2.f
+            });
+            pPj->setVy(0);
+        }
+        else {
+            pPj->setPosicao({
+                pPj->getX(),
+                getY() + (getAltura() + pPj->getAltura())/2.f
+            });
+            pPj->setVy(0);
+        }
+    }
 }

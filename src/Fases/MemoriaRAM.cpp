@@ -1,8 +1,8 @@
 #include "MemoriaRAM.h"
 #include "../Tilemap.h"
 
-#include <vector>
-using std::vector;
+// #include <vector>
+// using std::vector;
 
 CMD::Fases::MemoriaRam::MemoriaRam():
     Fase(),
@@ -19,17 +19,26 @@ CMD::Fases::MemoriaRam::MemoriaRam():
 
 CMD::Fases::MemoriaRam::~MemoriaRam() {
     // lista_ents.percorrer(); // Não da pra usar? Percorrer só passa por todos os elem.
-
 }
+/*
+void MemoriaRam::executar()
+{
+    ;
+}
+*/
 void CMD::Fases::MemoriaRam::criarInimigos() {
     criarAranhaGigante({0, 0});
+    criarOlhoVoador({tilemap.getLargura()/2, tilemap.getAltura()/3});
 }
 
-void CMD::Fases::MemoriaRam::criarObst() {}
+void CMD::Fases::MemoriaRam::criarObst() {
+    criarAbobora({tilemap.getLargura()/3, tilemap.getAltura()/3});
+    criarPlataforma({tilemap.getLargura()*2/3, tilemap.getAltura()/4});
+}
 
 void CMD::Fases::MemoriaRam::criarAmbiente()
 {
-    // AQUI QUE DIZ O QUE INICIA NO TILEMAP
+    // Aqui que definie o chão da fase
     sf::Vector2u pos = {0, 0};
     //const float tam_tile = tilemap.getTileSize();
     pos.y = tilemap.getAltura() - 1;

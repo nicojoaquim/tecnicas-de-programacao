@@ -190,6 +190,8 @@ void CMD::Gerenciador::Grafico::inicializarTexturas() {
         texAmbienteRAM[i].setSmooth(false);
         texAmbienteCPU[i].setSmooth(false);
     }
+    // texAmbienteRAM[0].setRepeated(true);
+    // texAmbienteCPU[0].setRepeated(true);
 }
 
 // ==========================================

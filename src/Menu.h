@@ -8,7 +8,6 @@ namespace CMD
     class Jogo;
     //class Grafico;
 
-    //baseando no menu do site terminal root
     class Menu: public Ente
     {
     private:
@@ -17,7 +16,7 @@ namespace CMD
         std::vector<const char*> opcoes;
         std::vector<sf::Vector2f> coordes;
         std::vector<sf::Text> texts;
-        std::vector<std::size_t>tams;
+        std::vector<std::size_t> tams;
         sf::Vector2i mousePosi;
         sf::Vector2f mouseCoorde;
 

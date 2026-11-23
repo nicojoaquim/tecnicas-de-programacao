@@ -14,6 +14,7 @@ namespace CMD
         {
         protected:
             std::ostream & buffer;
+            sf::Vector2f velocidade;
             bool dinamico;
 
         public:
@@ -30,6 +31,11 @@ namespace CMD
             const float getX() const;
             const float getY() const;
 
+            void setVy(float y);
+            void setVx(float x);
+            const sf::Vector2f getV() const;
+            void setV(const sf::Vector2f v);
+            void gravitar();
             const sf::Vector2f getTamanho() const;
             const float getLargura() const;
             const float getAltura() const;

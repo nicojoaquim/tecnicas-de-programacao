@@ -5,6 +5,8 @@
 #include <SFML/System/String.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#define VIDA_INICIAL 6
+
 namespace CMD
 {
     namespace Entidades {
@@ -15,16 +17,24 @@ namespace CMD
             protected:
                 int pontos;
                 int jogador;
-                sf::String nome;
+                sf::Text nome;
+                bool recuando;
+                bool pegajoso;
+                float tempoInvulneravel;
             public:
                 Jogador();
-                Jogador(int jogadorX, sf::String str);
+                Jogador(int jogadorX, sf::String texto = "");
+                Jogador(int jogadorX, const sf::Font& fonte, sf::String texto = "");
                 ~Jogador();
                 bool colidir(Personagens::Inimigo* pIn);
                 void executar();
                 void salvar();
                 void mover(); // Sobrecarga do método de Entidade: mover(Vector2f)
-                //void setNome(sf::String str);
+                void setPegajoso(bool estado);
+                void receberDanoDeInimigo(int dano, const sf::Vector2f posicaoInimigo);
+                void reiniciar();
+                int & operator++();
+                void esmagar(Personagens::Inimigo* pIn);
                 void carregarSprite();
             };
         }

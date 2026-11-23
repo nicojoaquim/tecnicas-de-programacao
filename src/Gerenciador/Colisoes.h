@@ -9,12 +9,20 @@ namespace CMD
     namespace Entidades
     {
         class Entidade;
-        class Obstaculo;
         class Projetil;
+        namespace Obstaculos
+        {
+            class Obstaculo;
+        }
         namespace Personagens
         {
             class Jogador;
             class Inimigo;
+            class AranhaGigante;
+        }
+        namespace Obstaculos
+        {
+            class Plataforma;
         }
         class Chao;
     }
@@ -23,40 +31,45 @@ namespace CMD
         class Colisoes
         {
         private:
-            std::vector<Entidades::Personagens::Inimigo*> LIs;
-            std::list<Entidades::Obstaculo*> LOs;
-            std::set<Entidades::Projetil*> LPs;
-            std::list<Entidades::Chao*> LCs;
             Entidades::Personagens::Jogador* pJog1;
             Entidades::Personagens::Jogador* pJog2;
+            std::vector<Entidades::Personagens::Inimigo*> LIs;
+            std::list<Entidades::Obstaculos::Obstaculo*> LOs;
+            std::set<Entidades::Projetil*> LPs;
+            std::list<Entidades::Chao*> LCs;
             std::vector<Entidades::Personagens::Inimigo*>::iterator itIs;
-            std::list<Entidades::Obstaculo*>::iterator itOs;
+            std::list<Entidades::Obstaculos::Obstaculo*>::iterator itOs;
             std::set<Entidades::Projetil*>::iterator itPs;
             std::list<Entidades::Chao*>::iterator itCs;
-            float dx;
-            float dy;
-            float internox; // Usado entre funções, sempre atribuir antes de usar
-            float internoy; // ||
-
         public:
             Colisoes();
             ~Colisoes();
+            void executar();
             void incluirInimigo(Entidades::Personagens::Inimigo* pi);
-            void incluirObstaculo(Entidades::Obstaculo* po);
+            void incluirObstaculo(Entidades::Obstaculos::Obstaculo* po);
             void incluirProjetil(Entidades::Projetil* pj);
             void incluirChao(Entidades::Chao* pc);
             void incluirJogador(Entidades::Personagens::Jogador* pJ);
-            void executar();
-
+            void removerInimigo(Entidades::Personagens::Inimigo* inimigo);
+            bool todosJogadoresMortos() const;
+            bool todosInimigosMortos() const;
         private:
             void colisaoJogsInimigo();
+            void colisaoJogsObstaculo();
+            void colisaoJogsProjetil();
             void colisaoJogsChao();
+            void colisaoObstaculoChao();
+            void colisaoProjetilChao();
             void colisaoChaoInimigo();
+            void colisaoAranhaPlataforma();
             void tratarColisaoJogsInimigo();
             void tratarColisaoJogsObstaculo();
             void tratarColisaoJogsProjetil();
-            void tratarColisaoJogsChao();
-            void tratarColisaoChaoInimigo();
+            //aqui tá com passagem de paremetro porque por algum motivo se não tem isso para algum jogador pular é preciso que algum pule
+            void tratarColisaoJogsChao(Entidades::Personagens::Jogador* jogador);
+            void tratarColisaoInimigoChao();
+            void tratarColisaoObstaculoChao();
+            void tratarColisaoProjetilChao();
             const bool verificarColisao(Entidades::Entidade* p1, Entidades::Entidade* p2);
         };
     }

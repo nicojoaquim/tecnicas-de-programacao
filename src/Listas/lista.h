@@ -51,6 +51,7 @@ namespace CMD
             ~Lista();
             void aterrarList();
             void incluir(TL* p);
+            bool remover(TL* p);
             void limpar();
             void percorrer();
             Iterador inicio();
@@ -191,6 +192,33 @@ void CMD::Listas::Lista<TL>::incluir(TL* p){
         pUltimo->setProx(NULL);
     }
 
+}
+
+template <class TL>
+bool CMD::Listas::Lista<TL>::remover(TL* p){
+    Elemento<TL>* anterior = NULL;
+    Elemento<TL>* atual = pPrimeiro;
+
+    while (atual != NULL) {
+        if (atual->getInfo() == p) {
+            Elemento<TL>* proximo = atual->getProximo();
+            if (anterior != NULL)
+                anterior->setProx(proximo);
+            else
+                pPrimeiro = proximo;
+
+            if (pUltimo == atual)
+                pUltimo = anterior;
+
+            delete atual;
+            return true;
+        }
+
+        anterior = atual;
+        atual = atual->getProximo();
+    }
+
+    return false;
 }
 
 template <class TL>
