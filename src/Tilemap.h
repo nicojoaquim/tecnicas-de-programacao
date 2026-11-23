@@ -6,7 +6,7 @@
 namespace CMD
 {
     enum Tile {
-        VAZIO = 0,
+        INVALIDO = -1, VAZIO = 0,
         JOG1, JOG2,
         ARANHA, OLHO, BRUXA, PROJ, PLAT, ABOBORA, COGUMELO,
         RAM0, RAM1, RAM2, RAM3, RAM4, RAM5, RAM6, RAM7, RAM8, RAM9, RAM10, RAM11,
@@ -22,7 +22,7 @@ namespace CMD
         sf::Vector2f origem;
 
     public:
-        Tilemap(unsigned int lar = 32, unsigned int alt = 18);
+        Tilemap(unsigned int lar = 48, unsigned int alt = 27);
         ~Tilemap();
         void executar();
         const unsigned int getLargura() const;
@@ -32,7 +32,5 @@ namespace CMD
         void incluir(Tile tipo, sf::Vector2u pos);
         const Tile getTile(sf::Vector2u pos) const;
         const sf::Vector2f getCentroTile(sf::Vector2u pos) const;
-        //void setMatriz(std::vector<std::vector<int>>& m);
-        //std::vector<std::vector<int>>& getMatriz();
     };
 }
