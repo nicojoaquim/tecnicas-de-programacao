@@ -39,6 +39,9 @@ CMD::Fases::Fase::Fase():
     // Necessário limpar relógio, pois
     // usaria o tempo decorrido no Menu
     pGT->reiniciarRelogio();
+
+    // https://en.cppreference.com/cpp/numeric/random/srand
+    std::srand(std::time(NULL));
 }
 
 CMD::Fases::Fase::~Fase(){
