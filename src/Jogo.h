@@ -21,6 +21,7 @@ namespace CMD
         Gerenciador::Grafico GG;
         Entidades::Personagens::Jogador jogador1;
         Entidades::Personagens::Jogador jogador2;
+        bool dois_jogadores;
 
         sf::Texture texture;
         sf::Sprite sprite;
@@ -30,5 +31,6 @@ namespace CMD
         ~Jogo();
         void executar();
         void setProximaTela(Tela tela);
+        void setDoisJogadores(bool dois);
     };
 }

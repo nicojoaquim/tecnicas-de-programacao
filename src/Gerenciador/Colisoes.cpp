@@ -4,14 +4,13 @@
 #include "../Entidades/Personagem/Personagem.h"
 #include "../Entidades/Personagem/Jogador.h"
 #include "../Entidades/Personagem/Inimigo.h"
+#include "../Entidades/Personagem/AranhaGigante.h"
 #include "../Entidades/Chao.h"
-// Projétil
-// Obstáculo
+#include "../Entidades/Projetil.h"
+#include "../Entidades/Obstaculo/Obstaculo.h"
+#include "../Entidades/Obstaculo/Plataforma.h"
 
 #include "../organiza.h"
-
-#include <cmath>
-using std::abs;
 
 using std::vector;
 using std::set;
@@ -20,16 +19,12 @@ using std::list;
 using sf::Vector2f;
 
 CMD::Gerenciador::Colisoes::Colisoes():
+    pJog1(NULL),
+    pJog2(NULL),
     LIs(),
     LOs(),
     LPs(),
-    LCs(),
-    pJog1(NULL),
-    pJog2(NULL),
-    dx(0),
-    dy(0),
-    internox(0),
-    internoy(0)
+    LCs()
 {
     LIs.clear();
     LOs.clear();
@@ -38,11 +33,11 @@ CMD::Gerenciador::Colisoes::Colisoes():
 }
 
 CMD::Gerenciador::Colisoes::~Colisoes() {
-    pJog1 = NULL;
     LIs.clear();
     LOs.clear();
     LPs.clear();
     LCs.clear();
+
 }
 
 void CMD::Gerenciador::Colisoes::incluirJogador(Entidades::Personagens::Jogador* pJ) {
@@ -57,12 +52,41 @@ void CMD::Gerenciador::Colisoes::incluirJogador(Entidades::Personagens::Jogador*
         pJog2 = pJ;
 }
 
+void CMD::Gerenciador::Colisoes::removerInimigo(
+    Entidades::Personagens::Inimigo* inimigo) {
+    LIs.erase(std::remove(LIs.begin(), LIs.end(), inimigo), LIs.end());
+}
+
+bool CMD::Gerenciador::Colisoes::todosJogadoresMortos() const {
+    bool temJogador = false;
+    if (pJog1 != NULL) {
+        temJogador = true;
+        if (pJog1->getNumVida() > 0)
+            return false;
+    }
+    if (pJog2 != NULL) {
+        temJogador = true;
+        if (pJog2->getNumVida() > 0)
+            return false;
+    }
+    return temJogador;
+}
+
+bool CMD::Gerenciador::Colisoes::todosInimigosMortos() const {
+    for (std::vector<Entidades::Personagens::Inimigo*>::const_iterator it = LIs.begin();
+         it != LIs.end(); ++it) {
+        if (*it != NULL && (*it)->getNumVida() > 0)
+            return false;
+    }
+    return true;
+}
+
 void CMD::Gerenciador::Colisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
     if(pi != NULL)
         LIs.push_back(pi);
 }
 
-void CMD::Gerenciador::Colisoes::incluirObstaculo(Entidades::Obstaculo* po) {
+void CMD::Gerenciador::Colisoes::incluirObstaculo(Entidades::Obstaculos::Obstaculo* po) {
     if(po != NULL)
         LOs.push_back(po);
 }
@@ -87,13 +111,13 @@ const bool CMD::Gerenciador::Colisoes::verificarColisao(Entidades::Entidade* p1,
     Vector2f pos1 = p1->getPosicao();
     Vector2f pos2 = p2->getPosicao();
 
-    dx = pos1.x - pos2.x;
-    dy = pos1.y - pos2.y;
+    float dx = pos1.x - pos2.x;
+    float dy = pos1.y - pos2.y;
 
     // As linhas a seguir supõem que x e y são do centro, pois retângulos diferentes têm
     // suas pontas sups. esqs. a uma distância diferente do que da dos seus centros.
-    internox = abs(dx) - (p1->getLargura() + p2->getLargura())/2;
-    internoy = abs(dy) - (p1->getAltura() + p2->getAltura())/2;
+    float internox = std::abs(dx) - (p1->getLargura() + p2->getLargura())/2;
+    float internoy = std::abs(dy) - (p1->getAltura() + p2->getAltura())/2;
 
     return (internox < 0.0f && internoy < 0.0f);
 }
@@ -103,114 +127,186 @@ void CMD::Gerenciador::Colisoes::tratarColisaoJogsInimigo() {
         std::cout << "tentativa de acessar vetor de inimigo vazio" << std::endl;
         return;
     }
-    if (internox > internoy) {
-        if (dx > 0)
-            pJog1->getFig()->setPosition(pJog1->getX()-internox,pJog1->getY());
-        else
-            pJog1->getFig()->setPosition(pJog1->getX()+internox,pJog1->getY());
-    }
-    else {
-        if(dy>0)
-            pJog1->getFig()->setPosition(pJog1->getX(),pJog1->getY()-internoy);
-        else
-            pJog1->getFig()->setPosition(pJog1->getX(),pJog1->getY()+internoy);
-    }
+    if (pJog1 != NULL)
+        pJog1->colidir(*itIs);
+    if (pJog2 != NULL)
+        pJog2->colidir(*itIs);
 }
 
 void CMD::Gerenciador::Colisoes::tratarColisaoJogsObstaculo() {
-
+    if (LOs.empty()) {
+        std::cout << "tentativa de acessar lista de objetos vazia" << std::endl;
+        return;
+    }
+    if (pJog1 != NULL )
+        (*itOs)->obstaculizar(pJog1);
+    if (pJog2 != NULL)
+        (*itOs)->obstaculizar(pJog2);
 }
 
 void CMD::Gerenciador::Colisoes::tratarColisaoJogsProjetil() {
-
+    if (LPs.empty())
+        return;
+    if(pJog1 != NULL)
+        (*itPs)->perfurar(pJog1);
+    if(pJog2 != NULL)
+        (*itPs)->perfurar(pJog2);
 }
 
-// baseado em https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-void CMD::Gerenciador::Colisoes::tratarColisaoJogsChao() {
+
+void CMD::Gerenciador::Colisoes::tratarColisaoJogsChao(
+    Entidades::Personagens::Jogador* jogador)
+// void CMD::Gerenciador::Colisoes::tratarColisaoJogsChao()
+{
     if (LCs.empty()) {
         std::cout << "tentativa de acessar lista de chao vazia" << std::endl;
         return;
     }
 
-    if(internox > internoy) {
-        if (dx > 0)
-            pJog1->setPosicao({pJog1->getX()-internox,pJog1->getY()});//um jeito dinâmico de expilir o jogador
-        else
-            pJog1->setPosicao({pJog1->getX()+internox,pJog1->getY()});
-    }
-    else {
-        if (dy > 0)
-            pJog1->setPosicao({pJog1->getX(),pJog1->getY()-internoy});
-        else {
-            pJog1->setPosicao({
-                pJog1->getX(),
-                (*itCs)->getY() - ((*itCs)->getAltura() + pJog1->getAltura())/2.f
-            });
-            pJog1->setVy(0); //para o jogador não ficar quicando ou atravessar o chão
-            pJog1->setEstaNoChao(true);
-        }
-    }
+    if (jogador != NULL)
+        (*itCs)->impedirQuedaPSG(jogador);
+    // if (pJog1 != NULL)
+    //     (*itCs)->impedirQuedaPSG(pJog1);
+    // if (pJog2 != NULL)
+    //     (*itCs)->impedirQuedaPSG(pJog2);
 }
 
-void CMD::Gerenciador::Colisoes::tratarColisaoChaoInimigo(){
+void CMD::Gerenciador::Colisoes::tratarColisaoInimigoChao(){
     if(LCs.empty() || LIs.empty()){
         std::cout << "tentativa de acessar lista de chao ou vetor de inimigo vazio" << std::endl;
         return;
     }
-
-    if(internox > internoy){
-        if(dx > 0)
-            (*itIs)->getFig()->setPosition((*itIs)->getX()-internox,(*itIs)->getY());
-        else
-            (*itIs)->getFig()->setPosition((*itIs)->getX()+internox,(*itIs)->getY());
-        }
-    else {
-        if (dy>0)
-            (*itIs)->getFig()->setPosition((*itIs)->getX(),(*itIs)->getY()-internoy);
-
-        else {
-            (*itIs)->getFig()->setPosition({
-                (*itIs)->getX(),
-                (*itCs)->getY() - ((*itCs)->getAltura() + (*itIs)->getAltura())/2.f
-            });
-            (*itIs)->setVy(0);}
-    }
+    (*itCs)->impedirQuedaPSG(*itIs);
 }
+
+void CMD::Gerenciador::Colisoes::tratarColisaoObstaculoChao(){
+    if (LCs.empty() || LOs.empty())
+        return;
+
+    (*itCs)->impedirQuedaOBS(*itOs);
+}
+
+void CMD::Gerenciador::Colisoes::tratarColisaoProjetilChao(){
+    if (LCs.empty() || LPs.empty())
+        return;
+    (*itPs)->desativar();
+}
+
 void CMD::Gerenciador::Colisoes::executar()
 {
+    if (pJog1 != NULL && pJog1->getNumVida() > 0)
+        pJog1->setEstaNoChao(false);
+    if (pJog2 != NULL && pJog2->getNumVida() > 0)
+        pJog2->setEstaNoChao(false);
+
     colisaoJogsInimigo();
+    colisaoJogsObstaculo();
+    colisaoJogsProjetil();
     colisaoJogsChao();
+    colisaoObstaculoChao();
+    colisaoProjetilChao();
+    colisaoAranhaPlataforma();
     colisaoChaoInimigo();
 }
 
-void CMD::Gerenciador::Colisoes::colisaoJogsInimigo(){
+void CMD::Gerenciador::Colisoes::colisaoJogsInimigo() {
     for (itIs = LIs.begin(); itIs != LIs.end(); itIs++) {
-        if (verificarColisao(
-                static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(pJog1)),
-                static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(*itIs))))
-        {
+        if (*itIs == NULL || (*itIs)->getNumVida() <= 0)
+            continue;
+        if (pJog1 != NULL && pJog1->getNumVida() > 0
+            && verificarColisao(pJog1, *itIs))
             tratarColisaoJogsInimigo();
-        }
+        if ((*itIs)->getNumVida() > 0
+            && pJog2 != NULL && pJog2->getNumVida() > 0
+            && verificarColisao(pJog2, *itIs))
+            tratarColisaoJogsInimigo();
     }
 }
+
 void CMD::Gerenciador::Colisoes::colisaoJogsChao(){
-    for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
-        if (verificarColisao(
-                static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(pJog1)),
-                static_cast<Entidades::Entidade*>((*itCs))))
-        {
-            tratarColisaoJogsChao();
+        for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
+            if (pJog1 != NULL && pJog1->getNumVida() > 0
+                && verificarColisao(pJog1, *itCs))
+                tratarColisaoJogsChao(pJog1);
+            if (pJog2 != NULL && pJog2->getNumVida() > 0
+                && verificarColisao(pJog2, *itCs))
+                tratarColisaoJogsChao(pJog2);
+        }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoJogsObstaculo(){
+    for (itOs = LOs.begin(); itOs != LOs.end(); ++itOs) {
+        if (pJog1 != NULL && pJog1->getNumVida() > 0 && verificarColisao(pJog1, *itOs)) {
+            (*itOs)->obstaculizar(pJog1);
+        }
+        if (pJog2 != NULL && pJog2->getNumVida() > 0 && verificarColisao(pJog2, *itOs)) {
+            (*itOs)->obstaculizar(pJog2);
         }
     }
 }
+
+void CMD::Gerenciador::Colisoes::colisaoJogsProjetil(){
+    for (itPs = LPs.begin(); itPs != LPs.end(); ++itPs) {
+        if (!(*itPs)->estaAtivo())
+            continue;
+        if (pJog1 != NULL && pJog1->getNumVida() > 0
+            && verificarColisao(pJog1, *itPs)) {
+            tratarColisaoJogsProjetil();
+        }
+        if ((*itPs)->estaAtivo() && pJog2 != NULL && pJog2->getNumVida() > 0
+            && verificarColisao(pJog2, *itPs)) {
+            tratarColisaoJogsProjetil();
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoObstaculoChao(){
+    for (itOs = LOs.begin(); itOs != LOs.end(); ++itOs) {
+        for (itCs = LCs.begin(); itCs != LCs.end(); ++itCs) {
+            if (verificarColisao(*itOs, *itCs))
+                tratarColisaoObstaculoChao();
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoProjetilChao(){
+    for (itPs = LPs.begin(); itPs != LPs.end(); ++itPs) {
+        for (itCs = LCs.begin(); itCs != LCs.end(); ++itCs) {
+            if ((*itPs)->estaAtivo() && verificarColisao(*itPs, *itCs))
+                tratarColisaoProjetilChao();
+        }
+    }
+}
+
+void CMD::Gerenciador::Colisoes::colisaoAranhaPlataforma(){
+    for (itIs = LIs.begin(); itIs != LIs.end(); ++itIs) {
+        Entidades::Personagens::AranhaGigante* aranha =
+            dynamic_cast<Entidades::Personagens::AranhaGigante*>(*itIs);//precisa ser dinamico
+        if (aranha == NULL || aranha->getNumVida() <= 0)
+            continue;
+
+        bool apoiada = false;
+        for (itOs = LOs.begin(); itOs != LOs.end(); ++itOs) {
+            Entidades::Obstaculos::Plataforma* plataforma =
+                dynamic_cast<Entidades::Obstaculos::Plataforma*>(*itOs);
+            if (plataforma != NULL && aranha->colidirPlataforma(plataforma)) {
+                apoiada = true;
+                break;
+            }
+        }
+        if (!apoiada)
+            aranha->perderPlataforma();
+    }
+}
+
 void CMD::Gerenciador::Colisoes::colisaoChaoInimigo(){
     for (itCs = LCs.begin(); itCs != LCs.end(); itCs++) {
         for (itIs = LIs.begin(); itIs != LIs.end(); itIs++)
-            if (verificarColisao(
-                    static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(*itIs)),
-                    static_cast<Entidades::Entidade*>((*itCs))))
+            if ((*itIs)->getNumVida() > 0 && verificarColisao(
+                static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(*itIs)),
+                static_cast<Entidades::Entidade*>((*itCs))))
             {
-                tratarColisaoChaoInimigo();
+                tratarColisaoInimigoChao();
             }
     }
 }

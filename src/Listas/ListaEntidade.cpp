@@ -9,6 +9,9 @@ CMD::Listas::ListaEntidade::~ListaEntidade(){
 void CMD::Listas::ListaEntidade::incluir(CMD::Entidades::Entidade* pE){
     LEs.incluir(pE);
 }
+bool CMD::Listas::ListaEntidade::remover(CMD::Entidades::Entidade* pE){
+    return LEs.remover(pE);
+}
 void CMD::Listas::ListaEntidade::percorrer(){
     LEs.percorrer();
 }

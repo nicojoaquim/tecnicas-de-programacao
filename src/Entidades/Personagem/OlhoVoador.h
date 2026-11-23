@@ -7,6 +7,11 @@ namespace CMD{
             class OlhoVoador:public Inimigo{
             private:
                 int tamanho;
+                bool indoParaFrente;
+                bool mudou_direcao;
+                float tempoSen;
+                float yBase;
+                bool yBaseInicializada;
             public:
                 OlhoVoador();
                 ~OlhoVoador();
@@ -14,6 +19,8 @@ namespace CMD{
                 void salvar();
                 void mover();
                 void danificar(Jogador*pJog);
+            private:
+                void investidaO(Jogador*pJog);
             };
         }
     }
