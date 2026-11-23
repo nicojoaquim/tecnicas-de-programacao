@@ -31,12 +31,12 @@ namespace CMD
         class Colisoes
         {
         private:
+            Entidades::Personagens::Jogador* pJog1;
+            Entidades::Personagens::Jogador* pJog2;
             std::vector<Entidades::Personagens::Inimigo*> LIs;
             std::list<Entidades::Obstaculos::Obstaculo*> LOs;
             std::set<Entidades::Projetil*> LPs;
             std::list<Entidades::Chao*> LCs;
-            Entidades::Personagens::Jogador* pJog1;
-            Entidades::Personagens::Jogador* pJog2;
             std::vector<Entidades::Personagens::Inimigo*>::iterator itIs;
             std::list<Entidades::Obstaculos::Obstaculo*>::iterator itOs;
             std::set<Entidades::Projetil*>::iterator itPs;
@@ -44,17 +44,15 @@ namespace CMD
         public:
             Colisoes();
             ~Colisoes();
+            void executar();
             void incluirInimigo(Entidades::Personagens::Inimigo* pi);
             void incluirObstaculo(Entidades::Obstaculos::Obstaculo* po);
             void incluirProjetil(Entidades::Projetil* pj);
             void incluirChao(Entidades::Chao* pc);
-            void incluirJogador1(Entidades::Personagens::Jogador* jogador);
-            void incluirJogador2(Entidades::Personagens::Jogador* jogador);
+            void incluirJogador(Entidades::Personagens::Jogador* pJ);
             void removerInimigo(Entidades::Personagens::Inimigo* inimigo);
             bool todosJogadoresMortos() const;
             bool todosInimigosMortos() const;
-            void executar();
-
         private:
             void colisaoJogsInimigo();
             void colisaoJogsObstaculo();
@@ -67,7 +65,8 @@ namespace CMD
             void tratarColisaoJogsInimigo();
             void tratarColisaoJogsObstaculo();
             void tratarColisaoJogsProjetil();
-            void tratarColisaoJogsChao(Entidades::Personagens::Jogador* jogador);//aqui tá com passagem de paremetro porque por algum motivo se não tem isso para algum jogador pular é preciso que algum pule
+            //aqui tá com passagem de paremetro porque por algum motivo se não tem isso para algum jogador pular é preciso que algum pule
+            void tratarColisaoJogsChao(Entidades::Personagens::Jogador* jogador);
             void tratarColisaoInimigoChao();
             void tratarColisaoObstaculoChao();
             void tratarColisaoProjetilChao();

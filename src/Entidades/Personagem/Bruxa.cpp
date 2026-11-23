@@ -29,9 +29,15 @@ CMD::Entidades::Personagens::Bruxa::Bruxa():
         rand() % (tam.x - 100) + 50.f,
         rand() % (tam.y - 200) + 50.f
     );
+
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexBruxa());
+    atribuirSprite(pSprite);
 }
 
-CMD::Entidades::Personagens::Bruxa::~Bruxa(){
+CMD::Entidades::Personagens::Bruxa::~Bruxa() {
+    if (getFig() != NULL)
+        delete getFig();
 
 }
 void CMD::Entidades::Personagens::Bruxa::executar(){
@@ -61,12 +67,13 @@ void CMD::Entidades::Personagens::Bruxa::mover() {
                 rand() % (tam.x - 100) + 50.f,
                 rand() % (tam.y - 200) + 50.f
             );
-
+            /* MUDAR: de ->setScale() para ->scale()
             if (posicaoAlvo.x < getX()) {
                 getFig()->setScale(-1.f, 1.f);
             } else {
                 getFig()->setScale(1.f, 1.f);
             }
+            */
         }
     }
     else {

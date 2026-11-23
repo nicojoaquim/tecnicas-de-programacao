@@ -1,25 +1,32 @@
 #include "Projetil.h"
 #include "Personagem/Jogador.h"
-#include "../Gerenciador/Tempo.h"
 #include "../Gerenciador/Grafico.h"
+#include "../Gerenciador/Tempo.h"
 #include "../organiza.h"
 
-CMD::Entidades::Projetil::Projetil():Entidade(),ativo(false){
-
+CMD::Entidades::Projetil::Projetil():
+    Entidade(),
+    ativo(false)
+{
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexProjetil());
+    atribuirSprite(pSprite);
 }
-CMD::Entidades::Projetil::~Projetil(){
 
+CMD::Entidades::Projetil::~Projetil() {
+    if (getFig() != NULL)
+        delete getFig();
 }
 
-void CMD::Entidades::Projetil::executar(){
+void CMD::Entidades::Projetil::executar() {
     if (!ativo)
         return;
 
     gravitar();
     mover();
 }
-void CMD::Entidades::Projetil::salvar(){
 
+void CMD::Entidades::Projetil::salvar() {
 }
 
 void CMD::Entidades::Projetil::mover() {

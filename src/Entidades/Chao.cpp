@@ -1,16 +1,31 @@
 #include "Chao.h"
+
+#include "../Tilemap.h"
+#include "../Gerenciador/Grafico.h"
 #include "Personagem/Personagem.h"
 #include "Obstaculo/Obstaculo.h"
 #include "Projetil.h"
-#include <SFML/Window.hpp>
 #include "../organiza.h"
 
-CMD::Entidades::Chao::Chao():largura(0),altura(0){
+#include <SFML/Window.hpp>
 
+CMD::Entidades::Chao::Chao(Tile t = VAZIO):
+    tipo(t),
+    largura(0),
+    altura(0)
+{
+    if (tipo != VAZIO) {
+        sf::Sprite* pSprite = new sf::Sprite;
+        pSprite->setTexture(getTex());
+        atribuirSprite(pSprite);
+    }
 }
-CMD::Entidades::Chao::~Chao(){
 
+CMD::Entidades::Chao::~Chao() {
+    if (tipo != VAZIO && getFig() != NULL)
+        delete getFig();
 }
+/*
 void CMD::Entidades::Chao::inicializaChao(sf::Sprite* chao){
     if(chao == NULL){
         std::cerr << "nulidade em inicializar chao" << std::endl;
@@ -19,6 +34,7 @@ void CMD::Entidades::Chao::inicializaChao(sf::Sprite* chao){
     atribuirSprite(chao);
     tamanhoChao();
 }
+
 void CMD::Entidades::Chao::tamanhoChao(){
     if(pFig == NULL){
         std::cerr << "nulidade em tamanho chao" << std::endl;
@@ -57,12 +73,27 @@ void CMD::Entidades::Chao::tamanhoChao(){
     altura = tamanhoTileTela / static_cast<float>(tamanhoTile.y);
     pFig->setScale(largura, altura);
 }
-void CMD::Entidades::Chao::executar(){
+*/
+void CMD::Entidades::Chao::executar() {
 
 }
-void CMD::Entidades::Chao::salvar(){
+
+void CMD::Entidades::Chao::salvar() {
 
 }
+
+const sf::Texture& CMD::Entidades::Chao::getTex() const {
+    if (tipo >= RAM0 && tipo <= RAM11)
+        return pGG->getTexAmbienteRAM(tipo - RAM0);
+
+    if (tipo >= CPU0 && tipo <= CPU11)
+        return pGG->getTexAmbienteCPU(tipo - CPU0);
+
+    std::cerr << "Tipo de tile de chão inválido em Chao::getTex(): "
+              << tipo << std::endl;
+    return pGG->getTexPlataforma();
+}
+
 void CMD::Entidades::Chao::impedirQuedaPSG(Personagens::Personagem* pP){
     if(pP == NULL){
         std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
@@ -102,6 +133,7 @@ void CMD::Entidades::Chao::impedirQuedaPSG(Personagens::Personagem* pP){
         }
     }
 }
+
 void CMD::Entidades::Chao::impedirQuedaOBS(Obstaculos::Obstaculo* pO){
     if(pO == NULL){
         std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;
@@ -139,6 +171,7 @@ void CMD::Entidades::Chao::impedirQuedaOBS(Obstaculos::Obstaculo* pO){
         }
     }
 }
+
 void CMD::Entidades::Chao::impedirQuedaPJT(Projetil* pPj){
     if(pPj == NULL){
         std::cerr << "Entidade nula querendo atravessar o chao" << std::endl;

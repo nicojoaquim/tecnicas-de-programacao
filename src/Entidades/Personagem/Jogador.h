@@ -2,7 +2,10 @@
 
 #include "Personagem.h"
 
+#include <SFML/System/String.hpp>
 #include <SFML/Graphics/Text.hpp>
+
+#define VIDA_INICIAL 6
 
 namespace CMD
 {
@@ -28,12 +31,11 @@ namespace CMD
                 void salvar();
                 void mover(); // Sobrecarga do método de Entidade: mover(Vector2f)
                 void setPegajoso(bool estado);
-                void receberDanoDeInimigo(int dano,
-                    const sf::Vector2f posicaoInimigo);
+                void receberDanoDeInimigo(int dano, const sf::Vector2f posicaoInimigo);
                 void reiniciar();
                 int & operator++();
-            private:
                 void esmagar(Personagens::Inimigo* pIn);
+                void carregarSprite();
             };
         }
     }

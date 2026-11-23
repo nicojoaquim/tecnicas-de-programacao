@@ -76,20 +76,10 @@ void CMD::Gerenciador::Grafico::renderizar(){
 void CMD::Gerenciador::Grafico::limpar(){
     janela.clear();
 }
-/*
-void Grafico::executar()
-{
-    Eent evento;
-    // adaptado do tutorial do SFML 2.6
-    // para cada evento novo desde a última vez que passou pelo loop
-    while (janela.pollEvent(evento))
-    {
-        // evento de fechar a janela
-        if (evento.type == Event::Closed)
-            janela.close();
-    }
+
+const sf::Font& CMD::Gerenciador::Grafico::getFonte() const {
+    return fonte;
 }
-*/
 
 bool CMD::Gerenciador::Grafico::getEvento(sf::Event& evento) {
     return janela.pollEvent(evento);
@@ -200,16 +190,12 @@ void CMD::Gerenciador::Grafico::inicializarTexturas() {
         texAmbienteRAM[i].setSmooth(false);
         texAmbienteCPU[i].setSmooth(false);
     }
-    texAmbienteRAM[0].setRepeated(true);
-    texAmbienteCPU[0].setRepeated(true);
+    // texAmbienteRAM[0].setRepeated(true);
+    // texAmbienteCPU[0].setRepeated(true);
 }
 
 // ==========================================
-// getTex... e getFonte
-
-const sf::Font& CMD::Gerenciador::Grafico::getFonte() const {
-    return fonte;
-}
+// getTex...
 
 const sf::Texture& CMD::Gerenciador::Grafico::getTexJogador1() const {
     return texJogador1;

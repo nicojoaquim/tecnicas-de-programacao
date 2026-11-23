@@ -7,12 +7,18 @@
 CMD::Entidades::Obstaculos::Abobora::Abobora():
     Obstaculo(),
     tempoCor(0.f),
-    largura(2){
-
+    largura(2)
+{
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexAbobora());
+    atribuirSprite(pSprite);
 }
-CMD::Entidades::Obstaculos::Abobora::~Abobora(){
 
+CMD::Entidades::Obstaculos::Abobora::~Abobora() {
+    if (getFig() != NULL)
+        delete getFig();
 }
+
 void CMD::Entidades::Obstaculos::Abobora::executar(){
     gravitar();
     acao();

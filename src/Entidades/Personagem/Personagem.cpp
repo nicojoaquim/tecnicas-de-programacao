@@ -1,6 +1,6 @@
 #include "Personagem.h"
-/*#include "../Gerenciador/Tempo.h"
-#include "../Gerenciador/Grafico.h"*/
+#include "../../Gerenciador/Grafico.h"
+#include "../../Gerenciador/Tempo.h"
 
 
 CMD::Entidades::Personagens::Personagem::Personagem():
@@ -21,8 +21,8 @@ void CMD::Entidades::Personagens::Personagem::setEstaNoChao(bool no_chao) {
 
 
 const int CMD::Entidades::Personagens::Personagem::getNumVida() const
- { 
-     return num_vida; } 
+ {
+     return num_vida; }
 
 
 void CMD::Entidades::Personagens::Personagem::operator--(){

@@ -1,5 +1,6 @@
 #include "Cogumelo.h"
 #include "../Personagem/Jogador.h"
+#include "../../Gerenciador/Grafico.h"
 #include "../../Gerenciador/Tempo.h"
 #include "../../organiza.h"
 
@@ -15,10 +16,15 @@ CMD::Entidades::Obstaculos::Cogumelo::Cogumelo():
     cooldownDano()
 {
     danoso = true;
+
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexCogumelo());
+    atribuirSprite(pSprite);
 }
 
-CMD::Entidades::Obstaculos::Cogumelo::~Cogumelo()
-{
+CMD::Entidades::Obstaculos::Cogumelo::~Cogumelo() {
+    if (getFig() != NULL)
+        delete getFig();
 }
 
 void CMD::Entidades::Obstaculos::Cogumelo::executar()

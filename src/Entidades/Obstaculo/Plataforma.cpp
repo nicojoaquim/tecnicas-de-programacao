@@ -1,5 +1,6 @@
 #include "Plataforma.h"
 #include "../Personagem/Jogador.h"
+#include "../../Gerenciador/Grafico.h"
 #include "../../Gerenciador/Tempo.h"
 #include "../../Gerenciador/Grafico.h"
 #include "../../organiza.h"
@@ -11,10 +12,14 @@ CMD::Entidades::Obstaculos::Plataforma::Plataforma():
     posicaoInicialDefinida(false),
     jogadoresSobre()
 {
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexPlataforma());
+    atribuirSprite(pSprite);
 }
 
-CMD::Entidades::Obstaculos::Plataforma::~Plataforma()
-{
+CMD::Entidades::Obstaculos::Plataforma::~Plataforma() {
+    if (getFig() != NULL)
+        delete getFig();
 }
 
 void CMD::Entidades::Obstaculos::Plataforma::executar()

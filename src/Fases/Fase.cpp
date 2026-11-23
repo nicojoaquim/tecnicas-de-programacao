@@ -1,20 +1,20 @@
 #include "Fase.h"
+
 #include "../Gerenciador/Grafico.h"
 #include "../Gerenciador/Tempo.h"
+#include "../Tilemap.h"
+
 #include "../Entidades/Entidade.h"
 #include "../Entidades/Personagem/Jogador.h"
 #include "../Entidades/Personagem/Inimigo.h"
-#include "../Entidades/Chao.h"
-#include "../Tilemap.h"
-
 #include "../Entidades/Personagem/AranhaGigante.h"
 #include "../Entidades/Personagem/OlhoVoador.h"
 #include "../Entidades/Personagem/Bruxa.h"
-#include "../Entidades/Projetil.h"
-
 #include "../Entidades/Obstaculo/Plataforma.h"
 #include "../Entidades/Obstaculo/Cogumelo.h"
 #include "../Entidades/Obstaculo/Abobora.h"
+#include "../Entidades/Projetil.h"
+#include "../Entidades/Chao.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window.hpp>
@@ -30,7 +30,7 @@ CMD::Fases::Fase::Fase():
     tilemap(),
     pJog1(NULL),
     pJog2(NULL),
-    maxAranhasGicantes(4),
+    maxAranhasGigantes(4),
     maxPlataformas(4)
 {
     tilemap.calcularTileSize(pGG->getTamanhoJanela());
@@ -46,46 +46,45 @@ CMD::Fases::Fase::~Fase(){
         if((*it)->getDinamico())
             destruirEntidade(*it);
 }
-void CMD::Fases::Fase::adicionaJog1(Entidades::Personagens::Jogador* jogador1){
-        pJog1 = jogador1;
-        lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador1)));
-        GC.incluirJogador1(jogador1);
-        atualizarAlvosBruxas();
-    }
-void CMD::Fases::Fase::adicionaJog2(Entidades::Personagens::Jogador* jogador2){
-        pJog2 = jogador2;
-        lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador2)));
-        GC.incluirJogador2(jogador2);
-        atualizarAlvosBruxas();
-    }
-void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
-    GC.incluirChao(chao);
+
+void CMD::Fases::Fase::incluirJogador(Entidades::Personagens::Jogador* jogador) {
+    if (jogador == NULL)
+        return;
+
+    if (pJog1 == NULL)
+        pJog1 = jogador;
+    else
+        pJog2 = jogador;
+
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(static_cast<Entidades::Personagens::Personagem*>(jogador)));
+    GC.incluirJogador(jogador);
+
+    atualizarAlvosBruxas();
+
+    const float escala = 2 * tilemap.getTileSize() / (float) jogador->getAltura();
+    jogador->getFig()->setScale(escala, escala);
+
+    jogador->setPosicao(tilemap.getCentroTile({tilemap.getLargura()/2, tilemap.getAltura()/2}));
 }
 
-//void CMD::Fases::Fase::gravitar() {
-//    float dt = Tempo::getSegundos();
-//    Listas::Lista<Entidades::Entidade>::Iterador it;
-//    for(it = lista_ents.inicio(); it != lista_ents.fim();++it)
-//        (*it)->gravitar(dt);
-//}
-//
-//void CMD::Fases::Fase::mover() {
-//    Listas::Lista<Entidades::Entidade>::Iterador it;
-//    for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
-//        (*it)->mover();
-//    }
-//
-//}
+// void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
+//     lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
+//     GC.incluirChao(chao);
+// }
 
 void CMD::Fases::Fase::executarEntidades() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
-    for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
-        Entidades::Personagens::Personagem* personagem =
-            dynamic_cast<Entidades::Personagens::Personagem*>(*it);
-        if (personagem != NULL && personagem->getNumVida() <= 0)
-            continue;
-        (*it)->executar();
+    // Entidades::Personagens::Personagem* personagem;
+    // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+    //     personagem = dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+    //     if (personagem != NULL && personagem->getNumVida() <= 0)
+    //         continue;
+    //     (*it)->executar();
+    // }
+
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        if (*it != NULL)
+            (*it)->executar();
     }
 }
 
@@ -173,114 +172,98 @@ void CMD::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
         std::cerr << "Nulidade em Fase::destruirEntidade" << std::endl;
         return;
     }
-    // std::cout << "delete: " << pE << std::endl;
-    delete (pE->getFig()); // Sprite
     delete pE; // Entidade
 }
 
-void CMD::Fases::Fase::criarAranhaGigante() {
+void CMD::Fases::Fase::criarAranhaGigante(sf::Vector2u pos) {
     Entidades::Personagens::AranhaGigante* pAranha;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexAranhaGigante());
-
     pAranha = new Entidades::Personagens::AranhaGigante;
-    pAranha->atribuirSprite(pSprite);
     pAranha->setDinamico(true);
 
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pAranha));
     GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pAranha));
 
     // tile_size/escala = tamanho_atual/1
-    float escala = tilemap.getTileSize() / pAranha->getLargura();
+    float escala = 2 * tilemap.getTileSize() / pAranha->getLargura();
     pAranha->getFig()->setScale(escala, escala);
-    pAranha->getFig()->scale(5,5);
+
+    //pAranha->setPosicao(pos); TILEMAP VAI FAZER ISSO
+    tilemap.incluir(ARANHA, pos);
 }
 
-void CMD::Fases::Fase::criarOlhoVoador() {
+void CMD::Fases::Fase::criarOlhoVoador(sf::Vector2u pos) {
     Entidades::Personagens::OlhoVoador* pOlho;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexOlhoVoador());
-
     pOlho = new Entidades::Personagens::OlhoVoador;
-    pOlho->atribuirSprite(pSprite);
     pOlho->setDinamico(true);
 
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pOlho));
     GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pOlho));
 
     // tile_size/escala = tamanho_atual/1
-    float escala = tilemap.getTileSize() / pOlho->getLargura();
+    float escala = 3 * tilemap.getTileSize() / pOlho->getLargura();
     pOlho->getFig()->setScale(escala, escala);
+
+    /*
     const sf::Vector2u tamanhoJanela = pGG->getTamanhoJanela();
     pOlho->getFig()->setPosition(
         tamanhoJanela.x / 2.f,
         tamanhoJanela.y / 3.f
     );
-    pOlho->getFig()->scale(5,5);
+    */
+
+    pOlho->setPosicao(tilemap.getCentroTile(pos));
 }
 
-void CMD::Fases::Fase::criarBruxa() {
+void CMD::Fases::Fase::criarBruxa(sf::Vector2u pos) {
     Entidades::Personagens::Bruxa* pBruxa;
-    Entidades::Projetil* pProjetil;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexBruxa());
-
     pBruxa = new Entidades::Personagens::Bruxa;
-    pBruxa->atribuirSprite(pSprite);
     pBruxa->setDinamico(true);
 
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pBruxa));
     GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pBruxa));
 
-    sf::Sprite* pSpriteProjetil = new sf::Sprite;
-    pSpriteProjetil->setTexture(pGG->getTexProjetil());
+    // tile_size/escala = tamanho_atual/1
+    float escala = 3 * tilemap.getTileSize() / pBruxa->getLargura();
+    pBruxa->getFig()->setScale(escala, escala);
+
+    pBruxa->setPosicao(tilemap.getCentroTile(pos));
+}
+
+void CMD::Fases::Fase::criarProjetil(sf::Vector2u pos,
+                                     Entidades::Personagens::Bruxa* pBruxa)
+{
+    Entidades::Projetil* pProjetil;
     pProjetil = new Entidades::Projetil;
-    pProjetil->atribuirSprite(pSpriteProjetil);
     pProjetil->setDinamico(true);
-    pBruxa->setProjetil(pProjetil);
+
+    float escala = tilemap.getTileSize() / 16.f;
+    pProjetil->getFig()->setScale(escala, escala);
+    pProjetil->setPosicao(tilemap.getCentroTile(pos));
+
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pProjetil));
     GC.incluirProjetil(pProjetil);
 
-    // tile_size/escala = tamanho_atual/1
-    float escala = tilemap.getTileSize() / pBruxa->getLargura();
-    pBruxa->getFig()->setScale(escala, escala);
-    pBruxa->getFig()->scale(5,5);
-
-    const float escalaProjetil = tilemap.getTileSize() / 16.f;
-    pProjetil->getFig()->setScale(escalaProjetil, escalaProjetil);
-    pProjetil->setPosicao(pBruxa->getPosicao());
+    pBruxa->setProjetil(pProjetil);
 }
 
-void CMD::Fases::Fase::criarPlataforma() {
+void CMD::Fases::Fase::criarPlataforma(sf::Vector2u pos) {
     Entidades::Obstaculos::Plataforma* pPlataforma;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexPlataforma());
-
     pPlataforma = new Entidades::Obstaculos::Plataforma;
-    pPlataforma->atribuirSprite(pSprite);
     pPlataforma->setDinamico(true);
 
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pPlataforma));
     GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataforma));
 
     // tile_size/escala = tamanho_atual/1
-    float escala = tilemap.getTileSize() / pPlataforma->getLargura();
+    float escala = 5 * tilemap.getTileSize() / pPlataforma->getLargura();
     pPlataforma->getFig()->setScale(escala, escala);
-    pPlataforma->getFig()->scale(5,5);
-    pPlataforma->getFig()->setPosition(500,500);//temporario
+
+    pPlataforma->setPosicao(tilemap.getCentroTile(pos));
 
     Listas::Lista<Entidades::Entidade>::Iterador it;
+    Entidades::Personagens::AranhaGigante* aranha;
     for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
-        Entidades::Personagens::AranhaGigante* aranha =
-            dynamic_cast<Entidades::Personagens::AranhaGigante*>(*it);
+        aranha = dynamic_cast<Entidades::Personagens::AranhaGigante*>(*it);
         if (aranha != NULL) {
             aranha->setPosicao({
                 pPlataforma->getX(),
@@ -291,49 +274,62 @@ void CMD::Fases::Fase::criarPlataforma() {
     }
 }
 
-void CMD::Fases::Fase::criarCogumelo() {
-   Entidades::Obstaculos::Cogumelo* pCogumelo;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexCogumelo());
-
-    pCogumelo = new Entidades::Obstaculos::Cogumelo;
-    pCogumelo->atribuirSprite(pSprite);
-    pCogumelo->setDinamico(true);
-
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(pCogumelo));
-    GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pCogumelo));
-
-    // tile_size/escala = tamanho_atual/1
-    float escala = tilemap.getTileSize() / pCogumelo->getLargura();
-    pCogumelo->getFig()->setScale(escala, escala);
-    pCogumelo->getFig()->scale(5,5);
-    pCogumelo->getFig()->setPosition(500,500);//temporario
-}
-
-void CMD::Fases::Fase::criarAbobora() {
+void CMD::Fases::Fase::criarAbobora(sf::Vector2u pos) {
     Entidades::Obstaculos::Abobora* pAbobora;
-    sf::Sprite* pSprite;
-
-    pSprite = new sf::Sprite;
-    pSprite->setTexture(pGG->getTexAbobora());
-
     pAbobora = new Entidades::Obstaculos::Abobora;
-    pAbobora->atribuirSprite(pSprite);
     pAbobora->setDinamico(true);
 
     lista_ents.incluir(static_cast<Entidades::Entidade*>(pAbobora));
     GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pAbobora));
 
     // tile_size/escala = tamanho_atual/1
-    float escala = tilemap.getTileSize() / pAbobora->getLargura();
+    float escala = 3 * tilemap.getTileSize() / pAbobora->getLargura();
     pAbobora->getFig()->setScale(escala, escala);
-    pAbobora->getFig()->scale(5,5);
-    
-    pAbobora->getFig()->setPosition(600,500);//temporario
+
+    pAbobora->setPosicao(tilemap.getCentroTile(pos));
 }
 
-void CMD::Fases::Fase::criarCenarios() {
+void CMD::Fases::Fase::criarCogumelo(sf::Vector2u pos) {
+    Entidades::Obstaculos::Cogumelo* pCogumelo;
+    pCogumelo = new Entidades::Obstaculos::Cogumelo;
+    pCogumelo->setDinamico(true);
 
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(pCogumelo));
+    GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pCogumelo));
+
+    // tile_size/escala = tamanho_atual/1
+    float escala = 3 * tilemap.getTileSize() / pCogumelo->getLargura();
+    pCogumelo->getFig()->setScale(escala, escala);
+
+    pCogumelo->setPosicao(tilemap.getCentroTile(pos));
+}
+
+void CMD::Fases::Fase::criarCenario() {
+    const float tam_tile = tilemap.getTileSize();
+    const float escala = 1 * tam_tile / 16;
+    sf::Vector2u pos;
+    Tile tipo;
+    Entidades::Chao* pChao;
+
+    for (pos.x = 0; pos.x < tilemap.getLargura(); pos.x++) {
+        for (pos.y = 0; pos.y < tilemap.getAltura(); pos.y++) {
+            tipo = tilemap.getTile(pos);
+            if (tipo == VAZIO)
+                continue;
+            else if (tipo >= RAM0 && tipo <= CPU11) {
+                // Criar chão a partir da posição no tilemap
+                pChao = new Entidades::Chao(tipo);
+                pChao->getFig()->setScale(escala, escala);
+                pChao->setPosicao(tilemap.getCentroTile(pos));
+                // Incluir chão na lista de entidades
+                lista_ents.incluir(static_cast<Entidades::Entidade*>(pChao));
+                GC.incluirChao(pChao);
+            }
+            else {
+                std::cerr << "Nenhum tipo além de chão implementado em Fase::criarCenario"
+                          << ", " << tipo
+                          << std::endl;
+            }
+        }
+    }
 }

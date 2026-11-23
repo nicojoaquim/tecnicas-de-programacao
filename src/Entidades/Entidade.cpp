@@ -1,9 +1,9 @@
 #include "Entidade.h"
 
+#include "../Gerenciador/Grafico.h"
+#include "../Gerenciador/Tempo.h"
 #include "../organiza.h"
 
-#include "../Gerenciador/Tempo.h"
-#include "../Gerenciador/Grafico.h"
 using sf::Vector2f;
 using sf::Sprite;
 

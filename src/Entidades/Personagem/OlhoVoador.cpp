@@ -8,18 +8,24 @@ using sf::Vector2f;
 using sf::Vector2u;
 using sf::Keyboard;
 CMD::Entidades::Personagens::OlhoVoador::OlhoVoador():Inimigo(),
-tamanho(1),
-indoParaFrente(true),
-mudou_direcao(false),
-tempoSen(0),
-yBase(0),
-yBaseInicializada(false){
+    tamanho(1),
+    indoParaFrente(true),
+    mudou_direcao(false),
+    tempoSen(0),
+    yBase(0),
+    yBaseInicializada(false)
+{
     agresividade = 2;
     velocidade.x = 160.f;
 
+    sf::Sprite* pSprite = new sf::Sprite;
+    pSprite->setTexture(pGG->getTexOlhoVoador());
+    atribuirSprite(pSprite);
 }
 
-CMD::Entidades::Personagens::OlhoVoador::~OlhoVoador(){
+CMD::Entidades::Personagens::OlhoVoador::~OlhoVoador() {
+    if (getFig() != NULL)
+        delete getFig();
 
 }
 void CMD::Entidades::Personagens::OlhoVoador::executar(){

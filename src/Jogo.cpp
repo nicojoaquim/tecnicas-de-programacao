@@ -2,191 +2,105 @@
 
 #include "Fases/MemoriaRAM.h"
 #include"Fases/AridoCPU.h"
-#include "Gerenciador/Tempo.h" // TEMP, mover telaInicial() para Menu
+#include "Gerenciador/Tempo.h"
+
+using sf::Vector2f;
+using sf::Event;
+using sf::Keyboard;
 
 // Uso para debug/erros
 #include "organiza.h"
 using std::cout;
 using std::endl;
 using std::cerr;
-using sf::Vector2f;
-using sf::Event;
-using sf::Keyboard;
 
 CMD::Jogo::Jogo():
     telaAtual(MENU),
     GG(),
-    jogador1(1, GG.getFonte()),
-    jogador2(2, GG.getFonte()),
-    menu(),
-    chao(),
-    // teste(),
-    texture(),
-    sprite(),
-    spriteJog2(),
-    sprite2(),
-    font(),
-    text(),
-    text2(L"ç texto acima",font,100)
+    jogador1(),
+    jogador2(),
+    dois_jogadores(false)
 {
     Ente::setGG(&GG);
-
-    if (!texture.loadFromFile(GATO)) {
-        cerr << "Error loading texture: " << GATO << endl;
-        exit(1);
-    }
-    cout << "Success to load texture" << endl;
-    texture.setSmooth(true);
-    sprite.setTexture(GG.getTexJogador1());
-    spriteJog2.setTexture(GG.getTexJogador2());
-    sprite2.setTexture(texture);
-    sprite3.setTexture(texture);
-    sprite2.setPosition(100,100);
-    jogador1.atribuirSprite(&sprite);
-    jogador2.atribuirSprite(&spriteJog2);
-    // teste.atribuirSprite(&sprite2);
-    // teste.setPosicaoEsper({105.f, 105.f});
-    //teste.setPosicao(Vector2f(105.f,105.f));
-
-    if (!font.loadFromFile(FONTE)) {
-        cerr << "Error loading font: " << FONTE << endl;
-        exit(1);
-    }
-    cout << "Success to load font" << endl;
-
-    text.setFont(font);
-    text.setString(L"Olá texto embaixo"); // L"" necessário para á
-    text.setCharacterSize(100);
-
-    text2.setPosition(Vector2f(0.f, 100.f));
-
+    jogador1.carregarSprite();
+    jogador2.carregarSprite();
     executar();
 }
 
-CMD::Jogo::~Jogo()
-{}
-/*
-void Jogo::preparar()
-{
-    //GG.executar(); // Eventos
-    jogador1.mover();
-    teste.mover();
-    GC.executar();
+CMD::Jogo::~Jogo() {
 }
-
-void Jogo::desenhar()
-{
-    GG.limpar(); // Início
-
-    GG.desenharTexto(text);
-    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&jogador1))));// jogador
-    // GG.desenharEnte(static_cast<Ente*>(static_cast<Entidade*>(static_cast<Personagem*>(&teste))));//boneco de teste
-    jogador1.desenhar();
-    teste.desenhar();
-    chao.desenhar();
-    GG.desenharTexto(text2);
-
-    GG.renderizar(); // Final
-}
-*/
-
-// MOVER PARA Menu::executar()
-void CMD::Jogo::telaInicial()
-{
-    Event evento;
-    int ativo = 1;
-    while (ativo) {
-        GG.limpar();
-        while (GG.getEvento(evento)) {
-            if ((evento.type == Event::Closed)
-                || (evento.type == Event::KeyPressed && evento.key.code == Keyboard::Escape))
-            {
-                GG.fechar();
-                return;
-            }
-
-            menu.tratarEvento(evento, ativo);
-        }
-        menu.desenha();
-        GG.renderizar();
-    }
-    // Temporário
-    if (ativo == 0) {
-        jogador1.reiniciar();
-        jogador2.reiniciar();
-        telaAtual = menu.getFaseInicial() == 1 ? FASE1 : FASE2;
-    }
-}
-/*
-void Jogo::gravidade(){
-    float dt = Personagem::getSegundos();
-    jogador1.gravitar(dt);
-    teste.gravitar(dt);
-}
-*/
 
 void CMD::Jogo::executar()
 {
-    sprite2.setTexture(GG.getTexAmbienteRAM(0));
-    sprite3.setTexture(GG.getTexAmbienteCPU(0));
     while (GG.aberto())
     {
         if (telaAtual == MENU) {
-            telaInicial();
+            Menu menu(this);
+            // Loop do menu
+            menu.executar();
+            // Saiu do loop
+            jogador1.reiniciar();
+            jogador2.reiniciar();
         }
         else if (telaAtual == FASE1) {
             std::cout << "Fase 1" << std::endl;
             CMD::Fases::MemoriaRam fase1;
-            fase1.adicionaJog1(&jogador1);
-            const sf::Vector2u tamanhoJanela = GG.getTamanhoJanela();
-            jogador1.getFig()->setPosition(tamanhoJanela.x / 3.f, tamanhoJanela.y / 3.f);
-            if (menu.getNumeroJogadores() == 2) {
-                jogador2.getFig()->setPosition(
-                    tamanhoJanela.x * 2.f / 3.f,
-                    tamanhoJanela.y / 3.f
-                );
-                fase1.adicionaJog2(&jogador2);
-            }
-            chao.inicializaChao(&sprite2);
-            chao.getFig()->setPosition(
-                tamanhoJanela.x / 2.f,
-                tamanhoJanela.y - chao.getAltura() / 2.f
-            );
-            fase1.adicionaChao(&chao);
+            // Mudar linhas para Fase
+            // const sf::Vector2u tamanhoJanela = GG.getTamanhoJanela();
+            // jogador1.getFig()->setPosition(tamanhoJanela.x / 3.f, tamanhoJanela.y / 3.f);
+            // if (menu.getNumeroJogadores() == 2) {
+            //     jogador2.getFig()->setPosition(
+            //         tamanhoJanela.x * 2.f / 3.f,
+            //         tamanhoJanela.y / 3.f
+            //     );
+            //     fase1.adicionaJog2(&jogador2);
+            // }
+            fase1.incluirJogador(&jogador1);
+            if (dois_jogadores)
+                fase1.incluirJogador(&jogador2);
+
+            // Loop da Fase
             fase1.executar();
+
             if (jogador1.getNumVida() > 0
-                || (menu.getNumeroJogadores() == 2 && jogador2.getNumVida() > 0)) {
+                || (dois_jogadores && jogador2.getNumVida() > 0)) {
                 // Próxima fase
                 telaAtual = FASE2;
             }
             else {
-                // Jogador perdeu
+                // Jogadores perderam
                 telaAtual = MENU;
             }
         }
         else if (telaAtual == FASE2) {
-            // telaTeste();
             std::cout << "Fase 2" << std::endl;
             CMD::Fases::AridoCPU fase2;
-            fase2.adicionaJog1(&jogador1);
+            fase2.incluirJogador(&jogador1);
             const sf::Vector2u tamanhoJanela = GG.getTamanhoJanela();
             jogador1.getFig()->setPosition(tamanhoJanela.x / 3.f, tamanhoJanela.y / 3.f);
-            if (menu.getNumeroJogadores() == 2) {
+            if (dois_jogadores) {
                 jogador2.getFig()->setPosition(
                     tamanhoJanela.x * 2.f / 3.f,
                     tamanhoJanela.y / 3.f
                 );
-                fase2.adicionaJog2(&jogador2);
+                fase2.incluirJogador(&jogador2);
             }
-            chao.inicializaChao(&sprite3);
-            chao.getFig()->setPosition(
-                tamanhoJanela.x / 2.f,
-                tamanhoJanela.y - chao.getAltura() / 2.f
-            );
-            fase2.adicionaChao(&chao);
+            // chao.inicializaChao(&sprite3);
+            // chao.getFig()->setPosition(
+            //     tamanhoJanela.x / 2.f,
+            //     tamanhoJanela.y - chao.getAltura() / 2.f
+            // );
+            // fase2.adicionaChao(&chao);
             fase2.executar();
-            if (GG.aberto())
-                telaAtual = MENU;
+            telaAtual = MENU;
         }
     }
+}
+
+void CMD::Jogo::setProximaTela(CMD::Tela tela) {
+    telaAtual = tela;
+}
+
+void CMD::Jogo::setDoisJogadores(bool dois) {
+    dois_jogadores = dois;
 }
