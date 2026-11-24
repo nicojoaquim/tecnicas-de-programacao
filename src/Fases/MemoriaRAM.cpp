@@ -102,6 +102,7 @@ void CMD::Fases::MemoriaRam::executar() {
         if (GC.todosJogadoresMortos() || GC.todosInimigosMortos())
             return;
         desenhar();
+        desenharVidas();
         pGG->renderizar();
     }
 }

@@ -37,6 +37,7 @@ void CMD::Fases::AridoCPU::criarInimigos()
         criarAranhaGigante({tilemap.getLargura()/2-i, 0});
     for(int i = 0; i < numBruxa; i++)
         criarBruxa({tilemap.getLargura()/2 + i, tilemap.getAltura()/2 - 1});
+}
 void CMD::Fases::AridoCPU::executar() {
     Event evento;
     bool jogando;
@@ -71,6 +72,7 @@ void CMD::Fases::AridoCPU::executar() {
         if (GC.todosJogadoresMortos() || GC.todosInimigosMortos())
             return;
         desenhar();
+        desenharVidas();
         pGG->renderizar();
     }
 }

@@ -92,21 +92,21 @@ void CMD::Fases::Fase::executarEntidades() {
     }
 }
 
-void CMD::Fases::Fase::atualizarAlvosBruxas() {
-    Listas::Lista<Entidades::Entidade>::Iterador it;
-    // Entidades::Personagens::Personagem* personagem;
-    // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
-    //     personagem = dynamic_cast<Entidades::Personagens::Personagem*>(*it);
-    //     if (personagem != NULL && personagem->getNumVida() <= 0)
-    //         continue;
-    //     (*it)->executar();
-    // }
+// void CMD::Fases::Fase::atualizarAlvosBruxas() {
+//     Listas::Lista<Entidades::Entidade>::Iterador it;
+//     // Entidades::Personagens::Personagem* personagem;
+//     // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+//     //     personagem = dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+//     //     if (personagem != NULL && personagem->getNumVida() <= 0)
+//     //         continue;
+//     //     (*it)->executar();
+//     // }
 
-    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
-        if (*it != NULL)
-            (*it)->executar();
-    }
-}
+//     for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+//         if (*it != NULL)
+//             (*it)->executar();
+//     }
+// }
 
 void CMD::Fases::Fase::atualizarAlvosBruxas() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
@@ -154,24 +154,6 @@ void CMD::Fases::Fase::desenharVidas() {
     pGG->desenharTexto(vidas);
 }
 
-void CMD::Fases::Fase::removerInimigosMortos() {
-    bool removeuInimigo;
-    do {
-        removeuInimigo = false;
-        Listas::Lista<Entidades::Entidade>::Iterador it;
-        for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
-            Entidades::Personagens::Inimigo* inimigo =
-                dynamic_cast<Entidades::Personagens::Inimigo*>(*it);
-            if (inimigo != NULL && inimigo->getNumVida() <= 0) {
-                GC.removerInimigo(inimigo);
-                lista_ents.remover(*it);
-                destruirEntidade(inimigo);
-                removeuInimigo = true;
-                break;
-            }
-        }
-    } while (removeuInimigo);
-}
 
 void CMD::Fases::Fase::removerInimigosMortos() {
     bool removeuInimigo;
