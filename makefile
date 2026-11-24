@@ -4,12 +4,15 @@ binario := $(raiz)/bin
 src_dir := $(raiz)/src
 obj_dir := $(raiz)/obj
 
+#sfml_path := /opt/sfml2
+sfml_path := "$(shell pwd)"/SFML-2.6.2
+
 libraries := sfml-system sfml-window sfml-graphics
 
-libraries := -L/opt/sfml2/lib $(patsubst %,-l%,$(libraries))
-libraries += -Wl,-rpath=/opt/sfml2/lib
+libraries := -L$(sfml_path)/lib $(patsubst %,-l%,$(libraries))
+libraries += -Wl,-rpath=$(sfml_path)/lib
 
-headers := -I/opt/sfml2/include
+headers := -I$(sfml_path)/include
 
 #sources := main Jogo Gerenciador/Janela
 #sources := $(patsubst %,$(src_dir)/%.cpp,$(sources))
@@ -51,5 +54,5 @@ clean:
 
 run:
 	@$(binario)
-#	export LD_LIBRARY_PATH=/opt/sfml2/lib && $(binario)
+#	export LD_LIBRARY_PATH=$(sfml_path)/lib && $(binario)
 
