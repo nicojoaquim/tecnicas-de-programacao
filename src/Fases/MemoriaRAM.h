@@ -2,10 +2,6 @@
 
 #include "Fase.h"
 
-// #include "../Entidades/Personagem/AranhaGigante.h"
-// #include "../Entidades/Personagem/OlhoVoador.h"
-// #include "../Entidades/Obstaculo/Cogumelo.h"
-
 namespace CMD
 {
     namespace Fases {
@@ -20,10 +16,7 @@ namespace CMD
         public:
             MemoriaRam();
             ~MemoriaRam();
-            // void desenhar();
-            // void gravitar();
-            // void mover();
-            //void executar();
+            void executar();
         };
     }
 }

@@ -32,9 +32,8 @@ namespace CMD
         public:
             Fase();
             virtual ~Fase();
-            virtual void executar(); // Polimorfismo
-            void adicionaChao(Entidades::Chao* chao);
-            void incluirJogador(Entidades::Personagens::Jogador* joagdor1);
+            virtual void executar() = 0; // Polimórfica
+            void incluirJogador(Entidades::Personagens::Jogador* jogador);
 
         protected:
             virtual void criarInimigos() = 0;

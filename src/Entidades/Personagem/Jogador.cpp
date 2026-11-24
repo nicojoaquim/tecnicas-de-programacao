@@ -61,7 +61,6 @@ void CMD::Entidades::Personagens::Jogador::carregarSprite() {
         pSprite->setTexture(pGG->getTexJogador2());
 
     atribuirSprite(pSprite);
-    getFig()->setScale(2, 2);
 }
 
 //baseado na colisão de Hilze Vonck

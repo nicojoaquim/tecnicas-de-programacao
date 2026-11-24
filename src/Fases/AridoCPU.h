@@ -2,9 +2,6 @@
 
 #include "Fase.h"
 
-// #include "../Entidades/Personagem/Bruxa.h"
-// #include "../Entidades/Projetil.h"
-
 namespace CMD
 {
     namespace Fases {
@@ -19,7 +16,7 @@ namespace CMD
         public:
             AridoCPU();
             ~AridoCPU();
-            // void executar();
+            void executar();
         };
     }
 }

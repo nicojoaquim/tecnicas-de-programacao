@@ -11,15 +11,10 @@
 #include "../Entidades/Personagem/OlhoVoador.h"
 #include "../Entidades/Personagem/Bruxa.h"
 #include "../Entidades/Obstaculo/Plataforma.h"
-#include "../Entidades/Obstaculo/Cogumelo.h"
 #include "../Entidades/Obstaculo/Abobora.h"
+#include "../Entidades/Obstaculo/Cogumelo.h"
 #include "../Entidades/Projetil.h"
 #include "../Entidades/Chao.h"
-
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Window.hpp>
-using sf::Event;
-using sf::Keyboard;
 
 #include "../organiza.h"
 
@@ -34,10 +29,19 @@ CMD::Fases::Fase::Fase():
     maxPlataformas(5)
 {
     tilemap.calcularTileSize(pGG->getTamanhoJanela());
+    ///*
+    std::cout << "Fase criada, tamanho_janela: "
+              << pGG->getTamanhoJanela().x << " x " << pGG->getTamanhoJanela().y
+              << "\ntile_size: " << tilemap.getTileSize()
+              << std::endl;
+    //*/
 
     // Necessário limpar relógio, pois
     // usaria o tempo decorrido no Menu
     pGT->reiniciarRelogio();
+
+    // https://en.cppreference.com/cpp/numeric/random/srand
+    std::srand(std::time(NULL));
 }
 
 CMD::Fases::Fase::~Fase(){
@@ -63,6 +67,7 @@ void CMD::Fases::Fase::incluirJogador(Entidades::Personagens::Jogador* jogador) 
 
     const float escala = 2 * tilemap.getTileSize() / (float) jogador->getAltura();
     jogador->getFig()->setScale(escala, escala);
+    std::cout << "Fase::incluirJogador() setScale " << escala << std::endl;
 
     const sf::Vector2u posicao =
         (pJog1 == jogador)
@@ -71,12 +76,23 @@ void CMD::Fases::Fase::incluirJogador(Entidades::Personagens::Jogador* jogador) 
     jogador->setPosicao(tilemap.getCentroTile(posicao));
 }
 
-// void CMD::Fases::Fase::adicionaChao(Entidades::Chao* chao){
-//     lista_ents.incluir(static_cast<Entidades::Entidade*>(chao));
-//     GC.incluirChao(chao);
-// }
-
 void CMD::Fases::Fase::executarEntidades() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    // Entidades::Personagens::Personagem* personagem;
+    // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+    //     personagem = dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+    //     if (personagem != NULL && personagem->getNumVida() <= 0)
+    //         continue;
+    //     (*it)->executar();
+    // }
+
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        if (*it != NULL)
+            (*it)->executar();
+    }
+}
+
+void CMD::Fases::Fase::atualizarAlvosBruxas() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
     // Entidades::Personagens::Personagem* personagem;
     // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
@@ -157,40 +173,23 @@ void CMD::Fases::Fase::removerInimigosMortos() {
     } while (removeuInimigo);
 }
 
-// Mudar para virtual
-void CMD::Fases::Fase::executar() {
-    Event evento;
-    bool jogando = true;
-    while (jogando) {
-        // Marca o relógio para 0 e armazena
-        // tempo decorrido desde o último frame
-        pGT->reiniciarRelogio();
-
-        // Verificar eventos ocorridos desde o último frame
-        while (pGG->getEvento(evento)) {
-            if (evento.type == Event::Closed) {
-                pGG->fechar();
-                jogando = false;
-                return;
-            }
-            else if (evento.type == Event::KeyPressed
-                     && evento.key.code == Keyboard::Escape) {
-                // num_vida = 0;
-                jogando = false;
-                return;
+void CMD::Fases::Fase::removerInimigosMortos() {
+    bool removeuInimigo;
+    do {
+        removeuInimigo = false;
+        Listas::Lista<Entidades::Entidade>::Iterador it;
+        for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+            Entidades::Personagens::Inimigo* inimigo =
+                dynamic_cast<Entidades::Personagens::Inimigo*>(*it);
+            if (inimigo != NULL && inimigo->getNumVida() <= 0) {
+                GC.removerInimigo(inimigo);
+                lista_ents.remover(*it);
+                destruirEntidade(inimigo);
+                removeuInimigo = true;
+                break;
             }
         }
-
-        pGG->limpar();
-        executarEntidades();
-        GC.executar();
-        removerInimigosMortos();
-        if (GC.todosJogadoresMortos() || GC.todosInimigosMortos())
-            return;
-        desenhar();
-        desenharVidas();
-        pGG->renderizar();
-    }
+    } while (removeuInimigo);
 }
 
 void CMD::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
@@ -281,7 +280,7 @@ void CMD::Fases::Fase::criarPlataforma(sf::Vector2u pos) {
     GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataforma));
 
     // tile_size/escala = tamanho_atual/1
-    float escala = 5 * tilemap.getTileSize() / pPlataforma->getLargura();
+    float escala = 2 * tilemap.getTileSize() / pPlataforma->getLargura();
     pPlataforma->getFig()->setScale(escala, escala);
 
     pPlataforma->setPosicao(tilemap.getCentroTile(pos));
@@ -342,12 +341,33 @@ void CMD::Fases::Fase::criarCenario() {
             tipo = tilemap.getTile(pos);
             if (tipo == VAZIO)
                 continue;
+            else if (tipo == JOG1) {
+                if (pJog1 != NULL)
+                    pJog1->setPosicao(tilemap.getCentroTile(pos));
+                else
+                    std::cerr << "Jogador 1 nulo em Fase::criarCenario" << std::endl;
+            }
+            else if (tipo == JOG2) {
+                if (pJog2 != NULL)
+                    pJog2->setPosicao(tilemap.getCentroTile(pos));
+            }
             else if (tipo >= RAM0 && tipo <= CPU11) {
                 // Criar chão a partir da posição no tilemap
                 pChao = new Entidades::Chao(tipo);
                 pChao->getFig()->setScale(escala, escala);
                 pChao->setPosicao(tilemap.getCentroTile(pos));
                 // Incluir chão na lista de entidades
+                lista_ents.incluir(static_cast<Entidades::Entidade*>(pChao));
+                GC.incluirChao(pChao);
+            }
+            else if (tipo == INVALIDO) {
+                /// TODO TEMPORÁRIO
+                pChao = new Entidades::Chao(CPU2);
+                sf::Texture* pT = new sf::Texture;
+                pT->loadFromFile("assets/imagens/retro-lines.png", sf::IntRect(96, 64, 16, 16));
+                pChao->getFig()->setTexture(*pT, true);
+                pChao->getFig()->setScale(escala, escala);
+                pChao->setPosicao(tilemap.getCentroTile(pos));
                 lista_ents.incluir(static_cast<Entidades::Entidade*>(pChao));
                 GC.incluirChao(pChao);
             }

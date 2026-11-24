@@ -12,16 +12,6 @@ CMD::Tilemap::Tilemap(unsigned int lar, unsigned int alt):
 {
 }
 
-//CMD::Tilemap::Tilemap(std::vector<std::vector<int>>& m):
-//    largura(m.size()),
-//    altura(),
-//    tile_size(0),
-//    matriz(m)
-//{
-//    if (m.size() > 0)
-//        altura = m[0].size();
-//}
-
 CMD::Tilemap::~Tilemap() {
 }
 
@@ -54,6 +44,9 @@ void CMD::Tilemap::calcularTileSize(sf::Vector2u tam_janela) {
         origem.x = 0;
         origem.y = (tam_janela.y - (tile_size * altura)) / 2.0f;
     }
+//    std::cout << "Tile_size: " << tile_size
+//              << "\nTamanho janela: " << tam_janela.x << " x " << tam_janela.y
+//              << std::endl;
 }
 
 void CMD::Tilemap::incluir(Tile tipo, sf::Vector2u pos) {
@@ -79,10 +72,3 @@ const sf::Vector2f CMD::Tilemap::getCentroTile(sf::Vector2u pos) const {
     const sf::Vector2f centro((pos.x+0.5f)*getTileSize(), (pos.y+0.5f)*getTileSize());
     return origem+centro;
 }
-//void CMD::Tilemap::setMatriz(vector<vector<int>>& m) {
-//    matriz = m;
-//}
-
-//std::vector<std::vector<int>>& CMD::Tilemap::getMatriz() {
-//    return matriz;
-//}

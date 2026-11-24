@@ -1,4 +1,13 @@
 #include "AridoCPU.h"
+#include "../Tilemap.h"
+
+#include "../Gerenciador/Grafico.h"
+#include "../Gerenciador/Tempo.h"
+
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
+using sf::Event;
+using sf::Keyboard;
 
 CMD::Fases::AridoCPU::AridoCPU():
     Fase(),
@@ -8,16 +17,13 @@ CMD::Fases::AridoCPU::AridoCPU():
     criarAmbiente();
     criarInimigos();
     criarObst();
-    criarCenario();
+    tilemap.incluir(JOG1, {0, 0});
+    tilemap.incluir(JOG2, {0, 0});
 }
 
 CMD::Fases::AridoCPU::~AridoCPU()
 {}
 
-//void CMD::Fases::AridoCPU::executar()
-//{
-//    Fase::executar();
-//}
 
 void CMD::Fases::AridoCPU::criarInimigos()
 {
@@ -31,7 +37,44 @@ void CMD::Fases::AridoCPU::criarInimigos()
         criarAranhaGigante({tilemap.getLargura()/2-i, 0});
     for(int i = 0; i < numBruxa; i++)
         criarBruxa({tilemap.getLargura()/2 + i, tilemap.getAltura()/2 - 1});
+void CMD::Fases::AridoCPU::executar() {
+    Event evento;
+    bool jogando;
+
+    criarCenario(); // Passa pelo tilemap carregando chão, teleportando jog etc
+
+    jogando = true;
+    while (jogando) {
+        // Marca o relógio para 0 e armazena
+        // tempo decorrido desde o último frame
+        pGT->reiniciarRelogio();
+
+        // Verificar eventos ocorridos desde o último frame
+        while (pGG->getEvento(evento)) {
+            if (evento.type == Event::Closed) {
+                pGG->fechar();
+                jogando = false;
+                return;
+            }
+            else if (evento.type == Event::KeyPressed
+                     && evento.key.code == Keyboard::Escape) {
+                // num_vida = 0;
+                jogando = false;
+                return;
+            }
+        }
+
+        pGG->limpar();
+        executarEntidades();
+        GC.executar();
+        removerInimigosMortos();
+        if (GC.todosJogadoresMortos() || GC.todosInimigosMortos())
+            return;
+        desenhar();
+        pGG->renderizar();
+    }
 }
+
 
 void CMD::Fases::AridoCPU::criarObst()
 {
@@ -51,10 +94,10 @@ void CMD::Fases::AridoCPU::criarAmbiente()
 {
     // Aqui que definie o chão da fase
     sf::Vector2u pos = {0, 0};
-    pos.y = tilemap.getAltura() - 1;
+    //const float tam_tile = tilemap.getTileSize();
+    pos.y = tilemap.getAltura() - 5;
     while (pos.x < tilemap.getLargura()) {
         tilemap.incluir(CPU0, pos);
-        std::cout << "Criou chão" << std::endl;
         pos.x++;
     }
 }

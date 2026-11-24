@@ -6,8 +6,8 @@
 
 CMD::Entidades::Obstaculos::Abobora::Abobora():
     Obstaculo(),
-    tempoCor(0.f),
-    largura(2)
+    largura(2),
+    tempoCor(0.f)
 {
     sf::Sprite* pSprite = new sf::Sprite;
     pSprite->setTexture(pGG->getTexAbobora());
