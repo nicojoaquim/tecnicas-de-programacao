@@ -81,12 +81,12 @@ void CMD::Menu::tratarClique(const sf::Event& evento, bool& ativo){
     }
     else if(textoMouse(texts[3])) {
         pJogo->setDoisJogadores(false);
-        pJogo->setProximaTela(FASE1);
+        pJogo->setProximaTela(FASE2);
         ativo = false;
     }
     else if(textoMouse(texts[4])) {
         pJogo->setDoisJogadores(true);
-        pJogo->setProximaTela(FASE2);
+        pJogo->setProximaTela(FASE1);
         ativo = false;
     }
     else if(textoMouse(texts[5])) {
