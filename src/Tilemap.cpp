@@ -34,14 +34,13 @@ void CMD::Tilemap::calcularTileSize(sf::Vector2u tam_janela) {
     }
 
     float razao = tam_janela.x / (float)tam_janela.y;
-
-    if (razao > 16.f/9.f) {
-        tile_size = tam_janela.y / (float)altura;
+    if (razao > 48.f/27.f) {
+        tile_size = (tam_janela.y / (float)altura);
         origem.x = (tam_janela.x - (tile_size * largura)) / 2.0f;
         origem.y = 0;
     }
     else {
-        tile_size = tam_janela.x / (float)largura;
+        tile_size = (tam_janela.x / (float)largura);
         origem.x = 0;
         origem.y = (tam_janela.y - (tile_size * altura)) / 2.0f;
     }

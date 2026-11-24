@@ -9,7 +9,7 @@ namespace CMD
         {
         private:
             const int maxBruxas;
-            const int maxAboboras;
+            const int maxCogumelos;
             void criarAmbiente();
             void criarInimigos();
             void criarObst();

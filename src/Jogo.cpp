@@ -22,6 +22,8 @@ CMD::Jogo::Jogo():
     dois_jogadores(false)
 {
     Ente::setGG(&GG);
+    jogador1.setJogador(1);
+    jogador2.setJogador(2);
     jogador1.carregarSprite();
     jogador2.carregarSprite();
     executar();

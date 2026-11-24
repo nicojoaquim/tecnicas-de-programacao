@@ -43,6 +43,7 @@ namespace CMD
             void desenhar();
             void removerInimigosMortos();
             void atualizarAlvosBruxas();
+            void desenharVidas();
 
             void criarAranhaGigante(sf::Vector2u pos);
             void criarOlhoVoador(sf::Vector2u pos);

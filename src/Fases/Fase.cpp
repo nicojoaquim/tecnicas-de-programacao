@@ -25,8 +25,8 @@ CMD::Fases::Fase::Fase():
     tilemap(),
     pJog1(NULL),
     pJog2(NULL),
-    maxAranhasGigantes(4),
-    maxPlataformas(4)
+    maxAranhasGigantes(6),
+    maxPlataformas(5)
 {
     tilemap.calcularTileSize(pGG->getTamanhoJanela());
     ///*
@@ -69,10 +69,30 @@ void CMD::Fases::Fase::incluirJogador(Entidades::Personagens::Jogador* jogador) 
     jogador->getFig()->setScale(escala, escala);
     std::cout << "Fase::incluirJogador() setScale " << escala << std::endl;
 
-    jogador->setPosicao(tilemap.getCentroTile({tilemap.getLargura()/2, tilemap.getAltura()/2}));
+    const sf::Vector2u posicao =
+        (pJog1 == jogador)
+        ? sf::Vector2u{tilemap.getLargura()/3, tilemap.getAltura()/2}
+        : sf::Vector2u{tilemap.getLargura()*2/3, tilemap.getAltura()/2};
+    jogador->setPosicao(tilemap.getCentroTile(posicao));
 }
 
 void CMD::Fases::Fase::executarEntidades() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    // Entidades::Personagens::Personagem* personagem;
+    // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+    //     personagem = dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+    //     if (personagem != NULL && personagem->getNumVida() <= 0)
+    //         continue;
+    //     (*it)->executar();
+    // }
+
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        if (*it != NULL)
+            (*it)->executar();
+    }
+}
+
+void CMD::Fases::Fase::atualizarAlvosBruxas() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
     // Entidades::Personagens::Personagem* personagem;
     // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
@@ -111,6 +131,46 @@ void CMD::Fases::Fase::desenhar() {
             continue;
         (*it)->desenhar();
     }
+}
+
+void CMD::Fases::Fase::desenharVidas() {
+    if (pJog1 == NULL)
+        return;
+
+    sf::Text vidas;
+    vidas.setFont(pGG->getFonte());
+    vidas.setCharacterSize(36);
+    vidas.setFillColor(sf::Color::White);
+    vidas.setOutlineColor(sf::Color::Black);
+    vidas.setOutlineThickness(2.f);
+    vidas.setPosition(20.f, 20.f);
+
+    std::string texto =
+        "Jogador 1: Vidas: " + std::to_string(pJog1->getNumVida());
+    if (pJog2 != NULL)
+        texto += "   Jogador 2: Vidas: " + std::to_string(pJog2->getNumVida());
+
+    vidas.setString(texto);
+    pGG->desenharTexto(vidas);
+}
+
+void CMD::Fases::Fase::removerInimigosMortos() {
+    bool removeuInimigo;
+    do {
+        removeuInimigo = false;
+        Listas::Lista<Entidades::Entidade>::Iterador it;
+        for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+            Entidades::Personagens::Inimigo* inimigo =
+                dynamic_cast<Entidades::Personagens::Inimigo*>(*it);
+            if (inimigo != NULL && inimigo->getNumVida() <= 0) {
+                GC.removerInimigo(inimigo);
+                lista_ents.remover(*it);
+                destruirEntidade(inimigo);
+                removeuInimigo = true;
+                break;
+            }
+        }
+    } while (removeuInimigo);
 }
 
 void CMD::Fases::Fase::removerInimigosMortos() {
@@ -152,8 +212,7 @@ void CMD::Fases::Fase::criarAranhaGigante(sf::Vector2u pos) {
     float escala = 2 * tilemap.getTileSize() / pAranha->getLargura();
     pAranha->getFig()->setScale(escala, escala);
 
-    //pAranha->setPosicao(pos); TILEMAP VAI FAZER ISSO
-    tilemap.incluir(ARANHA, pos);
+    pAranha->setPosicao(tilemap.getCentroTile(pos));
 }
 
 void CMD::Fases::Fase::criarOlhoVoador(sf::Vector2u pos) {
@@ -192,6 +251,7 @@ void CMD::Fases::Fase::criarBruxa(sf::Vector2u pos) {
     pBruxa->getFig()->setScale(escala, escala);
 
     pBruxa->setPosicao(tilemap.getCentroTile(pos));
+    criarProjetil(pos, pBruxa);
 }
 
 void CMD::Fases::Fase::criarProjetil(sf::Vector2u pos,

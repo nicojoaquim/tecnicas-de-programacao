@@ -11,8 +11,8 @@ using sf::Keyboard;
 
 CMD::Fases::AridoCPU::AridoCPU():
     Fase(),
-    maxBruxas(1),
-    maxAboboras(4)
+    maxBruxas(4),
+    maxCogumelos(5)
 {
     criarAmbiente();
     criarInimigos();
@@ -24,6 +24,19 @@ CMD::Fases::AridoCPU::AridoCPU():
 CMD::Fases::AridoCPU::~AridoCPU()
 {}
 
+
+void CMD::Fases::AridoCPU::criarInimigos()
+{
+    int numAranha = rand()%maxAranhasGigantes;
+    int numBruxa = rand()%maxBruxas;
+    if(numAranha < 3)
+        numAranha = 3;
+    if(numBruxa < 3)
+        numBruxa = 3;
+    for(int i = 0; i < numAranha; i++)
+        criarAranhaGigante({tilemap.getLargura()/2-i, 0});
+    for(int i = 0; i < numBruxa; i++)
+        criarBruxa({tilemap.getLargura()/2 + i, tilemap.getAltura()/2 - 1});
 void CMD::Fases::AridoCPU::executar() {
     Event evento;
     bool jogando;
@@ -62,16 +75,19 @@ void CMD::Fases::AridoCPU::executar() {
     }
 }
 
-void CMD::Fases::AridoCPU::criarInimigos()
-{
-    criarAranhaGigante({0, 0});
-    criarBruxa({tilemap.getLargura()/2, tilemap.getAltura()/2});
-}
 
 void CMD::Fases::AridoCPU::criarObst()
 {
-    criarPlataforma({tilemap.getLargura()/2, tilemap.getAltura()/5});
-    criarCogumelo({tilemap.getLargura()/3, tilemap.getAltura()/2});
+    int numPlataforma = rand()%maxPlataformas;
+    int numCogumelo = rand()%maxCogumelos;
+    if(numPlataforma < 3)
+        numPlataforma = 3;
+    if(numCogumelo < 3)
+        numCogumelo = 3;
+    for(int i = 0; i < numPlataforma; i++)
+        criarPlataforma({tilemap.getLargura()/2 - i, tilemap.getAltura()/5 + i});
+    for(int i = 0; i < numCogumelo; i++)
+        criarCogumelo({tilemap.getLargura()/3 + static_cast<unsigned int>(i), tilemap.getAltura()/2 - 1});
 }
 
 void CMD::Fases::AridoCPU::criarAmbiente()

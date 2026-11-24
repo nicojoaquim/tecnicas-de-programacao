@@ -153,6 +153,10 @@ void CMD::Entidades::Personagens::Jogador::reiniciar() {
     tempoInvulneravel = 0.f;
 }
 
+void CMD::Entidades::Personagens::Jogador::setJogador(int jogadorX) {
+    jogador = jogadorX;
+}
+
 void CMD::Entidades::Personagens::Jogador::mover() {
     sf::Vector2f dv(0, 0);
     float dt = Gerenciador::Tempo::getSegundos();
@@ -169,7 +173,7 @@ void CMD::Entidades::Personagens::Jogador::mover() {
     const Keyboard::Key teclaDireita = (jogador == 1) ? Keyboard::Right : Keyboard::D;
 
     if (esta_no_chao && Keyboard::isKeyPressed(teclaPular)) {
-            velocidade.y -= 600.;
+            velocidade.y -= 900.;
             esta_no_chao = false;
     }
 

@@ -33,6 +33,7 @@ namespace CMD
                 void setPegajoso(bool estado);
                 void receberDanoDeInimigo(int dano, const sf::Vector2f posicaoInimigo);
                 void reiniciar();
+                void setJogador(int jogadorX);
                 int & operator++();
                 void esmagar(Personagens::Inimigo* pIn);
                 void carregarSprite();
