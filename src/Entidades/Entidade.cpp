@@ -2,6 +2,7 @@
 
 #include "../Gerenciador/Grafico.h"
 #include "../Gerenciador/Tempo.h"
+#include "../Tilemap.h"
 #include "../organiza.h"
 
 using sf::Vector2f;
@@ -20,7 +21,7 @@ CMD::Entidades::Entidade::~Entidade()
 
 void CMD::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
     if (Fig == NULL) {
-        std::cerr << "Nulidade em atribuirSprite" << std::endl;
+        std::cerr << "Nulidade em Entidade::atribuirSprite" << std::endl;
         return;
     }
     setFig(Fig);
@@ -34,16 +35,12 @@ void CMD::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
 void CMD::Entidades::Entidade::salvarDataBuffer(){
     buffer << getX() << " " << getY();
 }
-/*
-const bool Entidade::sofreGravidade() const {
-    return sofre_gravidade;
-}
-*/
+
 const Vector2f CMD::Entidades::Entidade::getPosicao() const {
     if (pFig != NULL)
         return pFig->getPosition();
     else {
-        std::cerr << "Erro: Figura inexistente em getPosicao" << std::endl;
+        std::cerr << "Erro: Figura inexistente em Entidade::getPosicao" << std::endl;
         return INEXISTENTE;
     }
 }
@@ -71,18 +68,14 @@ void CMD::Entidades::Entidade::setPosicao(const Vector2f posicao) {
     if (pFig != NULL)
         pFig->setPosition(posicao);
     else
-        std::cerr << "Erro: Figura inexistente em setPosicao" << std::endl;
+        std::cerr << "Erro: Figura inexistente em Entidade::setPosicao" << std::endl;
 }
 
 const Vector2f CMD::Entidades::Entidade::getTamanho() const {
     if (pFig != NULL)
-        // TODO ver se getSize() == getGlobalBounds().width e .height
-        // Estava em atribuirSprite:
-        // sf::FloatRect cent = pFig->getGlobalBounds();
-        // pFig->setOrigin(cent.width/2.0f,cent.height/2.0f);
         return pFig->getGlobalBounds().getSize();
     else {
-        std::cerr << "Erro: Figura inexistente em getTamanho" << std::endl;
+        std::cerr << "Erro: Figura inexistente em Entidade::getTamanho" << std::endl;
         return INEXISTENTE;
     }
 }
@@ -111,7 +104,8 @@ void CMD::Entidades::Entidade::gravitar() {
 
     float dt = Gerenciador::Tempo::getSegundos(); // s
     float velocidade_max = 1200.f; // pixel/s
-    float aceleracao = 1200.f; // pixel/s²
+    // float aceleracao = 1200.f; // pixel/s²
+    float aceleracao = 20 * Tilemap::getTileSize(); // pixel/s²
 
     velocidade.y += aceleracao*dt;
 

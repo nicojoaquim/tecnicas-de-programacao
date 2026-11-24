@@ -17,7 +17,7 @@ namespace CMD
     private:
         const unsigned int largura; // n.º de tiles no eixo x
         const unsigned int altura; // no eixo y
-        float tile_size; // Um único valor pro lado, pois são quadrados
+        static float tile_size; // Um único valor pro lado, pois são quadrados
         std::vector<std::vector<Tile>> matriz; // CMD::Tile é enum
         sf::Vector2f origem;
 
@@ -27,7 +27,7 @@ namespace CMD
         void executar();
         const unsigned int getLargura() const;
         const unsigned int getAltura() const;
-        const float getTileSize() const;
+        static const float getTileSize();
         void calcularTileSize(sf::Vector2u tam_janela);
         void incluir(Tile tipo, sf::Vector2u pos);
         const Tile getTile(sf::Vector2u pos) const;
