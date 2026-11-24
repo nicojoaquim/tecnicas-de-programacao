@@ -190,6 +190,7 @@ void CMD::Fases::AridoCPU::executar() {
         if (GC.todosJogadoresMortos() || GC.todosInimigosMortos())
             return;
         desenhar();
+        desenharVidas();
         pGG->renderizar();
     }
 }

@@ -138,24 +138,6 @@ void CMD::Fases::Fase::desenharVidas() {
     pGG->desenharTexto(vidas);
 }
 
-void CMD::Fases::Fase::removerInimigosMortos() {
-    bool removeuInimigo;
-    do {
-        removeuInimigo = false;
-        Listas::Lista<Entidades::Entidade>::Iterador it;
-        for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
-            Entidades::Personagens::Inimigo* inimigo =
-                dynamic_cast<Entidades::Personagens::Inimigo*>(*it);
-            if (inimigo != NULL && inimigo->getNumVida() <= 0) {
-                GC.removerInimigo(inimigo);
-                lista_ents.remover(*it);
-                destruirEntidade(inimigo);
-                removeuInimigo = true;
-                break;
-            }
-        }
-    } while (removeuInimigo);
-}
 
 void CMD::Fases::Fase::destruirEntidade(Entidades::Entidade *pE) {
     if (pE == NULL) {
