@@ -3,6 +3,7 @@
 #include "Inimigo.h"
 #include "../../Gerenciador/Tempo.h"
 #include "../../Gerenciador/Grafico.h"
+#include "../../Tilemap.h"
 
 #include <SFML/Window/Keyboard.hpp>
 #include "../../organiza.h"
@@ -160,20 +161,22 @@ void CMD::Entidades::Personagens::Jogador::setJogador(int jogadorX) {
 void CMD::Entidades::Personagens::Jogador::mover() {
     sf::Vector2f dv(0, 0);
     float dt = Gerenciador::Tempo::getSegundos();
+    float ts = Tilemap::getTileSize();
     tempoInvulneravel = std::max(0.f, tempoInvulneravel - dt);
     const bool movimentoLento = pegajoso;
     pegajoso = false;
 
-    const float aceleracaoHorizontal = movimentoLento ? 100.f : 800.f;
-    const float velocidadeMaximaChao = movimentoLento ? 75.f : 400.f;
-    const float velocidadeMaximaAr = movimentoLento ? 90.f : 500.f;
+    const float aceleracaoHorizontal = movimentoLento ? 4*ts : 16*ts;
+    const float velocidadeMaximaChao = movimentoLento ? 2*ts : 8*ts;
+    const float velocidadeMaximaAr = movimentoLento ? 3.6*ts : 10*ts;
 
     const Keyboard::Key teclaPular = (jogador == 1) ? Keyboard::Up : Keyboard::W;
     const Keyboard::Key teclaEsquerda = (jogador == 1) ? Keyboard::Left : Keyboard::A;
     const Keyboard::Key teclaDireita = (jogador == 1) ? Keyboard::Right : Keyboard::D;
 
     if (esta_no_chao && Keyboard::isKeyPressed(teclaPular)) {
-            velocidade.y -= 900.;
+            // velocidade.y -= 900.;
+            velocidade.y -= 10*Tilemap::getTileSize();
             esta_no_chao = false;
     }
 
