@@ -8,7 +8,8 @@ using sf::Vector2f;
 using sf::Sprite;
 
 CMD::Entidades::Entidade::Entidade():
-    buffer(std::cout),
+    //buffer(std::cout),
+    buffer(),
     velocidade({0,0}),
     dinamico(false)
 {
@@ -32,13 +33,11 @@ void CMD::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
 }
 
 void CMD::Entidades::Entidade::salvarDataBuffer(){
-    buffer << getX() << " " << getY();
+    buffer << getId() << "\nEnte\n\t"
+           << getDinamico() << "\n\t"
+           << getV().x << " " << getV().y << "\n";
 }
-/*
-const bool Entidade::sofreGravidade() const {
-    return sofre_gravidade;
-}
-*/
+
 const Vector2f CMD::Entidades::Entidade::getPosicao() const {
     if (pFig != NULL)
         return pFig->getPosition();

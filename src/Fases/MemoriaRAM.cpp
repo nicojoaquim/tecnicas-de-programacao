@@ -189,5 +189,5 @@ void CMD::Fases::MemoriaRam::criarAmbiente()
 }
 /*void CMD::Fases::MemoriaRam::executar()
 {
-    
+
 }*/

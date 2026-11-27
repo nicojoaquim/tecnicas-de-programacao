@@ -37,6 +37,8 @@ namespace CMD
                 int & operator++();
                 void esmagar(Personagens::Inimigo* pIn);
                 void carregarSprite();
+            protected:
+                void salvarDataBuffer();
             };
         }
     }

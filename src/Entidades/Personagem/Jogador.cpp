@@ -113,8 +113,27 @@ void CMD::Entidades::Personagens::Jogador::executar() {
     mover();
 }
 
-void CMD::Entidades::Personagens::Jogador::salvar() {
+void CMD::Entidades::Personagens::Jogador::salvarDataBuffer() {
+    Personagem::salvarDataBuffer();
+    buffer << "Jogador\n\t"
+           << pontos << "\n\t"
+           << jogador << "\n\t"
+           << "\"" << nome.getString().toAnsiString() << "\"\n\t"
+           << recuando << "\n\t"
+           << pegajoso << "\n\t"
+           << tempoInvulneravel << "\n";
+           // << std::endl;
+}
 
+void CMD::Entidades::Personagens::Jogador::salvar() {
+    std::ofstream arquivo("save/Jogador.txt");//, std::ios::out | std::ios::trunc);
+    if (!arquivo) {
+        std::cerr << "erro ao carregar arquivo em salvar()" << std::endl;
+    }
+
+    Jogador::salvarDataBuffer();
+
+    arquivo << buffer.str();
 }
 
 int & CMD::Entidades::Personagens::Jogador::operator++(){
