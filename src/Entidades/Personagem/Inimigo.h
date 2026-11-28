@@ -9,6 +9,7 @@ namespace CMD{
             class Inimigo:public Personagem {
             protected:
                 int agresividade;
+                int recompenca;
 
             public:
                 Inimigo();
@@ -17,6 +18,7 @@ namespace CMD{
                 virtual void salvar() = 0;
                 virtual void mover() = 0; // Sobrecarga
                 virtual void danificar(Jogador*pJog) = 0;
+                void pontuacaoRecebida(Jogador*pJog);
             };
         }
     }

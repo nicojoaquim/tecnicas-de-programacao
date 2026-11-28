@@ -15,6 +15,13 @@ CMD::Entidades::Personagens::Personagem::~Personagem()
 {
 }
 
+void CMD::Entidades::Personagens::Personagem::salvarDataBuffer() {
+    Entidade::salvarDataBuffer();
+    buffer << "Personagem\n\t"
+           << getNumVida() << "\n\t"
+           << esta_no_chao << "\n";
+}
+
 void CMD::Entidades::Personagens::Personagem::setEstaNoChao(bool no_chao) {
     esta_no_chao = no_chao;
 }

@@ -23,6 +23,7 @@ CMD::Entidades::Personagens::Bruxa::Bruxa():
     jogador2(NULL)
 {
     agresividade = 3;
+    recompenca = 5;
     // Define a primeira posição alvo aleatória assim que ela nasce
     Vector2u tam = pGG->getTamanhoJanela();
     posicaoAlvo = Vector2f(

@@ -3,12 +3,10 @@
 #include <vector>
 #include <iostream>
 
-float CMD::Tilemap::tile_size(0.f);
-
 CMD::Tilemap::Tilemap(unsigned int lar, unsigned int alt):
     largura(lar),
     altura(alt),
-    // tile_size(0),
+    tile_size(0),
     matriz(largura, std::vector<CMD::Tile>(altura)),
     origem({0, 0})
 {
@@ -25,7 +23,7 @@ const unsigned int CMD::Tilemap::getAltura() const {
     return altura;
 }
 
-const float CMD::Tilemap::getTileSize() {
+const float CMD::Tilemap::getTileSize() const {
     return tile_size;
 }
 

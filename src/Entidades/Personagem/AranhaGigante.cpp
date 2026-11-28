@@ -13,6 +13,7 @@ CMD::Entidades::Personagens::AranhaGigante::AranhaGigante():
     raio(true),
     indoParaFrente(true),
     mudou_direcao(false),
+    naPlatforma(false),
     plataformaSuporte(NULL)
 {
     sf::Sprite* pSprite = new sf::Sprite;
@@ -75,6 +76,11 @@ void CMD::Entidades::Personagens::AranhaGigante::mover(){
 
     Entidade::mover({ proximaPosicaoX - getX(), 0.f });
 }
+void CMD::Entidades::Personagens::AranhaGigante::serNaPlataforma(bool estado) {
+    naPlatforma = estado;
+}
+const bool CMD::Entidades::Personagens::AranhaGigante::getNaPlataforma() const {
+    return naPlatforma;}
 //fazendo a aranha ficar em cima da plataforma
 bool CMD::Entidades::Personagens::AranhaGigante::colidirPlataforma(
     Obstaculos::Plataforma* plataforma) {

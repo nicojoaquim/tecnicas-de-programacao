@@ -3,7 +3,6 @@
 #include "Inimigo.h"
 #include "../../Gerenciador/Tempo.h"
 #include "../../Gerenciador/Grafico.h"
-#include "../../Tilemap.h"
 
 #include <SFML/Window/Keyboard.hpp>
 #include "../../organiza.h"
@@ -114,12 +113,35 @@ void CMD::Entidades::Personagens::Jogador::executar() {
     mover();
 }
 
-void CMD::Entidades::Personagens::Jogador::salvar() {
+void CMD::Entidades::Personagens::Jogador::salvarDataBuffer() {
+    Personagem::salvarDataBuffer();
+    buffer << "Jogador\n\t"
+           << pontos << "\n\t"
+           << jogador << "\n\t"
+           << "\"" << nome.getString().toAnsiString() << "\"\n\t"
+           << recuando << "\n\t"
+           << pegajoso << "\n\t"
+           << tempoInvulneravel << "\n";
+           // << std::endl;
+}
 
+void CMD::Entidades::Personagens::Jogador::salvar() {
+    std::ofstream arquivo("save/Jogador.txt");//, std::ios::out | std::ios::trunc);
+    if (!arquivo) {
+        std::cerr << "erro ao carregar arquivo em salvar()" << std::endl;
+    }
+
+    Jogador::salvarDataBuffer();
+
+    arquivo << buffer.str();
 }
 
 int & CMD::Entidades::Personagens::Jogador::operator++(){
     return ++pontos;
+}
+
+int CMD::Entidades::Personagens::Jogador::getPontos() const {
+    return pontos;
 }
 
 void CMD::Entidades::Personagens::Jogador::setPegajoso(bool estado) {
@@ -147,6 +169,7 @@ void CMD::Entidades::Personagens::Jogador::receberDanoDeInimigo(
 
 void CMD::Entidades::Personagens::Jogador::reiniciar() {
     num_vida = VIDA_INICIAL;// VIDA_INICIAL/2;
+    pontos = 0;
     velocidade = sf::Vector2f(0.f, 0.f);
     esta_no_chao = false;
     pegajoso = false;
@@ -161,22 +184,20 @@ void CMD::Entidades::Personagens::Jogador::setJogador(int jogadorX) {
 void CMD::Entidades::Personagens::Jogador::mover() {
     sf::Vector2f dv(0, 0);
     float dt = Gerenciador::Tempo::getSegundos();
-    float ts = Tilemap::getTileSize();
     tempoInvulneravel = std::max(0.f, tempoInvulneravel - dt);
     const bool movimentoLento = pegajoso;
     pegajoso = false;
 
-    const float aceleracaoHorizontal = movimentoLento ? 4*ts : 16*ts;
-    const float velocidadeMaximaChao = movimentoLento ? 2*ts : 8*ts;
-    const float velocidadeMaximaAr = movimentoLento ? 3.6*ts : 10*ts;
+    const float aceleracaoHorizontal = movimentoLento ? 100.f : 800.f;
+    const float velocidadeMaximaChao = movimentoLento ? 75.f : 400.f;
+    const float velocidadeMaximaAr = movimentoLento ? 90.f : 500.f;
 
     const Keyboard::Key teclaPular = (jogador == 1) ? Keyboard::Up : Keyboard::W;
     const Keyboard::Key teclaEsquerda = (jogador == 1) ? Keyboard::Left : Keyboard::A;
     const Keyboard::Key teclaDireita = (jogador == 1) ? Keyboard::Right : Keyboard::D;
 
     if (esta_no_chao && Keyboard::isKeyPressed(teclaPular)) {
-            // velocidade.y -= 900.;
-            velocidade.y -= 10*Tilemap::getTileSize();
+            velocidade.y -= 900.;
             esta_no_chao = false;
     }
 
@@ -236,6 +257,6 @@ void CMD::Entidades::Personagens::Jogador::esmagar(Personagens::Inimigo* pIn) {
     const int danoDoJog = 3;
     for (int i = 0; i < danoDoJog; ++i) {
         pIn->operator--();
-        operator++();//temporario
+        pIn->pontuacaoRecebida(this);
     }
 }

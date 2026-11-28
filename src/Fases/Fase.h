@@ -32,7 +32,7 @@ namespace CMD
         public:
             Fase();
             virtual ~Fase();
-            virtual void executar() = 0; // Polimórfica
+            virtual void executar() = 0;
             void incluirJogador(Entidades::Personagens::Jogador* jogador);
 
         protected:

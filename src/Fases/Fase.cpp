@@ -92,6 +92,22 @@ void CMD::Fases::Fase::executarEntidades() {
     }
 }
 
+// void CMD::Fases::Fase::atualizarAlvosBruxas() {
+//     Listas::Lista<Entidades::Entidade>::Iterador it;
+//     // Entidades::Personagens::Personagem* personagem;
+//     // for(it = lista_ents.inicio(); it != lista_ents.fim();++it) {
+//     //     personagem = dynamic_cast<Entidades::Personagens::Personagem*>(*it);
+//     //     if (personagem != NULL && personagem->getNumVida() <= 0)
+//     //         continue;
+//     //     (*it)->executar();
+//     // }
+
+//     for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+//         if (*it != NULL)
+//             (*it)->executar();
+//     }
+// }
+
 void CMD::Fases::Fase::atualizarAlvosBruxas() {
     Listas::Lista<Entidades::Entidade>::Iterador it;
     for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
@@ -137,6 +153,7 @@ void CMD::Fases::Fase::desenharVidas() {
     vidas.setString(texto);
     pGG->desenharTexto(vidas);
 }
+
 
 void CMD::Fases::Fase::removerInimigosMortos() {
     bool removeuInimigo;
@@ -192,6 +209,14 @@ void CMD::Fases::Fase::criarOlhoVoador(sf::Vector2u pos) {
     float escala = 3 * tilemap.getTileSize() / pOlho->getLargura();
     pOlho->getFig()->setScale(escala, escala);
 
+    /*
+    const sf::Vector2u tamanhoJanela = pGG->getTamanhoJanela();
+    pOlho->getFig()->setPosition(
+        tamanhoJanela.x / 2.f,
+        tamanhoJanela.y / 3.f
+    );
+    */
+
     pOlho->setPosicao(tilemap.getCentroTile(pos));
 }
 
@@ -243,15 +268,19 @@ void CMD::Fases::Fase::criarPlataforma(sf::Vector2u pos) {
     pPlataforma->setPosicao(tilemap.getCentroTile(pos));
 
     Listas::Lista<Entidades::Entidade>::Iterador it;
+    bool encontrouAranha = false;
     Entidades::Personagens::AranhaGigante* aranha;
-    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+    for (it = lista_ents.inicio(); it != lista_ents.fim() && !encontrouAranha; ++it) {
         aranha = dynamic_cast<Entidades::Personagens::AranhaGigante*>(*it);
-        if (aranha != NULL) {
+        if (aranha != NULL && !aranha->getNaPlataforma()) {
             aranha->setPosicao({
                 pPlataforma->getX(),
                 pPlataforma->getY()
                     - (pPlataforma->getAltura() + aranha->getAltura()) / 2.f
             });
+            encontrouAranha = true;
+            aranha->serNaPlataforma(true);
+            //aranha->perderPlataforma();
         }
     }
 }
@@ -280,7 +309,7 @@ void CMD::Fases::Fase::criarCogumelo(sf::Vector2u pos) {
     GC.incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pCogumelo));
 
     // tile_size/escala = tamanho_atual/1
-    float escala = 1 * tilemap.getTileSize() / pCogumelo->getLargura();
+    float escala = 3 * tilemap.getTileSize() / pCogumelo->getLargura();
     pCogumelo->getFig()->setScale(escala, escala);
 
     pCogumelo->setPosicao(tilemap.getCentroTile(pos));

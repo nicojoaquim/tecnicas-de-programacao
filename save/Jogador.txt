@@ -1,0 +1,14 @@
+0
+Ente
+	0
+	0 0
+Personagem
+	6
+	0
+Jogador
+	0
+	1
+	""
+	0
+	0
+	0

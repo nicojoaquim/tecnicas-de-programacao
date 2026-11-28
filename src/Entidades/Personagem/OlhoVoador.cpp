@@ -16,6 +16,7 @@ CMD::Entidades::Personagens::OlhoVoador::OlhoVoador():Inimigo(),
     yBaseInicializada(false)
 {
     agresividade = 2;
+    recompenca = 3;
     velocidade.x = 160.f;
 
     sf::Sprite* pSprite = new sf::Sprite;
