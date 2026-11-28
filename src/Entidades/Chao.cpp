@@ -82,6 +82,10 @@ void CMD::Entidades::Chao::salvar() {
 
 }
 
+void CMD::Entidades::Chao::carregar() {
+
+}
+
 const sf::Texture& CMD::Entidades::Chao::getTex() const {
     if (tipo >= RAM0 && tipo <= RAM11)
         return pGG->getTexAmbienteRAM(tipo - RAM0);

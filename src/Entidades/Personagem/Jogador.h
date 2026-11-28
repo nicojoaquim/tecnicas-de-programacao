@@ -29,6 +29,7 @@ namespace CMD
                 bool colidir(Personagens::Inimigo* pIn);
                 void executar();
                 void salvar();
+                void carregar();
                 void mover(); // Sobrecarga do método de Entidade: mover(Vector2f)
                 void setPegajoso(bool estado);
                 void receberDanoDeInimigo(int dano, const sf::Vector2f posicaoInimigo);
@@ -39,6 +40,7 @@ namespace CMD
                 void carregarSprite();
             protected:
                 void salvarDataBuffer();
+                void carregarDataBuffer();
             };
         }
     }

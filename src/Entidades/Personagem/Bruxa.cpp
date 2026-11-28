@@ -45,9 +45,15 @@ void CMD::Entidades::Personagens::Bruxa::executar(){
     mover();
     criarProjetil();
 }
-void CMD::Entidades::Personagens::Bruxa::salvar(){
+
+void CMD::Entidades::Personagens::Bruxa::salvar() {
     salvarDataBuffer();
 }
+
+void CMD::Entidades::Personagens::Bruxa::carregar() {
+
+}
+
 //em resumo ela escolhe uma posição e vai até lá e depois fica parada... susetivamente
 void CMD::Entidades::Personagens::Bruxa::mover() {
     const float dt = Gerenciador::Tempo::getSegundos();

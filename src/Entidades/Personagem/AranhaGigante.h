@@ -21,6 +21,7 @@ namespace CMD {
                 ~AranhaGigante();
                 void executar();
                 void salvar();
+                void carregar();
                 void mover();
                 void danificar(Jogador*pJog);
                 bool colidirPlataforma(Obstaculos::Plataforma* plataforma);

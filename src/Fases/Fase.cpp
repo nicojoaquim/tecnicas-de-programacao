@@ -3,6 +3,7 @@
 #include "../Gerenciador/Grafico.h"
 #include "../Gerenciador/Tempo.h"
 #include "../Tilemap.h"
+#include "../Listas/ListaEntidade.h"
 
 #include "../Entidades/Entidade.h"
 #include "../Entidades/Personagem/Jogador.h"
@@ -89,6 +90,24 @@ void CMD::Fases::Fase::executarEntidades() {
     for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
         if (*it != NULL)
             (*it)->executar();
+    }
+}
+
+void CMD::Fases::Fase::salvarEntidades() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    pJog1->salvar();return; // TEMPORARIO
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        if (*it != NULL)
+            (*it)->salvar();
+    }
+}
+
+void CMD::Fases::Fase::carregarEntidades() {
+    Listas::Lista<Entidades::Entidade>::Iterador it;
+    pJog1->carregar();return; // TEMPORARIO
+    for (it = lista_ents.inicio(); it != lista_ents.fim(); ++it) {
+        if (*it != NULL)
+            (*it)->carregar();
     }
 }
 

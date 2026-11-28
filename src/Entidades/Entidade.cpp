@@ -32,10 +32,36 @@ void CMD::Entidades::Entidade::atribuirSprite(Sprite* Fig) {
     setPosicao(getPosicao()+centro);
 }
 
-void CMD::Entidades::Entidade::salvarDataBuffer(){
-    buffer << getId() << "\nEnte\n\t"
-           << getDinamico() << "\n\t"
+void CMD::Entidades::Entidade::salvarDataBuffer() {
+    buffer << "#" << getId() << "\nEntidade\n"
+           << getDinamico() << "\n"
+           << getX() << " " << getY() << "\n"
            << getV().x << " " << getV().y << "\n";
+}
+
+void CMD::Entidades::Entidade::carregarDataBuffer() {
+    int id_save;
+    buffer >> id_save;
+    setId(id_save);
+
+    std::string str;
+    buffer >> str;
+    if (str != std::string("Entidade")) {
+        std::cerr << "erro: dados inválidos em Entidade::carregarDataBuffer()" << std::endl;
+        return;
+    }
+
+    bool din;
+    buffer >> din;
+    setDinamico(din);
+
+    float x, y;
+
+    buffer >> x >> y;
+    setPosicao({x, y});
+
+    buffer >> x >> y;
+    setV({x, y});
 }
 
 const Vector2f CMD::Entidades::Entidade::getPosicao() const {
@@ -54,18 +80,23 @@ const float CMD::Entidades::Entidade::getX() const {
 const float CMD::Entidades::Entidade::getY() const {
     return Entidade::getPosicao().y;
 }
+
 void CMD::Entidades::Entidade::setVy(float y) {
     velocidade.y = y;
 }
+
 void CMD::Entidades::Entidade::setVx(float x) {
     velocidade.x = x;
 }
+
 const sf::Vector2f CMD::Entidades::Entidade::getV() const{
     return velocidade;
 }
+
 void CMD::Entidades::Entidade::setV(const sf::Vector2f v){
     velocidade = v;
 }
+
 void CMD::Entidades::Entidade::setPosicao(const Vector2f posicao) {
     if (pFig != NULL)
         pFig->setPosition(posicao);

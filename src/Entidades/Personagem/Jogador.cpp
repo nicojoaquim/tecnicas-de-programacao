@@ -115,25 +115,88 @@ void CMD::Entidades::Personagens::Jogador::executar() {
 
 void CMD::Entidades::Personagens::Jogador::salvarDataBuffer() {
     Personagem::salvarDataBuffer();
-    buffer << "Jogador\n\t"
-           << pontos << "\n\t"
-           << jogador << "\n\t"
-           << "\"" << nome.getString().toAnsiString() << "\"\n\t"
-           << recuando << "\n\t"
-           << pegajoso << "\n\t"
+    buffer << "Jogador\n"
+           << pontos << "\n"
+           << jogador << "\n"
+           //<< nome.getString().getSize() << "\n"
+           << nome.getString().toAnsiString() << "\n"
+           << recuando << "\n"
+           << pegajoso << "\n"
            << tempoInvulneravel << "\n";
-           // << std::endl;
+}
+
+void CMD::Entidades::Personagens::Jogador::carregarDataBuffer() {
+    Personagem::carregarDataBuffer();
+    std::cout << "Leitura do jogador\n";
+
+    std::string str;
+    buffer >> str;
+    if (str != std::string("Jogador")) {
+        std::cerr << "erro: dados inválidos em Jogador::carregarDataBuffer()" << std::endl;
+        return;
+    }
+
+    int pontos_save, jogX;
+    buffer >> pontos_save;
+    buffer >> jogX;
+
+    //int size_nome;
+    //buffer >> size_nome;
+    str.clear();
+    std::getline(buffer, str);
+    nome.setString(sf::String(str));
+
+    bool b;
+    buffer >> b;
+    recuando = b;
+    buffer >> b;
+    pegajoso = b;
+
+    float tempo;
+    buffer >> tempo;
+    tempoInvulneravel = tempo;
 }
 
 void CMD::Entidades::Personagens::Jogador::salvar() {
     std::ofstream arquivo("save/Jogador.txt");//, std::ios::out | std::ios::trunc);
     if (!arquivo) {
-        std::cerr << "erro ao carregar arquivo em salvar()" << std::endl;
+        std::cerr << "erro ao salvar arquivo em Jogador::salvar()" << std::endl;
     }
 
+    buffer.clear();
     Jogador::salvarDataBuffer();
-
     arquivo << buffer.str();
+    arquivo.close();
+}
+
+void CMD::Entidades::Personagens::Jogador::carregar() {
+    std::ifstream arquivo("save/Jogador.txt");
+    if (!arquivo) {
+        std::cerr << "erro ao carregar arquivo em Jogador::carregar()" << std::endl;
+    }
+
+    if (arquivo.get() != '#') { // Primeiro caractere
+        std::cerr << "erro: Jogador::carregar não recebeu dados válidos" << std::endl;
+        return;
+    }
+    //std::string linha;
+    //while (std::getline(arquivo, linha)) { buffer << linha << '\n'; }
+
+    //buffer.clear();
+    //buffer << arquivo.rdbuf();
+    //std::cout << buffer.str();
+    //std::istringstream str(buffer.str());
+
+    //int id;
+    //arquivo >> id;
+    //setId(id);
+
+    buffer.clear();
+    buffer << arquivo.rdbuf();
+
+    Jogador::carregarDataBuffer();
+
+    arquivo.close();
 }
 
 int & CMD::Entidades::Personagens::Jogador::operator++(){

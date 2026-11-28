@@ -67,9 +67,15 @@ void CMD::Entidades::Obstaculos::Plataforma::obstaculizar(Personagens::Jogador *
         }
     }
 }
-void CMD::Entidades::Obstaculos::Plataforma::salvar(){
+
+void CMD::Entidades::Obstaculos::Plataforma::salvar() {
 
 }
+
+void CMD::Entidades::Obstaculos::Plataforma::carregar() {
+
+}
+
 //em resumo a ação da plataforma é ir contra a gravidade, e se um jogador subir ela desce um pouco
 void CMD::Entidades::Obstaculos::Plataforma::acao(){
     if (!posicaoInicialDefinida) {

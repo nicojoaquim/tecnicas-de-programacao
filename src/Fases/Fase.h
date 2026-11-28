@@ -40,6 +40,8 @@ namespace CMD
             virtual void criarObst() = 0;
             void criarCenario();
             void executarEntidades();
+            void salvarEntidades();
+            void carregarEntidades();
             void desenhar();
             void removerInimigosMortos();
             void atualizarAlvosBruxas();

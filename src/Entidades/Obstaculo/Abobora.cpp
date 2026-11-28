@@ -36,9 +36,14 @@ void CMD::Entidades::Obstaculos::Abobora::obstaculizar(Personagens::Jogador* p) 
     }
 }
 
-void  CMD::Entidades::Obstaculos::Abobora::salvar(){
+void  CMD::Entidades::Obstaculos::Abobora::salvar() {
 
 }
+
+void CMD::Entidades::Obstaculos::Abobora::carregar() {
+
+}
+
 void CMD::Entidades::Obstaculos::Abobora::acao() {
     float dt = Gerenciador::Tempo::getSegundos();
     tempoCor += dt;

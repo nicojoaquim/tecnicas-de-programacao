@@ -22,9 +22,11 @@ namespace CMD
                 virtual void salvar() = 0;
                 virtual void mover() = 0; // Sobrecarga do método de Entidade: mover(Vector2f)
                 const int getNumVida() const;
+                void setNumVida(int vida);
                 void operator--();
             protected:
                 void salvarDataBuffer();
+                void carregarDataBuffer();
             };
         }
     }

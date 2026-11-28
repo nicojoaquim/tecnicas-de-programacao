@@ -17,9 +17,28 @@ CMD::Entidades::Personagens::Personagem::~Personagem()
 
 void CMD::Entidades::Personagens::Personagem::salvarDataBuffer() {
     Entidade::salvarDataBuffer();
-    buffer << "Personagem\n\t"
-           << getNumVida() << "\n\t"
+    buffer << "Personagem\n"
+           << getNumVida() << "\n"
            << esta_no_chao << "\n";
+}
+
+void CMD::Entidades::Personagens::Personagem::carregarDataBuffer() {
+    Entidade::carregarDataBuffer();
+
+    std::string str;
+    buffer >> str;
+    if (str != std::string("Personagem")) {
+        std::cerr << "erro: dados inválidos em Personagem::carregarDataBuffer()" << std::endl;
+        return;
+    }
+
+    int vida;
+    buffer >> vida;
+    setNumVida(vida);
+
+    bool chao;
+    buffer >> chao;
+    setEstaNoChao(chao);
 }
 
 void CMD::Entidades::Personagens::Personagem::setEstaNoChao(bool no_chao) {
@@ -27,12 +46,15 @@ void CMD::Entidades::Personagens::Personagem::setEstaNoChao(bool no_chao) {
 }
 
 
-const int CMD::Entidades::Personagens::Personagem::getNumVida() const
- {
-     return num_vida; }
+const int CMD::Entidades::Personagens::Personagem::getNumVida() const {
+    return num_vida;
+}
 
+void CMD::Entidades::Personagens::Personagem::setNumVida(int vida) {
+    num_vida = vida;
+}
 
-void CMD::Entidades::Personagens::Personagem::operator--(){
+void CMD::Entidades::Personagens::Personagem::operator--() {
     num_vida--;
 }
 // void CMD::Entidades::Personagens::Personagem::gravitar() {

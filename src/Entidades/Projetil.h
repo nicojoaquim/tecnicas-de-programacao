@@ -19,6 +19,7 @@ namespace CMD{
             //void gravitar();
             void executar();
             void salvar();
+            void carregar();
             void disparar(const sf::Vector2f origem, const sf::Vector2f alvo);
             void desativar();
             bool estaAtivo() const;

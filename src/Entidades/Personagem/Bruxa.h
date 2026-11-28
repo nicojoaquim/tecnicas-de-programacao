@@ -26,6 +26,7 @@ namespace CMD{
                 ~Bruxa();
                 void executar();
                 void salvar();
+                void carregar();
                 void mover();
                 void danificar(Jogador*pJog);
                 void criarProjetil();

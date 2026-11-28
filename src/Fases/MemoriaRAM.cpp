@@ -51,20 +51,20 @@ void CMD::Fases::MemoriaRam::criarInimigos() {
 }
 
 void CMD::Fases::MemoriaRam::criarObst() {
+    unsigned int i;
     int numAbobora = rand()%maxAboboras;
     int numPlataforma = rand()%maxPlataformas;
-    if(numPlataforma < 3)
+    if (numPlataforma < 3)
         numPlataforma = 3;
-    for(int i = 0; i < numPlataforma; i++) {
-        const unsigned int x = tilemap.getLargura()/2 > static_cast<unsigned int>(i)
-            ? tilemap.getLargura()/2 - static_cast<unsigned int>(i)
+    for (i = 0; i < numPlataforma; i++) {
+        const unsigned int x = tilemap.getLargura()/2 > i
+            ? tilemap.getLargura()/2 - i
             : 0;
-        criarPlataforma({x,tilemap.getAltura()/4 + static_cast<unsigned int>(i)
-        });
+        criarPlataforma({x,tilemap.getAltura()/4 + i});
     }
-    if(numAbobora < 3)
+    if (numAbobora < 3)
         numAbobora = 3;
-    for(int i = 0; i < numAbobora; i++)
+    for (i = 0; i < numAbobora; i++)
         criarAbobora({tilemap.getLargura()/3 + static_cast<unsigned int>(i), tilemap.getAltura()/3});
 }
 
@@ -92,6 +92,18 @@ void CMD::Fases::MemoriaRam::executar() {
                 // num_vida = 0;
                 jogando = false;
                 return;
+            }
+            else if (evento.type == Event::KeyPressed
+                     && evento.key.code == Keyboard::Comma) {
+                // Salvar
+                salvarEntidades();
+                pGG->fechar();
+                jogando = false;
+            }
+            else if (evento.type == Event::KeyPressed
+                     && evento.key.code == Keyboard::Period) {
+                // Carregar
+                carregarEntidades();
             }
         }
 

@@ -80,7 +80,12 @@ void CMD::Entidades::Obstaculos::Cogumelo::obstaculizar(Personagens::Jogador *p)
         }
     }
 }
-void CMD::Entidades::Obstaculos::Cogumelo::salvar(){
+
+void CMD::Entidades::Obstaculos::Cogumelo::salvar() {
+
+}
+
+void CMD::Entidades::Obstaculos::Cogumelo::carregar() {
 
 }
 

@@ -29,6 +29,7 @@ namespace CMD {
             // void tamanhoChao();
             void executar();
             void salvar();
+            void carregar();
             void impedirQuedaPSG(Personagens::Personagem* pP);
             void impedirQuedaOBS(Obstaculos::Obstaculo* pO);
             void impedirQuedaPJT(Projetil* pPj);

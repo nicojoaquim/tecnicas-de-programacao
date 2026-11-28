@@ -35,8 +35,12 @@ void CMD::Entidades::Personagens::AranhaGigante::executar(){
     }
 }
 
-void CMD::Entidades::Personagens::AranhaGigante::salvar(){
+void CMD::Entidades::Personagens::AranhaGigante::salvar() {
     salvarDataBuffer();
+}
+
+void CMD::Entidades::Personagens::AranhaGigante::carregar() {
+
 }
 
 void CMD::Entidades::Personagens::AranhaGigante::mover(){

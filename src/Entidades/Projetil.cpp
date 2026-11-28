@@ -27,6 +27,11 @@ void CMD::Entidades::Projetil::executar() {
 }
 
 void CMD::Entidades::Projetil::salvar() {
+
+}
+
+void CMD::Entidades::Projetil::carregar() {
+
 }
 
 void CMD::Entidades::Projetil::mover() {

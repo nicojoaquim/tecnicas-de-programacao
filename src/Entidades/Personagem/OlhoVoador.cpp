@@ -36,9 +36,15 @@ void CMD::Entidades::Personagens::OlhoVoador::executar(){
         getFig()->scale(-1.f, 1.f);
     }
 }
-void CMD::Entidades::Personagens::OlhoVoador::salvar(){
+
+void CMD::Entidades::Personagens::OlhoVoador::salvar() {
     salvarDataBuffer();
 }
+
+void CMD::Entidades::Personagens::OlhoVoador::carregar() {
+
+}
+
 void CMD::Entidades::Personagens::OlhoVoador::mover(){
     const Vector2u janela = pGG->getTamanhoJanela();
     const sf::FloatRect limites = getFig()->getGlobalBounds();

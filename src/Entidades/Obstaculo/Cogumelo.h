@@ -24,6 +24,7 @@ namespace CMD{
                 void executar();
                 void obstaculizar(Personagens::Jogador* p);
                 void salvar();
+                void carregar();
                 void acao();
             };
         }

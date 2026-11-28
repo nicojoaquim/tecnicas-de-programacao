@@ -3,8 +3,7 @@
 #include "../Ente.h"
 #include "../Coordenadas.h"
 #include <SFML/System/Vector2.hpp>
-#include <sstream>
-#include <fstream>
+#include "../organiza.h"
 
 // Usado para testar se é um vetor válido
 #define INEXISTENTE (Vector2f(-99999999.f,-99999999.f))
@@ -16,7 +15,8 @@ namespace CMD
         {
         protected:
             //std::ostream & buffer;
-            std::ostringstream buffer;
+            //std::ostringstream buffer;
+            std::stringstream buffer;
             sf::Vector2f velocidade;
             bool dinamico;
 
@@ -26,6 +26,7 @@ namespace CMD
 
             virtual void executar() = 0;
             virtual void salvar() = 0;
+            virtual void carregar() = 0;
 
             void atribuirSprite(sf::Sprite* Fig);
 
@@ -51,6 +52,7 @@ namespace CMD
 
         protected:
             void salvarDataBuffer();
+            void carregarDataBuffer();
         };
     }
 }

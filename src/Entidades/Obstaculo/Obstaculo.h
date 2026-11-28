@@ -19,6 +19,7 @@ namespace CMD{
                 // virtual void mover() = 0;
                 virtual void executar() = 0;
                 virtual void salvar() = 0;
+                virtual void carregar() = 0;
                 virtual void acao() = 0;
                 virtual void obstaculizar(Personagens::Jogador* pJog) = 0;
             };
