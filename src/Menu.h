@@ -16,9 +16,13 @@ namespace CMD
         std::vector<const char*> opcoes;
         std::vector<sf::Vector2f> coordes;
         std::vector<sf::Text> texts;
+        std::vector<sf::Text> rankingTexts;
         std::vector<std::size_t> tams;
+        bool mostrarRanking;
         sf::Vector2i mousePosi;
         sf::Vector2f mouseCoorde;
+
+        void carregarTextsRanking();
 
     public:
         Menu(Jogo* pJ);

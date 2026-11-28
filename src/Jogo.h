@@ -26,6 +26,8 @@ namespace CMD
         sf::Texture texture;
         sf::Sprite sprite;
 
+        bool cadastrarPontuacoes();
+
     public:
         Jogo();
         ~Jogo();

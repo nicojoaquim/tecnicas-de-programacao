@@ -23,6 +23,8 @@ namespace CMD
                 virtual void mover() = 0; // Sobrecarga do método de Entidade: mover(Vector2f)
                 const int getNumVida() const;
                 void operator--();
+            protected:
+                void salvarDataBuffer();
             };
         }
     }

@@ -34,9 +34,12 @@ namespace CMD
                 void receberDanoDeInimigo(int dano, const sf::Vector2f posicaoInimigo);
                 void reiniciar();
                 void setJogador(int jogadorX);
+                int getPontos() const;
                 int & operator++();
                 void esmagar(Personagens::Inimigo* pIn);
                 void carregarSprite();
+            protected:
+                void salvarDataBuffer();
             };
         }
     }

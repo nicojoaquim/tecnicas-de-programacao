@@ -33,10 +33,7 @@ void CMD::Fases::MemoriaRam::criarInimigos() {
     if(numAranha < 3)
         numAranha = 3;
     for(int i = 0; i < numAranha; i++)
-        criarAranhaGigante({
-            static_cast<unsigned int>(i),
-            tilemap.getAltura()-1
-        });
+         criarAranhaGigante({tilemap.getLargura()/2-i, 0});
     if(numOlho < 3)
         numOlho = 3;
     for(int i = 0; i < numOlho; i++) {
@@ -189,5 +186,5 @@ void CMD::Fases::MemoriaRam::criarAmbiente()
 }
 /*void CMD::Fases::MemoriaRam::executar()
 {
-    
+
 }*/

@@ -3,6 +3,8 @@
 #include "../Ente.h"
 #include "../Coordenadas.h"
 #include <SFML/System/Vector2.hpp>
+#include <sstream>
+#include <fstream>
 
 // Usado para testar se é um vetor válido
 #define INEXISTENTE (Vector2f(-99999999.f,-99999999.f))
@@ -13,7 +15,8 @@ namespace CMD
         class Entidade: public Ente
         {
         protected:
-            std::ostream & buffer;
+            //std::ostream & buffer;
+            std::ostringstream buffer;
             sf::Vector2f velocidade;
             bool dinamico;
 
@@ -47,7 +50,7 @@ namespace CMD
             void mover(sf::Vector2f movimento);
 
         protected:
-            virtual void salvarDataBuffer();
+            void salvarDataBuffer();
         };
     }
 }
